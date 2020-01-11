@@ -18,7 +18,7 @@ public class ExampleSubsystem extends SubsystemBase
 
         mMotor = TalonSRXFactory.makeTalonSRX(Constants.exampleSubsystemPort);
 
-        setDefaultCommand(CommandFactory.makeRunCommand(this::doThing, "do thing", this.getName(), this));
+        setDefaultCommand(CommandFactory.makeRunCommand(this::doThing, "Play Xbox", this.getName(), this));
     }
 
     public void doThing()
