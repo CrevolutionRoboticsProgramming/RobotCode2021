@@ -10,13 +10,13 @@ import org.frc2851.robot.util.TalonSRXFactory;
 
 public class ExampleSubsystem extends SubsystemBase
 {
-    private TalonSRX mMotor;
+    private TalonSRX Talon;
 
     public ExampleSubsystem()
     {
         super();
 
-        mMotor = TalonSRXFactory.makeTalonSRX(Constants.exampleSubsystemPort);
+        Talon = TalonSRXFactory.makeTalonSRX(Constants.exampleSubsystemPort);
 
         setDefaultCommand(CommandFactory.makeRunCommand(this::doThing, "Play Xbox", this.getName(), this));
     }
@@ -28,11 +28,11 @@ public class ExampleSubsystem extends SubsystemBase
 
     public void go()
     {
-        mMotor.set(ControlMode.PercentOutput, 1);
+        Talon.set(ControlMode.PercentOutput, 1);
     }
 
     public void stop()
     {
-        mMotor.set(ControlMode.PercentOutput, 0);
+        Talon.set(ControlMode.PercentOutput, 0);
     }
 }
