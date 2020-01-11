@@ -23,7 +23,7 @@ public class ExampleSubsystem extends SubsystemBase
 
     public void doThing()
     {
-        Logger.println(Logger.LogLevel.DEBUG, "[" + getName() + "]", "Did the thing");
+        Logger.println(Logger.LogLevel.DEBUG, "[" + getName() + "]", "Did the thing/things/thingy/thinger/something");
     }
 
     public void go()
