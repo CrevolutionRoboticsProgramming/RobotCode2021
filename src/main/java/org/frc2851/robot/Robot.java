@@ -3,6 +3,9 @@ package org.frc2851.robot;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import org.frc2851.robot.subsystems.ExampleSubsystem;
+import org.frc2851.robot.util.CommandFactory;
 import org.frc2851.robot.util.Logger;
 
 import java.util.ArrayList;
@@ -11,6 +14,8 @@ public final class Robot extends TimedRobot
 {
     private ArrayList<Command> mOldExecutedCommands = new ArrayList<>();
     private ArrayList<Command> mNewExecutedCommands = new ArrayList<>();
+
+    private ExampleSubsystem mExampleSubsystem = new ExampleSubsystem();
 
     public static void main(String... args)
     {
@@ -41,6 +46,12 @@ public final class Robot extends TimedRobot
             }
             mNewExecutedCommands.add(command);
         });
+
+        mExampleSubsystem = new ExampleSubsystem();
+        new Trigger(() -> Constants.driverController.get(Constants.exampleSubsystemRunButton))
+                .whenActive(CommandFactory.makeRunCommand(mExampleSubsystem::go, "go", mExampleSubsystem.getName(), mExampleSubsystem));
+        new Trigger(() -> !Constants.driverController.get(Constants.exampleSubsystemRunButton))
+                .whenActive(CommandFactory.makeRunCommand(mExampleSubsystem::stop, "stop", mExampleSubsystem.getName(), mExampleSubsystem));
     }
 
     @Override
