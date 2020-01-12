@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        flatDir { dirs 'lib' }
+    }
+    dependencies {
+        classpath 'com.snobot.simulator:SnobotSimulatorPlugin:2020.1.2'
+    }
+}
+
 plugins {
     id "java"
     id "idea"
@@ -38,6 +47,12 @@ deploy {
     }
 }
 
+apply plugin: com.snobot.simulator.plugin.SnobotSimulatorPlugin
+
+configurations {
+    snobotSimCompile
+}
+
 // Set this to true to enable desktop support.
 def includeDesktopSupport = true
 
@@ -58,6 +73,8 @@ dependencies {
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
+
+    snobotSimCompile snobotSimJava()
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
