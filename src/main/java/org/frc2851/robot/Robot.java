@@ -27,6 +27,7 @@ public final class Robot extends TimedRobot
     {
         super.robotInit();
 
+        // For every new command that was executed, print out something saying it was executed
         CommandScheduler.getInstance().onCommandExecute(command ->
         {
             if (!mOldExecutedCommands.contains(command))
