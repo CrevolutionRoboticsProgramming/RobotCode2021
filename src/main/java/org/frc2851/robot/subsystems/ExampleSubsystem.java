@@ -18,10 +18,10 @@ public class ExampleSubsystem extends SubsystemBase
 
         Talon = TalonSRXFactory.makeTalonSRX(Constants.exampleSubsystemPort);
 
-        setDefaultCommand(CommandFactory.makeRunCommand(this::doThing, "Play Xbox", this.getName(), this));
+        setDefaultCommand(CommandFactory.makeRunCommand(this::Xbox, "Play Xbox", this.getName(), this));
     }
 
-    public void doThing()
+    public void Xbox()
     {
         Logger.println(Logger.LogLevel.DEBUG, "[" + getName() + "]", "Did the thing/things/thingy/thinger/something");
     }
