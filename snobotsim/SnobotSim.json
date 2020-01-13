@@ -2,7 +2,7 @@
     "maven_repos": {
         "SnobotSim": "http://raw.githubusercontent.com/pjreiniger/maven_repo/master/",
         "Wpi": "http://first.wpi.edu/FRC/roborio/maven/release/",
-        "SnobotSimLocalRepo": "R:/Robotics/SnobotSimProject/lib/maven_repo"
+        "SnobotSimLocalRepo": "./lib/maven_repo"
     },
     "required_third_party": [
         "CTRE-Phoenix",
