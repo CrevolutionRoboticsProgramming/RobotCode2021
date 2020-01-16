@@ -1,16 +1,8 @@
-buildscript {
-    repositories {
-        flatDir { dirs 'lib' }
-    }
-    dependencies {
-        classpath 'com.snobot.simulator:SnobotSimulatorPlugin:2020.1.2'
-    }
-}
-
 plugins {
     id "java"
     id "idea"
     id "edu.wpi.first.GradleRIO" version "2020.1.2"
+    id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2020-0.0.0" apply false
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -48,6 +40,7 @@ deploy {
 }
 
 apply plugin: com.snobot.simulator.plugin.SnobotSimulatorPlugin
+apply from: "snobotsim/snobot_sim.gradle"
 
 configurations {
     snobotSimCompile
