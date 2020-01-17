@@ -165,7 +165,7 @@ public class UDPHandler implements Runnable
 
         public void run(String message)
         {
-            if (message.substring(0, mLabel.length()).equals(mLabel))
+            if (mLabel.length() <= message.length() && message.substring(0, mLabel.length()).equals(mLabel))
             {
                 mStringConsumer.accept(message.substring(mLabel.length()));
             }
