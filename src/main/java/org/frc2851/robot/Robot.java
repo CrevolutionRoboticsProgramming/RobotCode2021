@@ -5,7 +5,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import org.frc2851.robot.subsystems.Drivetrain;
+import org.frc2851.robot.util.CommandFactory;
 import org.frc2851.robot.util.Logger;
 import org.frc2851.robot.util.UDPHandler;
 
@@ -23,8 +25,6 @@ public final class Robot extends TimedRobot
 {
     private ArrayList<Command> mOldExecutedCommands = new ArrayList<>();
     private ArrayList<Command> mNewExecutedCommands = new ArrayList<>();
-
-    private Drivetrain mDrivetrain;
 
     private double mLastGameDataSend = DriverStation.getInstance().getMatchTime();
     private boolean mFirstGameDataSend = true;
@@ -64,7 +64,11 @@ public final class Robot extends TimedRobot
 
         Constants.udpHandler.addReceiver(new UDPHandler.MessageReceiver("IP:", (message) -> Constants.driverStationIP = message));
 
-        mDrivetrain = new Drivetrain();
+        Drivetrain drivetrain = new Drivetrain();
+        new Trigger(() -> !Constants.driverController.get(Constants.drivetrainShiftGearButton))
+                .whenActive(CommandFactory.makeRunCommand(drivetrain::setHighGear, "high gear", drivetrain.getName(), drivetrain));
+        new Trigger(() -> Constants.driverController.get(Constants.drivetrainShiftGearButton))
+                .whenActive(CommandFactory.makeRunCommand(drivetrain::setLowGear, "low gear", drivetrain.getName(), drivetrain));
 
         // Subsystem initializations
 
