@@ -14,7 +14,7 @@ public final class Constants
     public static String driverStationIP = "";
     public static final int sendPort = 1182;
 
-    // DriveTrain
+    // Drivetrain
     public static final int drivetrainLeftMasterPort = 1;
     public static final int drivetrainLeftFollowerAPort = 2;
     public static final int drivetrainLeftFollowerBPort = 3;

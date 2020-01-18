@@ -1,6 +1,8 @@
 package org.frc2851.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.EncoderType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.frc2851.robot.Constants;
@@ -11,6 +13,7 @@ public class Drivetrain extends SubsystemBase
 {
     private CANSparkMax mLeftMaster, mLeftFollowerA, mLeftFollowerB,
             mRightMaster, mRightFollowerA, mRightFollowerB;
+    private CANEncoder mLeftEncoder, mRightEncoder;
     private DoubleSolenoid mShifterSolenoid;
 
     public Drivetrain()
@@ -32,6 +35,9 @@ public class Drivetrain extends SubsystemBase
         mLeftFollowerB.follow(mLeftMaster);
         mRightFollowerA.follow(mRightMaster);
         mRightFollowerB.follow(mRightMaster);
+
+        mLeftEncoder = mLeftMaster.getEncoder();
+        mRightEncoder = mRightMaster.getEncoder();
 
         mShifterSolenoid = new DoubleSolenoid(Constants.drivetrainShifterSolenoidForward, Constants.drivetrainShifterSolenoidReverse);
 
