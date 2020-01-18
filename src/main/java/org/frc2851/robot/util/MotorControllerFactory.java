@@ -2,8 +2,10 @@ package org.frc2851.robot.util;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 
-public class TalonSRXFactory
+public class MotorControllerFactory
 {
     public static TalonSRX makeTalonSRX(int port)
     {
@@ -17,6 +19,13 @@ public class TalonSRXFactory
         VictorSPX returnVictor = new VictorSPX(port);
         returnVictor.configFactoryDefault();
         return returnVictor;
+    }
+
+    public static CANSparkMax makeSparkMax(int port)
+    {
+        CANSparkMax returnSpark = new CANSparkMax(port, CANSparkMaxLowLevel.MotorType.kBrushless);
+        returnSpark.restoreFactoryDefaults();
+        return returnSpark;
     }
 
     public static void configurePIDF(TalonSRX talon, int slot, PID pid)
