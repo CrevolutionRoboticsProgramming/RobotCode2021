@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import org.frc2851.robot.subsystems.Drivetrain;
+import org.frc2851.robot.subsystems.Intake;
 import org.frc2851.robot.util.CommandFactory;
 import org.frc2851.robot.util.Logger;
 import org.frc2851.robot.util.UDPHandler;
@@ -66,9 +67,19 @@ public final class Robot extends TimedRobot
 
         Drivetrain drivetrain = new Drivetrain();
         new Trigger(() -> !Constants.driverController.get(Constants.drivetrainShiftGearButton))
-                .whenActive(CommandFactory.makeRunCommand(drivetrain::setHighGear, "high gear", drivetrain.getName(), drivetrain));
+                .whenActive(CommandFactory.makeInstantCommand(drivetrain::setHighGear, "high gear", drivetrain.getName(), drivetrain));
         new Trigger(() -> Constants.driverController.get(Constants.drivetrainShiftGearButton))
-                .whenActive(CommandFactory.makeRunCommand(drivetrain::setLowGear, "low gear", drivetrain.getName(), drivetrain));
+                .whenActive(CommandFactory.makeInstantCommand(drivetrain::setLowGear, "low gear", drivetrain.getName(), drivetrain));
+
+        Intake intake = new Intake();
+        new Trigger(() -> Constants.driverController.get(Constants.intakeIntakeButton))
+                .whenActive(CommandFactory.makeRunCommand(intake::intake, "intake", intake.getName(), intake));
+        new Trigger(() -> Constants.driverController.get(Constants.intakeOuttakeButton))
+                .whenActive(CommandFactory.makeRunCommand(intake::outtake, "outtake", intake.getName(), intake));
+        new Trigger(() -> !Constants.driverController.get(Constants.intakeToggleExtendButton))
+                .whenActive(CommandFactory.makeInstantCommand(intake::retract, "retract", intake.getName(), intake));
+        new Trigger(() -> Constants.driverController.get(Constants.intakeToggleExtendButton))
+                .whenActive(CommandFactory.makeInstantCommand(intake::extend, "extend", intake.getName(), intake));
 
         // Subsystem initializations
 
