@@ -104,6 +104,8 @@ public final class Robot extends TimedRobot
         File badLogRootDir = new File(Paths.get(System.getProperty("user.dir") + File.separator + "logs" + File.separator + "badlog").toString());
         File badLogFile = new File(badLogRootDir.getAbsolutePath() + File.separator + date, time + ".bag");
 
+        badLogFile.mkdirs();
+
         try
         {
             // While there are still X or more files in the logs...
