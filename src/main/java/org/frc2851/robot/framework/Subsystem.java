@@ -2,21 +2,17 @@ package org.frc2851.robot.framework;
 
 import org.frc2851.robot.framework.command.CommandScheduler;
 
+import java.util.List;
 import java.util.Vector;
 
 public abstract class Subsystem
 {
     private Vector<Component> mComponents;
 
-    public Subsystem()
+    public Subsystem(Component... components)
     {
-        mComponents = new Vector<>();
+        mComponents = new Vector<>(List.of(components));
         CommandScheduler.getInstance().addSubsystem(this);
-    }
-
-    public void addComponent(Component component)
-    {
-        mComponents.add(component);
     }
 
     public Vector<Component> getComponents()
