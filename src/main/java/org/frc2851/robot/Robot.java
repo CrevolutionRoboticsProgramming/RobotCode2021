@@ -37,7 +37,7 @@ public final class Robot extends TimedRobot
 
         Constants.udpHandler.addReceiver(new UDPHandler.MessageReceiver("IP:", (message) -> Constants.driverStationIP = message));
 
-        Drivetrain drivetrain = Drivetrain.getInstance();
+        CommandScheduler.getInstance().addSubsystem(Drivetrain.getInstance());
 
         BadLog.createValue("Match Number", String.valueOf(DriverStation.getInstance().getMatchNumber()));
         BadLog.createTopic("Match Time", "s", DriverStation.getInstance()::getMatchTime);
