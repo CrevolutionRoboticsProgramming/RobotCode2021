@@ -33,6 +33,8 @@ public class Drivetrain extends Subsystem
 
         public Drivebase()
         {
+            super(Drivetrain.class);
+
             mLeftMaster = MotorControllerFactory.makeSparkMax(Constants.drivetrainLeftMasterPort);
             mLeftFollowerA = MotorControllerFactory.makeSparkMax(Constants.drivetrainLeftFollowerAPort);
             mLeftFollowerB = MotorControllerFactory.makeSparkMax(Constants.drivetrainLeftFollowerBPort);
@@ -75,6 +77,8 @@ public class Drivetrain extends Subsystem
 
         public GearShifter()
         {
+            super(Drivetrain.class);
+
             mShifterSolenoid = new DoubleSolenoid(Constants.drivetrainShifterSolenoidForward, Constants.drivetrainShifterSolenoidReverse);
 
             CommandScheduler.getInstance().addTrigger(() -> !Constants.driverController.get(Constants.drivetrainShiftGearButton),
