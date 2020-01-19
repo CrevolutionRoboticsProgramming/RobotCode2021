@@ -1,19 +1,17 @@
 package org.frc2851.robot.framework;
 
+import org.frc2851.robot.framework.command.CommandScheduler;
+
 import java.util.Vector;
 
-public abstract class Subsystem<T extends Subsystem<?>>
+public abstract class Subsystem
 {
     private Vector<Component> mComponents;
-    private T mInstance = null;
 
     public Subsystem()
     {
         mComponents = new Vector<>();
-    }
-
-    public void periodic()
-    {
+        CommandScheduler.getInstance().addSubsystem(this);
     }
 
     public void addComponent(Component component)
@@ -21,17 +19,13 @@ public abstract class Subsystem<T extends Subsystem<?>>
         mComponents.add(component);
     }
 
+    public Vector<Component> getComponents()
+    {
+        return mComponents;
+    }
+
     public String getName()
     {
         return getClass().getSimpleName();
-    }
-
-    protected abstract T getDefaultInstance();
-
-    public T getInstance()
-    {
-        if (mInstance == null)
-            mInstance = getDefaultInstance();
-        return mInstance;
     }
 }

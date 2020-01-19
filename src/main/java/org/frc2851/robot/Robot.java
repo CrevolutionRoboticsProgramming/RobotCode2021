@@ -4,7 +4,8 @@ import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import org.frc2851.robot.framework.command.CommandScheduler;
+import org.frc2851.robot.subsystems.Drivetrain;
 import org.frc2851.robot.util.Logger;
 import org.frc2851.robot.util.UDPHandler;
 
@@ -36,10 +37,13 @@ public final class Robot extends TimedRobot
 
         Constants.udpHandler.addReceiver(new UDPHandler.MessageReceiver("IP:", (message) -> Constants.driverStationIP = message));
 
-        // Subsystem initializations
+        CommandScheduler.getInstance().addTrigger(() -> !Constants.driverController.get(Constants.drivetrainShiftGearButton),
+                Drivetrain.getInstance().getSetHighGearCommand());
+        CommandScheduler.getInstance().addTrigger(() -> Constants.driverController.get(Constants.drivetrainShiftGearButton),
+                Drivetrain.getInstance().getSetLowGearCommand());
 
         BadLog.createValue("Match Number", String.valueOf(DriverStation.getInstance().getMatchNumber()));
-        BadLog.createTopic("Match Time", "s", () -> DriverStation.getInstance().getMatchTime());
+        BadLog.createTopic("Match Time", "s", DriverStation.getInstance()::getMatchTime);
         mBadLog.finishInitialization();
     }
 
@@ -52,7 +56,7 @@ public final class Robot extends TimedRobot
         {
             if (mFirstGameDataSend)
             {
-                Logger.println(Logger.LogLevel.DEBUG, "", "COLOR: " + gameData);
+                Logger.println(Logger.LogLevel.DEBUG, "COLOR: " + gameData);
                 mFirstGameDataSend = false;
             }
             if (!Constants.driverStationIP.equals(""))

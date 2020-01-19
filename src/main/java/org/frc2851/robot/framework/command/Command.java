@@ -19,7 +19,6 @@ public class Command
     
     public void initialize()
     {
-        setState(State.INITIALIZING);
     }
     
     public void execute()
@@ -29,7 +28,7 @@ public class Command
     
     public void end()
     {
-        setState(State.ENDING);
+        setState(State.NOT_STARTED);
     }
     
     public boolean isFinished()
@@ -59,6 +58,6 @@ public class Command
 
     public enum State
     {
-        NOT_STARTED, INITIALIZING, EXECUTING, ENDING
+        NOT_STARTED, EXECUTING
     }
 }
