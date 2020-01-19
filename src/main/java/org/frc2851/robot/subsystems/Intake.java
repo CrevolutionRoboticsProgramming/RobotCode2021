@@ -3,47 +3,81 @@ package org.frc2851.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.frc2851.robot.Constants;
-import org.frc2851.robot.util.CommandFactory;
+import org.frc2851.robot.framework.Component;
+import org.frc2851.robot.framework.Subsystem;
+import org.frc2851.robot.framework.command.CommandScheduler;
+import org.frc2851.robot.framework.command.InstantCommand;
+import org.frc2851.robot.framework.command.RunCommand;
 
-public class Intake extends SubsystemBase
+public class Intake extends Subsystem
 {
-    private VictorSPX mMotor;
-    private DoubleSolenoid mExtenderSolenoid;
-
-    public Intake()
+    private static Intake mInstance = new Intake();
+    
+    private Intake()
     {
-        super();
-
-        mMotor = new VictorSPX(Constants.intakeMotorPort);
-        mExtenderSolenoid = new DoubleSolenoid(Constants.intakeExtenderSolenoidForward, Constants.intakeExtenderSolenoidReverse);
-
-        setDefaultCommand(CommandFactory.makeRunCommand(this::stop, "stop", getName(), this));
+        super(new Motor(), new Extender());
+    }
+    
+    public static Intake getInstance()
+    {
+        return mInstance;
     }
 
-    public void stop()
+    private static class Motor extends Component
     {
-        mMotor.set(ControlMode.PercentOutput, 0.0);
+        private VictorSPX mMotor;
+
+        public Motor()
+        {
+            mMotor = new VictorSPX(Constants.intakeMotorPort);
+
+            CommandScheduler.getInstance().addTrigger(() -> Constants.driverController.get(Constants.intakeIntakeButton),
+                    new RunCommand(this::intake, "intake", this));
+            CommandScheduler.getInstance().addTrigger(() -> Constants.driverController.get(Constants.intakeOuttakeButton),
+                    new RunCommand(this::outtake, "outtake", this));
+
+            setDefaultCommand(new RunCommand(this::stop, "stop", this));
+        }
+
+        public void stop()
+        {
+            mMotor.set(ControlMode.PercentOutput, 0.0);
+        }
+
+        public void intake()
+        {
+            mMotor.set(ControlMode.PercentOutput, 1.0);
+        }
+
+        public void outtake()
+        {
+            mMotor.set(ControlMode.PercentOutput, -1.0);
+        }
     }
 
-    public void intake()
+    private static class Extender extends Component
     {
-        mMotor.set(ControlMode.PercentOutput, 1.0);
-    }
+        private DoubleSolenoid mExtenderSolenoid;
 
-    public void outtake()
-    {
-        mMotor.set(ControlMode.PercentOutput, 0.0);
-    }
+        public Extender()
+        {
+            mExtenderSolenoid = new DoubleSolenoid(Constants.intakeExtenderSolenoidForward, Constants.intakeExtenderSolenoidReverse);
 
-    public void extend()
-    {
-        mExtenderSolenoid.set(DoubleSolenoid.Value.kForward);
-    }
+            CommandScheduler.getInstance().addTrigger(() -> !Constants.driverController.get(Constants.intakeToggleExtendButton),
+                    new InstantCommand(this::retract, "retract", this));
+            CommandScheduler.getInstance().addTrigger(() -> Constants.driverController.get(Constants.intakeToggleExtendButton),
+                    new InstantCommand(this::extend, "extend", this));
+        }
 
-    public void retract()
-    {
-        mExtenderSolenoid.set(DoubleSolenoid.Value.kReverse);
+        public void extend()
+        {
+            mExtenderSolenoid.set(DoubleSolenoid.Value.kForward);
+        }
+
+        public void retract()
+        {
+            mExtenderSolenoid.set(DoubleSolenoid.Value.kReverse);
+        }
     }
 }

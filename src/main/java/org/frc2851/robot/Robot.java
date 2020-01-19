@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import org.frc2851.robot.framework.command.CommandScheduler;
 import org.frc2851.robot.subsystems.Drivetrain;
+import org.frc2851.robot.subsystems.Intake;
 import org.frc2851.robot.util.Logger;
 import org.frc2851.robot.util.UDPHandler;
 
@@ -38,16 +39,7 @@ public final class Robot extends TimedRobot
         Constants.udpHandler.addReceiver(new UDPHandler.MessageReceiver("IP:", (message) -> Constants.driverStationIP = message));
 
         Drivetrain drivetrain = Drivetrain.getInstance();
-
-        Intake intake = new Intake();
-        new Trigger(() -> Constants.driverController.get(Constants.intakeIntakeButton))
-                .whenActive(CommandFactory.makeRunCommand(intake::intake, "intake", intake.getName(), intake));
-        new Trigger(() -> Constants.driverController.get(Constants.intakeOuttakeButton))
-                .whenActive(CommandFactory.makeRunCommand(intake::outtake, "outtake", intake.getName(), intake));
-        new Trigger(() -> !Constants.driverController.get(Constants.intakeToggleExtendButton))
-                .whenActive(CommandFactory.makeInstantCommand(intake::retract, "retract", intake.getName(), intake));
-        new Trigger(() -> Constants.driverController.get(Constants.intakeToggleExtendButton))
-                .whenActive(CommandFactory.makeInstantCommand(intake::extend, "extend", intake.getName(), intake));
+        Intake intake = Intake.getInstance();
 
         // Subsystem initializations
 
