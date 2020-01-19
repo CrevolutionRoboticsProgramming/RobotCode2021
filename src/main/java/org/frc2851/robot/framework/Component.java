@@ -4,7 +4,13 @@ import org.frc2851.robot.framework.command.Command;
 
 public abstract class Component
 {
+    private String mSubsystemName;
     private Command mDefaultCommand;
+
+    public Component(Class<?> subsystem)
+    {
+        mSubsystemName = subsystem.getSimpleName();
+    }
 
     public void periodic()
     {
@@ -22,6 +28,6 @@ public abstract class Component
 
     public String getName()
     {
-        return getClass().getSimpleName();
+        return mSubsystemName + "." + getClass().getSimpleName();
     }
 }
