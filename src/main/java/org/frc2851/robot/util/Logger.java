@@ -35,4 +35,9 @@ public class Logger
 
         System.out.println(level.toString() + label + ": " + message);
     }
+
+    public static void println(LogLevel level, String message)
+    {
+        println(level, "", message);
+    }
 }

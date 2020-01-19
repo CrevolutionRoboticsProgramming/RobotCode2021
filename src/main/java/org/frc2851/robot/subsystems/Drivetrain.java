@@ -2,46 +2,49 @@ package org.frc2851.robot.subsystems;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.EncoderType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.frc2851.robot.Constants;
-import org.frc2851.robot.util.CommandFactory;
+import org.frc2851.robot.framework.Component;
+import org.frc2851.robot.framework.Subsystem;
+import org.frc2851.robot.framework.command.InstantCommand;
+import org.frc2851.robot.framework.command.RunCommand;
 import org.frc2851.robot.util.MotorControllerFactory;
 
-public class Drivetrain extends SubsystemBase
+public class Drivetrain extends Subsystem
 {
-    private CANSparkMax mLeftMaster, mLeftFollowerA, mLeftFollowerB,
-            mRightMaster, mRightFollowerA, mRightFollowerB;
-    private CANEncoder mLeftEncoder, mRightEncoder;
-    private DoubleSolenoid mShifterSolenoid;
+    private static Drivetrain mInstance = new Drivetrain();
+    private Drivebase mDrivebase = new Drivebase();
+    private GearShifter mGearShifter = new GearShifter();
 
-    public Drivetrain()
+    private Drivetrain()
     {
         super();
 
-        mLeftMaster = MotorControllerFactory.makeSparkMax(Constants.drivetrainLeftMasterPort);
-        mLeftFollowerA = MotorControllerFactory.makeSparkMax(Constants.drivetrainLeftFollowerAPort);
-        mLeftFollowerB = MotorControllerFactory.makeSparkMax(Constants.drivetrainLeftFollowerBPort);
-        mRightMaster = MotorControllerFactory.makeSparkMax(Constants.drivetrainRightMasterPort);
-        mRightFollowerA = MotorControllerFactory.makeSparkMax(Constants.drivetrainRightFollowerAPort);
-        mRightFollowerB = MotorControllerFactory.makeSparkMax(Constants.drivetrainRightFollowerBPort);
+        addComponent(mDrivebase);
+        addComponent(mGearShifter);
 
-        mRightMaster.setInverted(true);
-        mRightFollowerA.setInverted(true);
-        mRightFollowerB.setInverted(true);
+        mDrivebase.leftMaster = MotorControllerFactory.makeSparkMax(Constants.drivetrainLeftMasterPort);
+        mDrivebase.leftFollowerA = MotorControllerFactory.makeSparkMax(Constants.drivetrainLeftFollowerAPort);
+        mDrivebase.leftFollowerB = MotorControllerFactory.makeSparkMax(Constants.drivetrainLeftFollowerBPort);
+        mDrivebase.rightMaster = MotorControllerFactory.makeSparkMax(Constants.drivetrainRightMasterPort);
+        mDrivebase.rightFollowerA = MotorControllerFactory.makeSparkMax(Constants.drivetrainRightFollowerAPort);
+        mDrivebase.rightFollowerB = MotorControllerFactory.makeSparkMax(Constants.drivetrainRightFollowerBPort);
 
-        mLeftFollowerA.follow(mLeftMaster);
-        mLeftFollowerB.follow(mLeftMaster);
-        mRightFollowerA.follow(mRightMaster);
-        mRightFollowerB.follow(mRightMaster);
+        mDrivebase.rightMaster.setInverted(true);
+        mDrivebase.rightFollowerA.setInverted(true);
+        mDrivebase.rightFollowerB.setInverted(true);
 
-        mLeftEncoder = mLeftMaster.getEncoder();
-        mRightEncoder = mRightMaster.getEncoder();
+        mDrivebase.leftFollowerA.follow(mDrivebase.leftMaster);
+        mDrivebase.leftFollowerB.follow(mDrivebase.leftMaster);
+        mDrivebase.rightFollowerA.follow(mDrivebase.rightMaster);
+        mDrivebase.rightFollowerB.follow(mDrivebase.rightMaster);
 
-        mShifterSolenoid = new DoubleSolenoid(Constants.drivetrainShifterSolenoidForward, Constants.drivetrainShifterSolenoidReverse);
+        mDrivebase.leftEncoder = mDrivebase.leftMaster.getEncoder();
+        mDrivebase.rightEncoder = mDrivebase.rightMaster.getEncoder();
 
-        setDefaultCommand(CommandFactory.makeRunCommand(this::arcadeDrive, "arcade drive", getName(), this));
+        mGearShifter.shifterSolenoid = new DoubleSolenoid(Constants.drivetrainShifterSolenoidForward, Constants.drivetrainShifterSolenoidReverse);
+
+        mDrivebase.setDefaultCommand(new RunCommand(this::arcadeDrive, "arcade drive", mDrivebase));
     }
 
     public void arcadeDrive()
@@ -53,17 +56,34 @@ public class Drivetrain extends SubsystemBase
         double rightOut = throttle - turn;
 
         // The ternary operator expressions keep the output within -1.0 and 1.0 even though the Talons do this for us
-        mLeftMaster.set(leftOut > 0 ? Math.min(leftOut, 1) : Math.max(leftOut, -1));
-        mRightMaster.set(rightOut > 0 ? Math.min(rightOut, 1) : Math.max(rightOut, -1));
+        mDrivebase.leftMaster.set(leftOut > 0 ? Math.min(leftOut, 1) : Math.max(leftOut, -1));
+        mDrivebase.rightMaster.set(rightOut > 0 ? Math.min(rightOut, 1) : Math.max(rightOut, -1));
     }
 
-    public void setHighGear()
+    public InstantCommand getSetHighGearCommand()
     {
-        mShifterSolenoid.set(DoubleSolenoid.Value.kForward);
+        return new InstantCommand(() -> mGearShifter.shifterSolenoid.set(DoubleSolenoid.Value.kForward), "high gear", mGearShifter);
     }
 
-    public void setLowGear()
+    public InstantCommand getSetLowGearCommand()
     {
-        mShifterSolenoid.set(DoubleSolenoid.Value.kReverse);
+        return new InstantCommand(() -> mGearShifter.shifterSolenoid.set(DoubleSolenoid.Value.kReverse), "low gear", mGearShifter);
+    }
+
+    public static Drivetrain getInstance()
+    {
+        return mInstance;
+    }
+
+    static class Drivebase extends Component
+    {
+        public CANSparkMax leftMaster, leftFollowerA, leftFollowerB,
+                rightMaster, rightFollowerA, rightFollowerB;
+        public CANEncoder leftEncoder, rightEncoder;
+    }
+
+    static class GearShifter extends Component
+    {
+        public DoubleSolenoid shifterSolenoid;
     }
 }

@@ -5,7 +5,15 @@ mAnalogOut: []
 mDefaultI2CWrappers: {}
 mDefaultSpiWrappers: {}
 mDigitalIO: []
-mEncoders: []
+mEncoders:
+- mConnectedSpeedControllerHandle: 101
+  mHandle: 101
+  mName: Left Encoder
+  mType: com.snobot.simulator.simulator_components.smart_sc.SmartScEncoder
+- mConnectedSpeedControllerHandle: 104
+  mHandle: 104
+  mName: Right Encoder
+  mType: com.snobot.simulator.simulator_components.smart_sc.SmartScEncoder
 mGyros: []
 mPwm:
 - mHandle: 101
