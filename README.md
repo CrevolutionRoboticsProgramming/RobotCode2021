@@ -4,10 +4,24 @@ This is the 2020 FRC Robot code for 2851 Crevolution Robotics
 
 ## Robot
 
+Subsystems
+
+1. Drivetrain- JD
+2. Intake- Parker
+3. Indexer/Hopper-
+  Snail
+  Elevator
+4. Shooter-
+  Turret
+  Angler
+  Shooter
+5. Climber-
+6. Disker-
+  
 Motors
 
-1. Drivetrain - 6 NEOs (Spark MAX Motor Controllers)        JD
-2. Intake - 1 Bag                                           Parker
+1. Drivetrain - 6 NEOs (Spark MAX Motor Controllers)        
+2. Intake - 1 Bag                                          
 3. Snail - 1 or 2 Bags
 4. Climb - 2 Cims 
 5. Elevator - 1 Bag
