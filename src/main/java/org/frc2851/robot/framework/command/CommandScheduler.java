@@ -44,10 +44,7 @@ public final class CommandScheduler
     public void addTrigger(BooleanSupplier trigger, Command command)
     {
         if (trigger != null && command != null)
-        {
-            System.out.println("Registered command " + command.getName());
             mCommands.put(trigger, command);
-        }
     }
 
     public void schedule(Command command)
