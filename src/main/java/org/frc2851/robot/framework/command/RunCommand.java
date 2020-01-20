@@ -6,10 +6,15 @@ public class RunCommand extends Command
 {
     private Runnable mToRun;
 
+    public RunCommand(Runnable toRun, String name, boolean isInterruptible, Component... requirements)
+    {
+        super(name, isInterruptible, requirements);
+        mToRun = toRun;
+    }
+
     public RunCommand(Runnable toRun, String name, Component... requirements)
     {
-        super(name, requirements);
-        mToRun = toRun;
+        this(toRun, name, true, requirements);
     }
 
     @Override

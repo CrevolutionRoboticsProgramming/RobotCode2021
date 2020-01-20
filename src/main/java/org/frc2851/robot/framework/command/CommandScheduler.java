@@ -44,7 +44,10 @@ public final class CommandScheduler
     public void addTrigger(BooleanSupplier trigger, Command command)
     {
         if (trigger != null && command != null)
+        {
+            System.out.println("Registered command " + command.getName());
             mCommands.put(trigger, command);
+        }
     }
 
     public void schedule(Command command)
@@ -68,25 +71,59 @@ public final class CommandScheduler
             if (pair.getKey().getAsBoolean())
             {
                 boolean componentNotBeingUsed = true;
-                for (Command command : mScheduledCommands)
+
+                Iterator<Command> scheduledCommandsIterator = mScheduledCommands.iterator();
+                while (scheduledCommandsIterator.hasNext())
                 {
-                    if (pair.getValue() == command)
+                    Command scheduledCommand = scheduledCommandsIterator.next();
+                    if (pair.getValue() == scheduledCommand)
                         continue;
 
                     for (Component requiredComponent : pair.getValue().getRequirements())
                     {
-                        for (Component usedComponent : command.getRequirements())
+                        for (Component usedComponent : scheduledCommand.getRequirements())
                         {
                             if (requiredComponent == usedComponent)
                             {
-                                componentNotBeingUsed = false;
-                                break;
+                                if (scheduledCommand.isInterruptible())
+                                {
+                                    scheduledCommand.end();
+                                    scheduledCommandsIterator.remove();
+                                } else
+                                {
+                                    componentNotBeingUsed = false;
+                                    break;
+                                }
                             }
                         }
                     }
                 }
                 if (componentNotBeingUsed)
-                    mScheduledCommands.add(pair.getValue());
+                    schedule(pair.getValue());
+            }
+        }
+
+        for (Subsystem subsystem : mSubsystems)
+        {
+            for (Component component : subsystem.getComponents())
+            {
+                component.periodic();
+
+                boolean componentIsNotBeingUsed = true;
+                for (Command command : mScheduledCommands)
+                {
+                    for (Component componentInUse : command.getRequirements())
+                    {
+                        if (componentInUse == component)
+                        {
+                            componentIsNotBeingUsed = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (componentIsNotBeingUsed && component.getDefaultCommand() != null)
+                    schedule(component.getDefaultCommand());
             }
         }
 
@@ -121,30 +158,6 @@ public final class CommandScheduler
             {
                 command.end();
                 scheduledCommandsIterator.remove();
-            }
-        }
-
-        for (Subsystem subsystem : mSubsystems)
-        {
-            for (Component component : subsystem.getComponents())
-            {
-                component.periodic();
-
-                boolean componentIsNotBeingUsed = true;
-                for (Command command : mScheduledCommands)
-                {
-                    for (Component componentInUse : command.getRequirements())
-                    {
-                        if (componentInUse == component)
-                        {
-                            componentIsNotBeingUsed = false;
-                            break;
-                        }
-                    }
-                }
-
-                if (componentIsNotBeingUsed && component.getDefaultCommand() != null)
-                    schedule(component.getDefaultCommand());
             }
         }
 

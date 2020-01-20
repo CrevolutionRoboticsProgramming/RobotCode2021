@@ -7,7 +7,7 @@ public abstract class Subsystem
 {
     private Vector<Component> mComponents;
 
-    public Subsystem(Component... components)
+    public void addComponents(Component... components)
     {
         mComponents = new Vector<>(List.of(components));
     }

@@ -17,7 +17,7 @@ public class Drivetrain extends Subsystem
 
     private Drivetrain()
     {
-        super(new Drivebase(), new GearShifter());
+        addComponents(new Drivebase(), new GearShifter());
     }
 
     public static Drivetrain getInstance()
@@ -25,7 +25,7 @@ public class Drivetrain extends Subsystem
         return mInstance;
     }
 
-    private static class Drivebase extends Component
+    public static class Drivebase extends Component
     {
         private CANSparkMax mLeftMaster, mLeftFollowerA, mLeftFollowerB,
                 mRightMaster, mRightFollowerA, mRightFollowerB;
@@ -71,7 +71,7 @@ public class Drivetrain extends Subsystem
         }
     }
 
-    private static class GearShifter extends Component
+    public static class GearShifter extends Component
     {
         private DoubleSolenoid mShifterSolenoid;
 

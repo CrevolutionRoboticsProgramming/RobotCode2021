@@ -9,11 +9,13 @@ public class Command
 {
     private String mName;
     private State mState = State.NOT_STARTED;
+    private boolean mIsInterruptible = true;
     private Vector<Component> mRequirements;
     
-    public Command(String name, Component... requirements)
+    public Command(String name, boolean isInterruptible, Component... requirements)
     {
         mName = name;
+        mIsInterruptible = isInterruptible;
         mRequirements = new Vector<>(List.of(requirements));
     }
     
@@ -34,6 +36,11 @@ public class Command
     public boolean isFinished()
     {
         return false;
+    }
+
+    public boolean isInterruptible()
+    {
+        return mIsInterruptible;
     }
 
     public final String getName()

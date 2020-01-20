@@ -8,7 +8,7 @@ public class InstantCommand extends Command
 
     public InstantCommand(Runnable toRun, String name, Component... requirements)
     {
-        super(name, requirements);
+        super(name, true, requirements);
         mToRun = toRun;
     }
 
