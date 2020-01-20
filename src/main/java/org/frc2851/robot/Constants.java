@@ -31,4 +31,5 @@ public final class Constants
 
     //Intake
     public static final int intakeRollBar = 7;
+    public static final Axis intakeRollBarTrigger = new Axis(Axis.AxisID.RIGHT_TRIGGER);
 }
