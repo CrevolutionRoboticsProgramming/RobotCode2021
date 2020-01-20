@@ -9,12 +9,12 @@ Subsystems
 1. Drivetrain- JD
 2. Intake- Parker
 3. Indexer/Hopper-
-  Snail
-  Elevator
+  -Snail
+  -Elevator
 4. Shooter-
-  Turret
-  Angler
-  Shooter
+  -Turret
+  -Angler
+  -Shooter
 5. Climber-
 6. Disker-
   
