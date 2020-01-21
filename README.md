@@ -1,47 +1,34 @@
 # RobotCode2020
 
-This is the 2020 FRC Robot code for 2851 Crevolution Robotics
+Crevolution's robot code for FIRST's 2020 game Infinite Recharge
 
 ## Robot
 
-Subsystems
+### Subsystems
 
-1. Drivetrain- JD
-2. Intake- Parker
-3. Indexer/Hopper-
-  (Snail
-  Elevator)-
-4. Shooter-
-  (Turret
-  Angler
-  Shooter)-
-5. Climber-
-6. Disker-
-  
-Motors
+| Subsystem | Components | Programmer |
+| --- | --- | --- |
+| Drivetrain | Drivebase, Gear Shifter | JD |
+| Intake | Motor, Extender | Parker |
+| Indexer/Hopper | Snail, Elevator | |
+| Shooter | Turret, Angler, Shooter | Ryan |
+| Climber | ClimberComponent | |
+| Disker | DiskerComponent | |
 
-1. Drivetrain - 6 NEOs (Spark MAX Motor Controllers)        
-2. Intake - 1 Bag                                          
-3. Snail - 1 or 2 Bags
-4. Climb - 2 Cims 
-5. Elevator - 1 Bag
-6. Turret - 1 Bag
-7. Angler - 1 Bag
-8. Disker (control panel mechanism) - 1 Bag
-9. Shooter - 2 or 3 775's
+### Hardware
 
-Pneumatics
-
-1. Ball shifter
-2. Intake
-
-Encoders
-
-1. Drivetrain - 2
-2. Turret - 1 (and potentiometer)
-3. Angler - 1 (and potentiometer)
-3. Disker (control panel mechanism) - 1 (and color sensor)
-4. Shooter - 1
+| Component | Motors | Pneumatics | Sensors |
+| --- | --- | --- | --- |
+| Drivebase | 6 Spark MAXs |  | 2 Encoders |
+| Gear Shifter | | 1 | |
+| Intake Motor | 1 VictorSPX | | |
+| Intake Extender | | 1 | |
+| Snail | 1 or 2 VictorSPXs | | |
+| Elevator | 1 VictorSPX | | |
+| Turret | 1 TalonSRX | | 1 Encoder |
+| Angler | 1 TalonSRX | | 1 Encoder |
+| Shooter | 2 or 3 TalonSRXs | | 1 Encoder |
+| Disker | 1 VictorSPX | | 1 Encoder, 1 Color Sensor |
 
 ## Contributing
 
