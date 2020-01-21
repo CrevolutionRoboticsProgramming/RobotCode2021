@@ -29,15 +29,24 @@ public class Intake extends Subsystem {
     public static class RollBar extends Component {
         private CANSparkMax mMotor1;
 
-        public RollBar(){
+        public RollBar() {
             super(Intake.class);
             mMotor1 = MotorControllerFactory.makeSparkMax(intakeRollBar);
-            setDefaultCommand(new RunCommand(this::in, "arcade drive", this));
+            setDefaultCommand(new RunCommand(this::in, "in", this));
         }
-        public void in(){
+
+        public void in() {
             double in = Constants.driverController.get(Constants.intakeRollBarTrigger);
 
             mMotor1.set(in > 0 ? Math.min(in, 1) : Math.max(in, -1));
+            setDefaultCommand(new RunCommand(this::out, "out", this));
+
+        }
+
+        public void out() {
+             double out = Constants.driverController.get(Constants.outtakeRollBarTrigger);
+
+            mMotor1.set(out > 0 ? Math.min(out, 1) : Math.max(out, -1));
         }
     }
 }
