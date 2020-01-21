@@ -32,9 +32,12 @@ public class Intake extends Subsystem {
         public RollBar(){
             super(Intake.class);
             mMotor1 = MotorControllerFactory.makeSparkMax(intakeRollBar);
+            setDefaultCommand(new RunCommand(this::in, "arcade drive", this));
         }
-        public void Bar(){
-            double In = Constants.driverController.get(Constants.intakeRollBarTrigger);
+        public void in(){
+            double in = Constants.driverController.get(Constants.intakeRollBarTrigger);
+
+            mMotor1.set(in > 0 ? Math.min(in, 1) : Math.max(in, -1));
         }
     }
 }
