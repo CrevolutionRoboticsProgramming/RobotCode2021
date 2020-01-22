@@ -28,6 +28,7 @@ Crevolution's robot code for FIRST's 2020 game Infinite Recharge
 | Turret | 1 TalonSRX | | 1 Encoder |
 | Angler | 1 TalonSRX | | 1 Encoder |
 | Shooter | 2 or 3 TalonSRXs | | 1 Encoder |
+| Climber | 1 VictorSPX | | |
 | Disker | 1 VictorSPX | | 1 Encoder, 1 Color Sensor |
 
 ## Contributing
