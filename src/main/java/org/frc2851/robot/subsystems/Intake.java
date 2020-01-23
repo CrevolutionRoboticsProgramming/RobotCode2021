@@ -12,7 +12,6 @@ import org.frc2851.robot.framework.command.RunCommand;
 import org.frc2851.robot.util.MotorControllerFactory;
 
 import static org.frc2851.robot.Constants.intakeRollBar;
-import static org.frc2851.robot.Constants.intakeRollBarTrigger;
 
 
 public class Intake extends Subsystem {
@@ -37,16 +36,10 @@ public class Intake extends Subsystem {
 
         public void in() {
             double in = Constants.driverController.get(Constants.intakeRollBarTrigger);
+            double out = Constants.driverController.get(Constants.outtakeRollBarTrigger);
 
             mMotor1.set(in > 0 ? Math.min(in, 1) : Math.max(in, -1));
-            setDefaultCommand(new RunCommand(this::out, "out", this));
-
-        }
-
-        public void out() {
-             double out = Constants.driverController.get(Constants.outtakeRollBarTrigger);
-
-            mMotor1.set(out > 0 ? Math.min(out, 1) : Math.max(out, -1));
+            mMotor1.set(out > 0 ? Math.min(out, -1) : Math.max(out, 1));
         }
     }
 }
