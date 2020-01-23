@@ -38,8 +38,8 @@ public class Intake extends Subsystem {
             double in = Constants.driverController.get(Constants.intakeRollBarTrigger);
             double out = Constants.driverController.get(Constants.outtakeRollBarTrigger);
 
-            mMotor1.set(in > 0 ? Math.min(in, 1) : Math.max(in, -1));
-            mMotor1.set(out > 0 ? Math.min(out, -1) : Math.max(out, 1));
+            mMotor1.set(in > 0 ? Math.min(in, -1) : Math.max(in, 1));
+            mMotor1.set(out > 0 ? Math.min(out, 1) : Math.max(out, -1));
         }
     }
 }
