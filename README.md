@@ -12,7 +12,7 @@ Crevolution's robot code for FIRST's 2020 game Infinite Recharge
 | Intake | Motor, Extender | Parker |
 | Indexer/Hopper | Snail, Elevator | |
 | Shooter | Turret, Angler, Shooter | Ryan |
-| Climber | ClimberComponent | |
+| Climber | ClimberComponent | John |
 | Disker | DiskerComponent | |
 
 ### Hardware
