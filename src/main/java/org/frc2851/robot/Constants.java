@@ -28,4 +28,23 @@ public final class Constants
     public static final Axis drivetrainThrottleAxis = new Axis(driverController, Axis.AxisID.LEFT_Y, (input) -> -input); // Up on the controller is read as negative BrokeBack
     public static final Axis drivetrainTurnAxis = new Axis(driverController, Axis.AxisID.RIGHT_X);
     public static final Button drivetrainShiftGearButton = new Button(driverController, Button.ButtonID.LEFT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
+
+    // Shooter
+
+    //    Turret
+    public static final int shooterTurretPort = 13;
+
+    public static final Button shooterTurretRotateClockwiseButton = new Button(operatorController, Button.ButtonID.POV_RIGHT, Button.ButtonBehaviorType.RAW);
+    public static final Button shooterTurretRotateCounterClockwiseButton = new Button(operatorController, Button.ButtonID.POV_LEFT, Button.ButtonBehaviorType.RAW);
+
+    //    Angler
+    public static final int shooterAnglerPort = 14;
+
+    public static final Button shooterAnglerRaiseButton = new Button(operatorController, Button.ButtonID.POV_UP, Button.ButtonBehaviorType.RAW);
+    public static final Button shooterAnglerLowerButton = new Button(operatorController, Button.ButtonID.POV_DOWN, Button.ButtonBehaviorType.RAW);
+
+    //    Launcher
+    public static final int shooterLauncherPort = 15;
+
+    public static final Button shooterLauncherShootButton = new Button(operatorController, Button.ButtonID.RIGHT_TRIGGER, Button.ButtonBehaviorType.RAW);
 }
