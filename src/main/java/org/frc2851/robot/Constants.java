@@ -1,8 +1,8 @@
 package org.frc2851.robot;
 
-import org.frc2851.robot.io.Controller;
 import org.frc2851.robot.io.Axis;
 import org.frc2851.robot.io.Button;
+import org.frc2851.robot.io.Controller;
 import org.frc2851.robot.util.UDPHandler;
 
 public final class Constants
