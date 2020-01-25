@@ -46,12 +46,15 @@ public class Intake extends Subsystem {
             }
         }
     public static class Actuate extends Component{
-        private DoubleSolenoid mIntakeSolenoid;
+        private DoubleSolenoid mActuate;
+
         public Actuate() {
             super(Intake.class);
-            mIntakeSolenoid = new DoubleSolenoid(Constants.IntakeSolenoid);
-
-            mIntakeSolenoid.set(DoubleSolenoid.Value.kForward);
+            mActuate = new DoubleSolenoid(Constants.intakeActuateSolenoidIn, Constants.intakeActuateSolenoidOut);
+            CommandScheduler.getInstance().addTrigger(() -> !Constants.driverController.get(actuateIntakeBumper),
+                    new InstantCommand(() -> mActuate.set(DoubleSolenoid.Value.kForward), "out", this));
+            CommandScheduler.getInstance().addTrigger(() -> Constants.driverController.get(actuateIntakeBumper),
+                    new InstantCommand(() -> mActuate.set(DoubleSolenoid.Value.kReverse), "in", this));
         }
     }
 
