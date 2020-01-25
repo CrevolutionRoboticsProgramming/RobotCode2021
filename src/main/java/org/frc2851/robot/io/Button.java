@@ -1,21 +1,37 @@
-package org.frc2851.robot.io.button;
+package org.frc2851.robot.io;
+
+import java.util.List;
+import java.util.Vector;
 
 public class Button
 {
+    private Controller mController;
+    private ButtonID mID;
+    private ButtonBehaviorType mButtonBehaviorType;
+    private Vector<Button> mComboButtons;
     private boolean mLastRawState = false;
     private boolean mToggleState = false;
     private boolean mOtherPress = false;
-    private ButtonBehaviorType mButtonBehaviorType;
-    private ButtonID mID;
 
-    public Button(ButtonID id, ButtonBehaviorType buttonBehaviorType)
+    public Button(Controller controller, ButtonID id, ButtonBehaviorType buttonBehaviorType, Button... comboButtons)
     {
+        mController = controller;
         mID = id;
         mButtonBehaviorType = buttonBehaviorType;
+        mComboButtons = new Vector<>(List.of(comboButtons));
     }
 
-    public boolean get(boolean raw)
+    public boolean get()
     {
+        boolean allComboButtonsPressed = true;
+        for (Button comboButton : mComboButtons)
+        {
+            if (!comboButton.get())
+                allComboButtonsPressed = false;
+        }
+
+        boolean raw = mController.get(mID) && allComboButtonsPressed;
+
         if (mButtonBehaviorType == null)
             return false;
         else
@@ -97,7 +113,15 @@ public class Button
 
         POV_CENTER(-1, ButtonType.POV), POV_UP(0, ButtonType.POV), POV_UP_RIGHT(45, ButtonType.POV), POV_RIGHT(90, ButtonType.POV),
         POV_DOWN_RIGHT(135, ButtonType.POV), POV_DOWN(180, ButtonType.POV), POV_DOWN_LEFT(225, ButtonType.POV),
-        POV_LEFT(270, ButtonType.POV), POV_UP_LEFT(-45, ButtonType.POV);;
+        POV_LEFT(270, ButtonType.POV), POV_UP_LEFT(-45, ButtonType.POV),
+
+        GUITAR_GREEN(1, ButtonType.NORMAL), GUITAR_RED(2, ButtonType.NORMAL),
+        GUITAR_BLUE(3, ButtonType.NORMAL), GUITAR_YELLOW(4, ButtonType.NORMAL),
+        GUITAR_ORANGE(5, ButtonType.NORMAL), GUITAR_BACK(7, ButtonType.NORMAL),
+        GUITAR_START(8, ButtonType.NORMAL),
+
+        GUITAR_STRUM_NEUTRAL(-1, ButtonType.POV), GUITAR_STRUM_UP(0, ButtonType.POV),
+        GUITAR_STRUM_DOWN(180, ButtonType.POV);
 
         private int mID;
         private ButtonType mButtonType;

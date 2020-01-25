@@ -59,8 +59,8 @@ public class Drivetrain extends Subsystem
 
         public void arcadeDrive()
         {
-            double throttle = Constants.driverController.get(Constants.drivetrainThrottleAxis);
-            double turn = Constants.driverController.get(Constants.drivetrainTurnAxis);
+            double throttle = Constants.drivetrainThrottleAxis.get();
+            double turn = Constants.drivetrainTurnAxis.get();
 
             double leftOut = throttle + turn;
             double rightOut = throttle - turn;
@@ -81,9 +81,9 @@ public class Drivetrain extends Subsystem
 
             mShifterSolenoid = new DoubleSolenoid(Constants.drivetrainShifterSolenoidForward, Constants.drivetrainShifterSolenoidReverse);
 
-            CommandScheduler.getInstance().addTrigger(() -> !Constants.driverController.get(Constants.drivetrainShiftGearButton),
+            CommandScheduler.getInstance().addTrigger(() -> !Constants.drivetrainShiftGearButton.get(),
                     new InstantCommand(() -> mShifterSolenoid.set(DoubleSolenoid.Value.kForward), "high gear", this));
-            CommandScheduler.getInstance().addTrigger(() -> Constants.driverController.get(Constants.drivetrainShiftGearButton),
+            CommandScheduler.getInstance().addTrigger(Constants.drivetrainShiftGearButton::get,
                     new InstantCommand(() -> mShifterSolenoid.set(DoubleSolenoid.Value.kReverse), "low gear", this));
         }
     }
