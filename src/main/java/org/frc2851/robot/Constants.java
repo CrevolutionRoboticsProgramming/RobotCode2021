@@ -28,4 +28,13 @@ public final class Constants
     public static final Axis drivetrainThrottleAxis = new Axis(Axis.AxisID.LEFT_Y, (input) -> -input); // Up on the controller is read as negative BrokeBack
     public static final Axis drivetrainTurnAxis = new Axis(Axis.AxisID.RIGHT_X);
     public static final Button drivetrainShiftGearButton = new Button(Button.ButtonID.LEFT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
+
+    //Intake
+    public static final int intakeRollBar = 7;
+    public static final Button intakeRollBarTrigger = new Button(Button.ButtonID.RIGHT_TRIGGER, Button.ButtonBehaviorType.RAW);
+    public static final Button outtakeRollBarTrigger = new Button(Button.ButtonID.LEFT_TRIGGER, Button.ButtonBehaviorType.RAW);
+    public static final int IntakeSolenoid = 2;
+    public static final Button Actuate = new Button(Button.ButtonID.RIGHT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
+
+
 }
