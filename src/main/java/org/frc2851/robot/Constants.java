@@ -33,4 +33,9 @@ public final class Constants
     public static final int intakeRollBar = 7;
     public static final Button intakeRollBarTrigger = new Button(Button.ButtonID.RIGHT_TRIGGER, Button.ButtonBehaviorType.RAW);
     public static final Button outtakeRollBarTrigger = new Button(Button.ButtonID.LEFT_TRIGGER, Button.ButtonBehaviorType.RAW);
+    public static final Button actuateIntakeBumper = new Button(Button.ButtonID.RIGHT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
+    public static final int intakeActuateSolenoidIn = 2;
+    public static final int intakeActuateSolenoidOut = 3;
+
+
 }

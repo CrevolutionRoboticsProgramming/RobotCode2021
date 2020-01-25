@@ -67,3 +67,9 @@ mSolenoids:
 - mHandle: 1
   mName: Gear Shifter Reverse
   mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
+- mHandle: 2
+  mName: Intake In
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
+- mHandle: 3
+  mName: Intake Out
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
