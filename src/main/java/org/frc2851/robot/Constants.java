@@ -22,6 +22,8 @@ public final class Constants
     public static final int drivetrainRightFollowerAPort = 5;
     public static final int drivetrainRightFollowerBPort = 6;
 
+    public static final int diskerRotatorPort = 9;
+
     public static final int drivetrainShifterSolenoidForward = 0;
     public static final int drivetrainShifterSolenoidReverse = 1;
 
