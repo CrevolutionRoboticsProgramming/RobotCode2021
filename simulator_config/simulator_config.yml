@@ -57,7 +57,6 @@ mPwm:
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.SimpleMotorSimulationConfig
     mMaxSpeed: 0.0
   mName: Rollbar
-  mType: com.snobot.simulator.simulator_components.rev.RevSpeedControllerSimWrapper
 mRelays: []
 mSimulatorComponents: []
 mSolenoids:

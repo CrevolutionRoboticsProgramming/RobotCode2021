@@ -29,13 +29,13 @@ public final class Constants
     public static final Axis drivetrainTurnAxis = new Axis(driverController, Axis.AxisID.RIGHT_X);
     public static final Button drivetrainShiftGearButton = new Button(driverController, Button.ButtonID.LEFT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
 
-    //Intake
-    public static final int intakeRollBar = 7;
+    // Intake
+    public static final int intakeMotorPort = 7;
 
-    public static final int intakeActuateSolenoidIn = 2;
-    public static final int intakeActuateSolenoidOut = 3;
+    public static final int intakeExtendSolenoidForward = 2;
+    public static final int intakeExtendSolenoidReverse = 3;
 
-    public static final Button intakeRollBarTrigger = new Button(driverController, Button.ButtonID.RIGHT_TRIGGER, Button.ButtonBehaviorType.RAW);
-    public static final Button outtakeRollBarTrigger = new Button(driverController, Button.ButtonID.LEFT_TRIGGER, Button.ButtonBehaviorType.RAW);
-    public static final Button actuateIntakeBumper = new Button(driverController, Button.ButtonID.RIGHT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
+    public static final Button intakeIntakeButton = new Button(driverController, Button.ButtonID.RIGHT_TRIGGER, Button.ButtonBehaviorType.RAW);
+    public static final Button intakeOuttakeButton = new Button(driverController, Button.ButtonID.LEFT_TRIGGER, Button.ButtonBehaviorType.RAW);
+    public static final Button intakeExtendButton = new Button(driverController, Button.ButtonID.RIGHT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
 }
