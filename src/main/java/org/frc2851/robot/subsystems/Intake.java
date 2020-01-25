@@ -25,7 +25,7 @@ public class Intake extends Subsystem {
         return mInstance;
     }
 
-    public static class RollBar extends Component {
+        public static class RollBar extends Component {
 
         private CANSparkMax mMotor1;
 
@@ -39,15 +39,18 @@ public class Intake extends Subsystem {
         }
 
         public void rollBar() {
+            boolean intake = (Constants.intakeRollBarTrigger).get();
+            boolean outtake = (Constants.outtakeRollBarTrigger).get();
 
-            if((Constants.intakeRollBarTrigger).get()){
-                mMotor1.set(.5);}
-           else if((Constants.outtakeRollBarTrigger).get()){
+            if(intake){
+                mMotor1.set(.5);
+            }
+           else if(outtake){
                 mMotor1.set(-.5);
             }
            else{
                mMotor1.set(0);
-            }
+        }
             }
         }
     public static class Actuate extends Component{
