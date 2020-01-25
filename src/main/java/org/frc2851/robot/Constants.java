@@ -31,6 +31,6 @@ public final class Constants
 
     //Intake
     public static final int intakeRollBar = 7;
-    public static final Axis intakeRollBarTrigger = new Axis(Axis.AxisID.RIGHT_TRIGGER);
-    public static final Axis outtakeRollBarTrigger = new Axis(Axis.AxisID.LEFT_TRIGGER);
+    public static final Button intakeRollBarTrigger = new Button(Button.ButtonID.RIGHT_TRIGGER, Button.ButtonBehaviorType.RAW);
+    public static final Button outtakeRollBarTrigger = new Button(Button.ButtonID.LEFT_TRIGGER, Button.ButtonBehaviorType.RAW);
 }

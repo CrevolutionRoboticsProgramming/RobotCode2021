@@ -11,14 +11,14 @@ import org.frc2851.robot.framework.command.InstantCommand;
 import org.frc2851.robot.framework.command.RunCommand;
 import org.frc2851.robot.util.MotorControllerFactory;
 
-import static org.frc2851.robot.Constants.intakeRollBar;
+import static org.frc2851.robot.Constants.*;
 
 
 public class Intake extends Subsystem {
     private static Intake mInstance = new Intake();
 
     private Intake() {
-        addComponents(new RollBar());
+        addComponents(new RollBar(), new Actuate());
     }
 
     public static Intake getInstance() {
@@ -31,15 +31,22 @@ public class Intake extends Subsystem {
         public RollBar() {
             super(Intake.class);
             mMotor1 = MotorControllerFactory.makeSparkMax(intakeRollBar);
-            setDefaultCommand(new RunCommand(this::in, "in", this));
+            setDefaultCommand(new RunCommand(this::rollBar, "rollBar", this));
         }
 
-        public void in() {
-            double in = Constants.driverController.get(Constants.intakeRollBarTrigger);
-            double out = Constants.driverController.get(Constants.outtakeRollBarTrigger);
-
-            mMotor1.set(in > 0 ? Math.min(in, -1) : Math.max(in, 1));
-            mMotor1.set(out > 0 ? Math.min(out, 1) : Math.max(out, -1));
+        public void rollBar() {
+            if(Constants.driverController.get(Constants.intakeRollBarTrigger)){
+                mMotor1.set(.5);}
+           else if(Constants.driverController.get(Constants.outtakeRollBarTrigger)){
+                mMotor1.set(-.5);
+            }
+           else{
+               mMotor1.set(0);
+            }
+            }
         }
+    public static class Actuate extends Component{
+
     }
-}
+
+    }
