@@ -28,4 +28,10 @@ public final class Constants
     public static final Axis drivetrainThrottleAxis = new Axis(driverController, Axis.AxisID.LEFT_Y, (input) -> -input); // Up on the controller is read as negative BrokeBack
     public static final Axis drivetrainTurnAxis = new Axis(driverController, Axis.AxisID.RIGHT_X);
     public static final Button drivetrainShiftGearButton = new Button(driverController, Button.ButtonID.LEFT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
+
+    // Climber
+    public static final int climberMaster = 7;
+
+    public static final Button climberExtendButton = new Button(driverController, Button.ButtonID.X, Button.ButtonBehaviorType.RAW);
+    public static final Button climberRetractButton = new Button(driverController, Button.ButtonID.Y, Button.ButtonBehaviorType.RAW);
 }

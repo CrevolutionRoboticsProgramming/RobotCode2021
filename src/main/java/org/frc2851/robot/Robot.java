@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import org.frc2851.robot.framework.command.CommandScheduler;
+import org.frc2851.robot.subsystems.Climber;
 import org.frc2851.robot.subsystems.Drivetrain;
 import org.frc2851.robot.util.Logger;
 import org.frc2851.robot.util.UDPHandler;
@@ -38,6 +39,7 @@ public final class Robot extends TimedRobot
         Constants.udpHandler.addReceiver(new UDPHandler.MessageReceiver("IP:", (message) -> Constants.driverStationIP = message));
 
         CommandScheduler.getInstance().addSubsystem(Drivetrain.getInstance());
+        CommandScheduler.getInstance().addSubsystem(Climber.getInstance());
 
         BadLog.createValue("Match Number", String.valueOf(DriverStation.getInstance().getMatchNumber()));
         BadLog.createTopic("Match Time", "s", DriverStation.getInstance()::getMatchTime);
