@@ -35,9 +35,9 @@ public class Intake extends Subsystem {
         }
 
         public void rollBar() {
-            if(Constants.driverController.get(Constants.intakeRollBarTrigger)){
+            if((Constants.intakeRollBarTrigger).get()){
                 mMotor1.set(.5);}
-           else if(Constants.driverController.get(Constants.outtakeRollBarTrigger)){
+           else if((Constants.outtakeRollBarTrigger).get()){
                 mMotor1.set(-.5);
             }
            else{
@@ -51,9 +51,9 @@ public class Intake extends Subsystem {
         public Actuate() {
             super(Intake.class);
             mActuate = new DoubleSolenoid(Constants.intakeActuateSolenoidIn, Constants.intakeActuateSolenoidOut);
-            CommandScheduler.getInstance().addTrigger(() -> !Constants.driverController.get(actuateIntakeBumper),
+            CommandScheduler.getInstance().addTrigger(() -> !Constants.actuateIntakeBumper.get(),
                     new InstantCommand(() -> mActuate.set(DoubleSolenoid.Value.kForward), "out", this));
-            CommandScheduler.getInstance().addTrigger(() -> Constants.driverController.get(actuateIntakeBumper),
+            CommandScheduler.getInstance().addTrigger(() -> Constants.actuateIntakeBumper.get(),
                     new InstantCommand(() -> mActuate.set(DoubleSolenoid.Value.kReverse), "in", this));
         }
     }
