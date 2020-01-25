@@ -9,9 +9,14 @@ import org.frc2851.robot.util.MotorControllerFactory;
 
 public class Disker extends Subsystem {
 
+    private static float rotationSpeed = 0.5f;
+
     private Disker() {
         addComponents(new DiskerComponent());
     }
+
+
+
 
 
 
@@ -30,6 +35,16 @@ public class Disker extends Subsystem {
 
 
         public void rotateDisker() {
+            boolean clockwise = Constants.diskerRotateClockwiseButton.get();
+            boolean counter = Constants.diskerRotateCounterButton.get();
+
+            if(clockwise && counter) return;
+
+            //Legit no idea if negative is clockwise or positive is clockwise
+            if(clockwise)
+                rotatorMotator.set(rotationSpeed);
+            else if (counter)
+                rotatorMotator.set(-rotationSpeed);
 
         }
     }

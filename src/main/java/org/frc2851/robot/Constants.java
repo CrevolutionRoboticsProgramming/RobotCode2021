@@ -30,4 +30,7 @@ public final class Constants
     public static final Axis drivetrainThrottleAxis = new Axis(driverController, Axis.AxisID.LEFT_Y, (input) -> -input); // Up on the controller is read as negative BrokeBack
     public static final Axis drivetrainTurnAxis = new Axis(driverController, Axis.AxisID.RIGHT_X);
     public static final Button drivetrainShiftGearButton = new Button(driverController, Button.ButtonID.LEFT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
+
+    public static final Button diskerRotateCounterButton = new Button(operatorController, Button.ButtonID.A, Button.ButtonBehaviorType.TOGGLE);
+    public static final Button diskerRotateClockwiseButton = new Button(operatorController, Button.ButtonID.B, Button.ButtonBehaviorType.TOGGLE);
 }
