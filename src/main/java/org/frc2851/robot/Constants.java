@@ -31,11 +31,11 @@ public final class Constants
 
     //Intake
     public static final int intakeRollBar = 7;
-    public static final Button intakeRollBarTrigger = new Button(driverController, Button.ButtonID.RIGHT_TRIGGER, Button.ButtonBehaviorType.RAW);
-    public static final Button outtakeRollBarTrigger = new Button(driverController, Button.ButtonID.LEFT_TRIGGER, Button.ButtonBehaviorType.RAW);
-    public static final Button actuateIntakeBumper = new Button(driverController, Button.ButtonID.RIGHT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
+
     public static final int intakeActuateSolenoidIn = 2;
     public static final int intakeActuateSolenoidOut = 3;
 
-
+    public static final Button intakeRollBarTrigger = new Button(driverController, Button.ButtonID.RIGHT_TRIGGER, Button.ButtonBehaviorType.RAW);
+    public static final Button outtakeRollBarTrigger = new Button(driverController, Button.ButtonID.LEFT_TRIGGER, Button.ButtonBehaviorType.RAW);
+    public static final Button actuateIntakeBumper = new Button(driverController, Button.ButtonID.RIGHT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
 }
