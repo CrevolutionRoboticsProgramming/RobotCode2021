@@ -1,5 +1,7 @@
 package org.frc2851.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import org.frc2851.robot.Constants;
@@ -27,13 +29,13 @@ public class Intake extends Subsystem {
 
         public static class RollBar extends Component {
 
-        private CANSparkMax mMotor1;
+        private VictorSPX mMotor1;
 
         public RollBar() {
 
             super(Intake.class);
 
-            mMotor1 = MotorControllerFactory.makeSparkMax(intakeRollBar);
+            mMotor1 = MotorControllerFactory.makeVictorSPX(intakeRollBar);
 
             setDefaultCommand(new RunCommand(this::rollBar, "rollBar", this));
         }
@@ -43,13 +45,13 @@ public class Intake extends Subsystem {
             boolean outtake = (Constants.outtakeRollBarTrigger).get();
 
             if(intake){
-                mMotor1.set(.5);
+                mMotor1.set(ControlMode.PercentOutput, .5);
             }
            else if(outtake){
-                mMotor1.set(-.5);
+                mMotor1.set(ControlMode.PercentOutput, -.5);
             }
            else{
-               mMotor1.set(0);
+               mMotor1.set(ControlMode.PercentOutput, 0);
         }
             }
         }
