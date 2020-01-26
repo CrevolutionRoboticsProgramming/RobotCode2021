@@ -1,15 +1,11 @@
 package org.frc2851.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANSparkMax;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.SensorUtil;
 import org.frc2851.robot.Constants;
 import org.frc2851.robot.framework.Component;
 import org.frc2851.robot.framework.Subsystem;
 import org.frc2851.robot.framework.command.RunCommand;
-import org.frc2851.robot.util.MotorControllerFactory;
 
 import java.nio.ByteBuffer;
 
@@ -31,15 +27,13 @@ public class Disker extends Subsystem {
 
     public class DiskerMotorComponent extends Component {
 
-        private CANSparkMax rotatorMotator;
-        private CANEncoder rotatorEncoder;
+        private WPI_TalonSRX rotatorMotator;
 
         public DiskerMotorComponent() {
             super(Disker.class);
 
-            rotatorMotator = MotorControllerFactory.makeSparkMax(Constants.diskerRotatorPort);
-
-            rotatorEncoder = rotatorMotator.getEncoder();
+            rotatorMotator = new WPI_TalonSRX(Constants.diskerRotatorPort);
+            rotatorMotator.configFactoryDefault();
 
             setDefaultCommand(new RunCommand(this::rotateDisker, "rotate disker", this));
         }
@@ -83,7 +77,7 @@ public class Disker extends Subsystem {
 
 
         public void checkColor() {
-            System.out.println("I2C Port: " + I2C.Port.kOnboard);
+            //System.out.println("I2C Port: " + I2C.Port.kOnboard);
             //System.out.println("Color sensor rgb reading:  (" + sensor.red() + ", " + sensor.green() + ", " + sensor.blue() + ")");
         }
 
@@ -93,7 +87,6 @@ public class Disker extends Subsystem {
 
 
     public class ColorSensor {
-//gnom
 
         private I2C.Port port;
         private ByteBuffer buffer;
