@@ -121,7 +121,12 @@ public class Button
         GUITAR_START(8, ButtonType.NORMAL),
 
         GUITAR_STRUM_NEUTRAL(-1, ButtonType.POV), GUITAR_STRUM_UP(0, ButtonType.POV),
-        GUITAR_STRUM_DOWN(180, ButtonType.POV);
+        GUITAR_STRUM_DOWN(180, ButtonType.POV),
+
+        DRUM_GREEN(1, ButtonType.NORMAL), DRUM_RED(2, ButtonType.NORMAL),
+        DRUM_BLUE(3, ButtonType.NORMAL), DRUM_YELLOW(4, ButtonType.NORMAL),
+        DRUM_PEDAL(5, ButtonType.NORMAL),
+        DRUM_COMBO(10, ButtonType.NORMAL);
 
         private int mID;
         private ButtonType mButtonType;
