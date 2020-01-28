@@ -7,17 +7,14 @@ public class Button
 {
     private Controller mController;
     private ButtonID mID;
-    private ButtonBehaviorType mButtonBehaviorType;
+    private ButtonStateRetriever mButtonStateRetriever;
     private Vector<Button> mComboButtons;
-    private boolean mLastRawState = false;
-    private boolean mToggleState = false;
-    private boolean mOtherPress = false;
 
-    public Button(Controller controller, ButtonID id, ButtonBehaviorType buttonBehaviorType, Button... comboButtons)
+    public Button(Controller controller, ButtonID id, ButtonStateRetriever buttonStateRetriever, Button... comboButtons)
     {
         mController = controller;
         mID = id;
-        mButtonBehaviorType = buttonBehaviorType;
+        mButtonStateRetriever = buttonStateRetriever;
         mComboButtons = new Vector<>(List.of(comboButtons));
     }
 
@@ -32,50 +29,7 @@ public class Button
 
         boolean raw = mController.get(mID) && allComboButtonsPressed;
 
-        if (mButtonBehaviorType == null)
-            return false;
-        else
-        {
-            boolean returnValue;
-            switch (mButtonBehaviorType)
-            {
-                case RAW:
-                    returnValue = raw;
-                    break;
-                case ON_PRESS:
-                    returnValue = raw && !mLastRawState;
-                    break;
-                case ON_RELEASE:
-                    returnValue = !raw && mLastRawState;
-                    break;
-                case TOGGLE:
-                    // If the button was just pressed...
-                    if (raw && !mLastRawState)
-                        mToggleState = !mToggleState;
-                    returnValue = mToggleState;
-                    break;
-                case EVERY_OTHER_PRESS:
-                    if (raw && !mLastRawState)
-                    {
-                        returnValue = mOtherPress;
-                        mOtherPress = !mOtherPress;
-                    } else
-                        returnValue = false;
-                    break;
-                case EVERY_OTHER_PRESS_INVERSE:
-                    if (raw && !mLastRawState)
-                    {
-                        returnValue = !mOtherPress;
-                        mOtherPress = !mOtherPress;
-                    } else
-                        returnValue = false;
-                    break;
-                default:
-                    returnValue = false;
-            }
-            mLastRawState = raw;
-            return returnValue;
-        }
+        return mButtonStateRetriever.get(raw);
     }
 
     public ButtonType getButtonType()
@@ -83,9 +37,9 @@ public class Button
         return mID.getButtonType();
     }
 
-    public ButtonBehaviorType getButtonReturnType()
+    public ButtonStateRetriever getButtonStateRetriever()
     {
-        return mButtonBehaviorType;
+        return mButtonStateRetriever;
     }
 
     public final int getID()
@@ -96,11 +50,6 @@ public class Button
     public enum ButtonType
     {
         NORMAL, TRIGGER, POV
-    }
-
-    public enum ButtonBehaviorType
-    {
-        RAW, ON_PRESS, ON_RELEASE, TOGGLE, EVERY_OTHER_PRESS, EVERY_OTHER_PRESS_INVERSE
     }
 
     public enum ButtonID
@@ -145,6 +94,107 @@ public class Button
         public ButtonType getButtonType()
         {
             return mButtonType;
+        }
+    }
+
+    public static abstract class ButtonStateRetriever
+    {
+        public abstract boolean get(boolean raw);
+    }
+
+    public static class RawButton extends ButtonStateRetriever
+    {
+        @Override
+        public boolean get(boolean raw)
+        {
+            return raw;
+        }
+    }
+
+    public static class OnPressButton extends ButtonStateRetriever
+    {
+        private boolean mLastRawState = false;
+
+        @Override
+        public boolean get(boolean raw)
+        {
+            boolean returnValue = raw && !mLastRawState;
+            mLastRawState = raw;
+            return returnValue;
+        }
+    }
+
+    public static class OnReleaseButton extends ButtonStateRetriever
+    {
+        private boolean mLastRawState = false;
+
+        @Override
+        public boolean get(boolean raw)
+        {
+            boolean returnValue = !raw && mLastRawState;
+            mLastRawState = raw;
+            return returnValue;
+        }
+    }
+
+    public static class ToggleButton extends ButtonStateRetriever
+    {
+        private boolean mLastRawState = false;
+        private boolean mToggleState = false;
+
+        @Override
+        public boolean get(boolean raw)
+        {
+            if (raw && !mLastRawState)
+                mToggleState = !mToggleState;
+            mLastRawState = raw;
+            return mToggleState;
+        }
+    }
+
+    public static class EveryOtherPressButton extends ButtonStateRetriever
+    {
+        private boolean mLastRawState = false;
+        private boolean mOtherPress = false;
+
+        @Override
+        public boolean get(boolean raw)
+        {
+            boolean returnValue;
+
+            if (raw && !mLastRawState)
+            {
+                returnValue = mOtherPress;
+                mOtherPress = !mOtherPress;
+            } else
+                returnValue = false;
+
+            mLastRawState = raw;
+
+            return returnValue;
+        }
+    }
+
+    public static class EveryOtherPressInverseButton extends ButtonStateRetriever
+    {
+        private boolean mLastRawState = false;
+        private boolean mOtherPress = false;
+
+        @Override
+        public boolean get(boolean raw)
+        {
+            boolean returnValue;
+
+            if (raw && !mLastRawState)
+            {
+                returnValue = !mOtherPress;
+                mOtherPress = !mOtherPress;
+            } else
+                returnValue = false;
+
+            mLastRawState = raw;
+
+            return returnValue;
         }
     }
 }

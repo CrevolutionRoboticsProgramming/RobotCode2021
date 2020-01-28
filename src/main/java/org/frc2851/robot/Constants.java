@@ -27,7 +27,7 @@ public final class Constants
 
     public static final Axis drivetrainThrottleAxis = new Axis(driverController, Axis.AxisID.LEFT_Y, (input) -> -input); // Up on the controller is read as negative BrokeBack
     public static final Axis drivetrainTurnAxis = new Axis(driverController, Axis.AxisID.RIGHT_X);
-    public static final Button drivetrainShiftGearButton = new Button(driverController, Button.ButtonID.LEFT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
+    public static final Button drivetrainShiftGearButton = new Button(driverController, Button.ButtonID.LEFT_BUMPER, new Button.ToggleButton());
 
     // Intake
     public static final int intakeMotorPort = 7;
@@ -35,26 +35,26 @@ public final class Constants
     public static final int intakeExtendSolenoidForward = 2;
     public static final int intakeExtendSolenoidReverse = 3;
 
-    public static final Button intakeIntakeButton = new Button(driverController, Button.ButtonID.RIGHT_TRIGGER, Button.ButtonBehaviorType.RAW);
-    public static final Button intakeOuttakeButton = new Button(driverController, Button.ButtonID.LEFT_TRIGGER, Button.ButtonBehaviorType.RAW);
-    public static final Button intakeExtendButton = new Button(driverController, Button.ButtonID.RIGHT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
+    public static final Button intakeIntakeButton = new Button(driverController, Button.ButtonID.RIGHT_TRIGGER, new Button.RawButton());
+    public static final Button intakeOuttakeButton = new Button(driverController, Button.ButtonID.LEFT_TRIGGER, new Button.RawButton());
+    public static final Button intakeExtendButton = new Button(driverController, Button.ButtonID.RIGHT_BUMPER, new Button.ToggleButton());
 
     // Shooter
 
     //    Turret
     public static final int shooterTurretPort = 13;
 
-    public static final Button shooterTurretRotateClockwiseButton = new Button(operatorController, Button.ButtonID.POV_RIGHT, Button.ButtonBehaviorType.RAW);
-    public static final Button shooterTurretRotateCounterClockwiseButton = new Button(operatorController, Button.ButtonID.POV_LEFT, Button.ButtonBehaviorType.RAW);
+    public static final Button shooterTurretRotateClockwiseButton = new Button(operatorController, Button.ButtonID.POV_RIGHT, new Button.RawButton());
+    public static final Button shooterTurretRotateCounterClockwiseButton = new Button(operatorController, Button.ButtonID.POV_LEFT, new Button.RawButton());
 
     //    Angler
     public static final int shooterAnglerPort = 14;
 
-    public static final Button shooterAnglerRaiseButton = new Button(operatorController, Button.ButtonID.POV_UP, Button.ButtonBehaviorType.RAW);
-    public static final Button shooterAnglerLowerButton = new Button(operatorController, Button.ButtonID.POV_DOWN, Button.ButtonBehaviorType.RAW);
+    public static final Button shooterAnglerRaiseButton = new Button(operatorController, Button.ButtonID.POV_UP, new Button.RawButton());
+    public static final Button shooterAnglerLowerButton = new Button(operatorController, Button.ButtonID.POV_DOWN, new Button.RawButton());
 
     //    Launcher
     public static final int shooterLauncherPort = 15;
 
-    public static final Button shooterLauncherShootButton = new Button(operatorController, Button.ButtonID.RIGHT_TRIGGER, Button.ButtonBehaviorType.RAW);
+    public static final Button shooterLauncherShootButton = new Button(operatorController, Button.ButtonID.RIGHT_TRIGGER, new Button.RawButton());
 }
