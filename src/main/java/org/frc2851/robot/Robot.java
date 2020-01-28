@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import org.frc2851.robot.framework.command.CommandScheduler;
 import org.frc2851.robot.subsystems.Drivetrain;
 import org.frc2851.robot.subsystems.Intake;
+import org.frc2851.robot.subsystems.Shooter;
 import org.frc2851.robot.util.Logger;
 import org.frc2851.robot.util.UDPHandler;
 
@@ -40,6 +41,7 @@ public final class Robot extends TimedRobot
 
         CommandScheduler.getInstance().addSubsystem(Drivetrain.getInstance());
         CommandScheduler.getInstance().addSubsystem(Intake.getInstance());
+        CommandScheduler.getInstance().addSubsystem(Shooter.getInstance());
 
         BadLog.createValue("Match Number", String.valueOf(DriverStation.getInstance().getMatchNumber()));
         BadLog.createTopic("Match Time", "s", DriverStation.getInstance()::getMatchTime);

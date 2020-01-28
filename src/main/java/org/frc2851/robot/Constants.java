@@ -38,4 +38,23 @@ public final class Constants
     public static final Button intakeIntakeButton = new Button(driverController, Button.ButtonID.RIGHT_TRIGGER, Button.ButtonBehaviorType.RAW);
     public static final Button intakeOuttakeButton = new Button(driverController, Button.ButtonID.LEFT_TRIGGER, Button.ButtonBehaviorType.RAW);
     public static final Button intakeExtendButton = new Button(driverController, Button.ButtonID.RIGHT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
+
+    // Shooter
+
+    //    Turret
+    public static final int shooterTurretPort = 13;
+
+    public static final Button shooterTurretRotateClockwiseButton = new Button(operatorController, Button.ButtonID.POV_RIGHT, Button.ButtonBehaviorType.RAW);
+    public static final Button shooterTurretRotateCounterClockwiseButton = new Button(operatorController, Button.ButtonID.POV_LEFT, Button.ButtonBehaviorType.RAW);
+
+    //    Angler
+    public static final int shooterAnglerPort = 14;
+
+    public static final Button shooterAnglerRaiseButton = new Button(operatorController, Button.ButtonID.POV_UP, Button.ButtonBehaviorType.RAW);
+    public static final Button shooterAnglerLowerButton = new Button(operatorController, Button.ButtonID.POV_DOWN, Button.ButtonBehaviorType.RAW);
+
+    //    Launcher
+    public static final int shooterLauncherPort = 15;
+
+    public static final Button shooterLauncherShootButton = new Button(operatorController, Button.ButtonID.RIGHT_TRIGGER, Button.ButtonBehaviorType.RAW);
 }
