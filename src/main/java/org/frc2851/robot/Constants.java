@@ -57,4 +57,10 @@ public final class Constants
     public static final int shooterLauncherPort = 15;
 
     public static final Button shooterLauncherShootButton = new Button(operatorController, Button.ButtonID.RIGHT_TRIGGER, new Button.RawButton());
+
+    // Climber
+    public static final int climberMaster = 7;
+
+    public static final Button climberExtendButton = new Button(driverController, Button.ButtonID.X, new Button.RawButton());
+    public static final Button climberRetractButton = new Button(driverController, Button.ButtonID.Y, new Button.RawButton());
 }
