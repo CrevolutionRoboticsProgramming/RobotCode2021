@@ -1,12 +1,12 @@
 package org.frc2851.robot;
 
+import edu.wpi.first.wpilibj.AnalogTrigger;
 import org.frc2851.robot.io.Axis;
 import org.frc2851.robot.io.Button;
 import org.frc2851.robot.io.Controller;
 import org.frc2851.robot.util.UDPHandler;
 
-public final class Constants
-{
+public final class Constants {
     private static final Controller driverController = new Controller(0);
     private static final Controller operatorController = new Controller(1);
 
