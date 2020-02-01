@@ -5,11 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import org.frc2851.robot.framework.command.CommandScheduler;
-import org.frc2851.robot.subsystems.Disker;
-import org.frc2851.robot.subsystems.Climber;
-import org.frc2851.robot.subsystems.Drivetrain;
-import org.frc2851.robot.subsystems.Intake;
-import org.frc2851.robot.subsystems.Shooter;
+import org.frc2851.robot.subsystems.*;
 import org.frc2851.robot.util.Logger;
 import org.frc2851.robot.util.UDPHandler;
 
@@ -43,6 +39,7 @@ public final class Robot extends TimedRobot
 
         CommandScheduler.getInstance().addSubsystem(Drivetrain.getInstance());
         CommandScheduler.getInstance().addSubsystem(Intake.getInstance());
+        CommandScheduler.getInstance().addSubsystem(Indexer.getInstance());
         CommandScheduler.getInstance().addSubsystem(Shooter.getInstance());
         CommandScheduler.getInstance().addSubsystem(Climber.getInstance());
         CommandScheduler.getInstance().addSubsystem(Disker.getInstance());

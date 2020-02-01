@@ -1,6 +1,7 @@
 package org.frc2851.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import org.frc2851.robot.Constants;
 import org.frc2851.robot.framework.Component;
 import org.frc2851.robot.framework.Subsystem;
 import org.frc2851.robot.util.MotorControllerFactory;
@@ -27,8 +28,8 @@ public class Indexer extends Subsystem
         {
             super(Indexer.class);
 
-            mMotor1 = MotorControllerFactory.makeVictorSPX(1);
-            mMotor2 = MotorControllerFactory.makeVictorSPX(2);
+            mMotor1 = MotorControllerFactory.makeVictorSPX(Constants.indexerSnailMotor1Port);
+            mMotor2 = MotorControllerFactory.makeVictorSPX(Constants.indexerSnailMotor2Port);
         }
     }
 
@@ -40,7 +41,7 @@ public class Indexer extends Subsystem
         {
             super(Indexer.class);
 
-            mMotor = MotorControllerFactory.makeVictorSPX(3);
+            mMotor = MotorControllerFactory.makeVictorSPX(Constants.indexerElevatorMotorPort);
         }
     }
 }

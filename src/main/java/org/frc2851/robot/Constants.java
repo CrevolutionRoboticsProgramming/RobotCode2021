@@ -44,6 +44,11 @@ public final class Constants
     public static final Button intakeOuttakeButton = new RawButton(driverController, Button.ButtonID.LEFT_TRIGGER);
     public static final Button intakeExtendButton = new OnPressButton(driverController, Button.ButtonID.RIGHT_BUMPER);
 
+    // Indexer
+    public static final int indexerSnailMotor1Port = 8;
+    public static final int indexerSnailMotor2Port = 9;
+    public static final int indexerElevatorMotorPort = 10;
+
     // Shooter
 
     //    Turret
