@@ -34,4 +34,5 @@ public final class Constants
 
     public static final Button diskerRotateCounterButton = new Button(operatorController, Button.ButtonID.A, Button.ButtonBehaviorType.RAW);
     public static final Button diskerRotateClockwiseButton = new Button(operatorController, Button.ButtonID.B, Button.ButtonBehaviorType.RAW);
+    public static final Button diskerRotateThriceButton = new Button(operatorController, Button.ButtonID.X, Button.ButtonBehaviorType.ON_PRESS);
 }

@@ -58,9 +58,10 @@ mPwm:
   mType: com.snobot.simulator.simulator_components.rev.RevSpeedControllerSimWrapper
 - mHandle: 109
   mMotorModelConfig: null
-  mMotorSimConfig: null
-  mName: Rev SC 9
-  mType: com.snobot.simulator.simulator_components.rev.RevSpeedControllerSimWrapper
+  mMotorSimConfig: !!com.snobot.simulator.motor_sim.SimpleMotorSimulationConfig
+    mMaxSpeed: 80000.0
+  mName: CTRE SC 9
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
 mRelays: []
 mSimulatorComponents: []
 mSolenoids:

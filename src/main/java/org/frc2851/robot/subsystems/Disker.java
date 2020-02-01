@@ -1,17 +1,23 @@
 package org.frc2851.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.util.Color;
 import org.frc2851.robot.Constants;
 import org.frc2851.robot.framework.Component;
 import org.frc2851.robot.framework.Subsystem;
 import org.frc2851.robot.framework.command.RunCommand;
+import org.frc2851.robot.util.MotorControllerFactory;
 
 import java.nio.ByteBuffer;
 
 public class Disker extends Subsystem {
 
-    private static float rotationSpeed = 0.5f;
+    private static float rotationSpeed = 0.25f; //Fastest allowed = 82%
     private static Disker disker = new Disker();
 
     private Disker() {
@@ -27,13 +33,15 @@ public class Disker extends Subsystem {
 
     public class DiskerMotorComponent extends Component {
 
-        private WPI_TalonSRX rotatorMotator;
+        private TalonSRX rotatorMotator;
+        private RotationMode mode = RotationMode.CONTROL;
+        private static final int is_simulation = 1; //Set to 1200 or 2400 if running a snowbot sim, 1 if not
 
         public DiskerMotorComponent() {
             super(Disker.class);
 
-            rotatorMotator = new WPI_TalonSRX(Constants.diskerRotatorPort);
-            rotatorMotator.configFactoryDefault();
+            rotatorMotator = MotorControllerFactory.makeTalonSRX(Constants.diskerRotatorPort);
+            rotatorMotator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
             setDefaultCommand(new RunCommand(this::rotateDisker, "rotate disker", this));
         }
@@ -41,21 +49,34 @@ public class Disker extends Subsystem {
 
 
         public void rotateDisker() {
-            boolean clockwise = Constants.diskerRotateClockwiseButton.get();
-            boolean counter = Constants.diskerRotateCounterButton.get();
+            if(mode == RotationMode.CONTROL) {
+                boolean clockwise = Constants.diskerRotateClockwiseButton.get();
+                boolean counter = Constants.diskerRotateCounterButton.get();
 
-            if(clockwise && counter) {
-                rotatorMotator.set(0);
-                return;
+                //Legit no idea if negative is clockwise or positive is clockwise
+                if(clockwise && counter)
+                    rotatorMotator.set(ControlMode.PercentOutput, 0);
+                else if (clockwise)
+                    rotatorMotator.set(ControlMode.PercentOutput, rotationSpeed);
+                else if (counter)
+                    rotatorMotator.set(ControlMode.PercentOutput, -rotationSpeed);
+                else
+                    rotatorMotator.set(ControlMode.PercentOutput, 0);
+
+                if(Constants.diskerRotateThriceButton.get()) {
+                    System.out.println("Started rotation of the thrice");
+                    mode = RotationMode.THRICE;
+                    rotatorMotator.setSelectedSensorPosition(0);
+                    rotatorMotator.set(ControlMode.PercentOutput, rotationSpeed);
+                }
+            } else {
+                System.out.println("Sensor pos; " + rotatorMotator.getSelectedSensorPosition() / is_simulation);
+                if (rotatorMotator.getSelectedSensorPosition() >= 65536 * 3 * is_simulation) {
+                    System.out.println("Ended rotation of the thrice");
+                    rotatorMotator.set(ControlMode.PercentOutput, 0);
+                    mode = RotationMode.CONTROL;
+                }
             }
-
-            //Legit no idea if negative is clockwise or positive is clockwise
-            if(clockwise)
-                rotatorMotator.set(rotationSpeed);
-            else if (counter)
-                rotatorMotator.set(-rotationSpeed);
-            else
-                rotatorMotator.set(0);
         }
     }
 
@@ -89,36 +110,34 @@ public class Disker extends Subsystem {
     public class ColorSensor {
 
         private I2C.Port port;
-        private ByteBuffer buffer;
-        private I2C sensor;
+        private ColorSensorV3 sensor;
+        private ColorMatch match = new ColorMatch();
+        private Color r = new Color(255, 0, 0);
+        private Color g = new Color(0, 255, 0);
+        private Color b = new Color(0, 255, 255);
+        private Color y = new Color(255, 255, 0);
 
         public ColorSensor() {
             port = I2C.Port.kOnboard;
-            buffer = ByteBuffer.allocate(1);
-            sensor = new I2C(port, 0x39);
+            sensor = new ColorSensorV3(port);
+            match.addColorMatch(r);
+            match.addColorMatch(g);
+            match.addColorMatch(b);
+            match.addColorMatch(y);
 
-            sensor.write(0x00, 192);
+            //match.matchClosestColor(sensor.getColor()).confidence;
         }
 
-
-
-        public int red(){
-            sensor.read(0x16, 1, buffer);
-            return buffer.get(0);
-        }
-        public int green(){
-            sensor.read(0x18, 1, buffer);
-            return buffer.get(0);
-        }
-        public int blue(){
-            sensor.read(0x1A, 1, buffer);
-            return buffer.get(0);
+        public boolean isMatched(Color color) {
+            return match.matchClosestColor(color).confidence > 75;
         }
 
     }
 
+
+    public enum RotationMode {
+        CONTROL,
+        THRICE;
+    }
+
 }
-
-
-
-
