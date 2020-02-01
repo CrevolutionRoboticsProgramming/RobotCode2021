@@ -25,14 +25,15 @@ public final class Constants
     public static final int drivetrainRightFollowerAPort = 5;
     public static final int drivetrainRightFollowerBPort = 6;
 
-    public static final int diskerRotatorPort = 9;
-
     public static final int drivetrainShifterSolenoidForward = 0;
     public static final int drivetrainShifterSolenoidReverse = 1;
 
     public static final Axis drivetrainThrottleAxis = new Axis(driverController, Axis.AxisID.LEFT_Y, (input) -> -input); // Up on the controller is read as negative BrokeBack
     public static final Axis drivetrainTurnAxis = new Axis(driverController, Axis.AxisID.RIGHT_X);
     public static final Button drivetrainShiftGearButton = new ToggleButton(driverController, Button.ButtonID.LEFT_BUMPER);
+
+    // Disker
+    public static final int diskerRotatorPort = 9;
 
     // Intake
     public static final int intakeMotorPort = 7;
@@ -52,19 +53,19 @@ public final class Constants
     // Shooter
 
     //    Turret
-    public static final int shooterTurretPort = 13;
+    public static final int shooterTurretPort = 11;
 
     public static final Button shooterTurretRotateClockwiseButton = new RawButton(operatorController, Button.ButtonID.POV_RIGHT);
     public static final Button shooterTurretRotateCounterClockwiseButton = new RawButton(operatorController, Button.ButtonID.POV_LEFT);
 
     //    Angler
-    public static final int shooterAnglerPort = 14;
+    public static final int shooterAnglerPort = 12;
 
     public static final Button shooterAnglerRaiseButton = new RawButton(operatorController, Button.ButtonID.POV_UP);
     public static final Button shooterAnglerLowerButton = new RawButton(operatorController, Button.ButtonID.POV_DOWN);
 
     //    Launcher
-    public static final int shooterLauncherPort = 15;
+    public static final int shooterLauncherPort = 13;
 
     public static final Button shooterLauncherShootButton = new RawButton(operatorController, Button.ButtonID.RIGHT_TRIGGER);
 
@@ -73,7 +74,7 @@ public final class Constants
     public static final Button diskerRotateThriceButton = new OnPressButton(operatorController, Button.ButtonID.X);
 
     // Climber
-    public static final int climberMaster = 7;
+    public static final int climberMaster = 14;
 
     public static final Button climberExtendButton = new RawButton(driverController, Button.ButtonID.X);
     public static final Button climberRetractButton = new RawButton(driverController, Button.ButtonID.Y);
