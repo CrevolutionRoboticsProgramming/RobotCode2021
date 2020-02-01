@@ -14,10 +14,6 @@ mEncoders:
   mHandle: 104
   mName: Right Encoder
   mType: com.snobot.simulator.simulator_components.smart_sc.SmartScEncoder
-- mConnectedSpeedControllerHandle: 109
-  mHandle: 109
-  mName: Disker Encoder
-  mType: com.snobot.simulator.simulator_components.smart_sc.SmartScEncoder
 mGyros: []
 mPwm:
 - mHandle: 101
@@ -56,12 +52,11 @@ mPwm:
     mMaxSpeed: 0.0
   mName: Right Follower B
   mType: com.snobot.simulator.simulator_components.rev.RevSpeedControllerSimWrapper
-- mHandle: 109
+- mHandle: 107
   mMotorModelConfig: null
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.SimpleMotorSimulationConfig
-    mMaxSpeed: 80000.0
-  mName: CTRE SC 9
-  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+    mMaxSpeed: 0.0
+  mName: Rollbar
 mRelays: []
 mSimulatorComponents: []
 mSolenoids:
@@ -70,4 +65,10 @@ mSolenoids:
   mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
 - mHandle: 1
   mName: Gear Shifter Reverse
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
+- mHandle: 2
+  mName: Intake In
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
+- mHandle: 3
+  mName: Intake Out
   mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper

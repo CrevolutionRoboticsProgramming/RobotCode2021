@@ -5,11 +5,11 @@ import org.frc2851.robot.framework.Component;
 import java.util.List;
 import java.util.Vector;
 
-public class Command
+public abstract class Command
 {
     private String mName;
     private State mState = State.NOT_STARTED;
-    private boolean mIsInterruptible = true;
+    private boolean mIsInterruptible;
     private Vector<Component> mRequirements;
     
     public Command(String name, boolean isInterruptible, Component... requirements)
@@ -27,7 +27,7 @@ public class Command
     {
         setState(State.EXECUTING);
     }
-    
+
     public void end()
     {
         setState(State.NOT_STARTED);
