@@ -1,4 +1,6 @@
-package org.frc2851.robot.io;
+package org.frc2851.robot.io.axis;
+
+import org.frc2851.robot.io.Controller;
 
 public class Axis
 {
