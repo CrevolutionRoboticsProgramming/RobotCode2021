@@ -26,7 +26,7 @@ public class Climber extends Subsystem
 
     public static class ClimberComponent extends Component
     {
-        private VictorSPX mCLimberMaster;
+        private VictorSPX mClimberMaster;
 
         public ClimberComponent()
         {
