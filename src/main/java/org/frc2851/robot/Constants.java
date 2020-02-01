@@ -71,6 +71,7 @@ public final class Constants
     public static final Button diskerRotateCounterButton = new RawButton(operatorController, Button.ButtonID.A);
     public static final Button diskerRotateClockwiseButton = new RawButton(operatorController, Button.ButtonID.B);
     public static final Button diskerRotateThriceButton = new OnPressButton(operatorController, Button.ButtonID.X);
+    public static final Button diskerRotateFindButton = new OnPressButton(operatorController, Button.ButtonID.Y);
 
     // Climber
     public static final int climberMaster = 14;
