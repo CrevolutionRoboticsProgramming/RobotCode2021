@@ -14,6 +14,8 @@ import org.frc2851.robot.framework.Subsystem;
 import org.frc2851.robot.framework.command.RunCommand;
 import org.frc2851.robot.util.MotorControllerFactory;
 
+import java.util.HashMap;
+
 public class Disker extends Subsystem
 {
     private static Disker disker = new Disker();
@@ -48,7 +50,7 @@ public class Disker extends Subsystem
             mRotatorMotator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
             sensor = new ColorSensor();
-            target = sensor.mRed; //Set to look for red by default
+            target = mRed; //Set to look for red by default
 
             setDefaultCommand(new RunCommand(this::rotateDisker, "rotate disker", this));
         }
@@ -124,15 +126,23 @@ public class Disker extends Subsystem
 
 
 
+    public static HashMap<Color, Color> mPerpendicularColor = new HashMap<Color, Color>();
+    public static final Color mRed = new Color(255, 0, 0);
+    public static final Color mGreen = new Color(0, 255, 0);
+    public static final Color mBlue = new Color(0, 255, 255);
+    public static final Color mYellow = new Color(255, 255, 0);
+    static{
+        mPerpendicularColor.put(mGreen, mYellow);
+        mPerpendicularColor.put(mBlue, mRed);
+        mPerpendicularColor.put(mYellow, mGreen);
+        mPerpendicularColor.put(mRed, mBlue);
+    }
+
     public class ColorSensor
     {
         private I2C.Port mPort;
         private ColorSensorV3 mSensor;
         private ColorMatch mMatch = new ColorMatch();
-        public final Color mRed = new Color(255, 0, 0);
-        public final Color mGreen = new Color(0, 255, 0);
-        public final Color mBlue = new Color(0, 255, 255);
-        public final Color mYellow = new Color(255, 255, 0);
 
         public ColorSensor()
         {
