@@ -20,7 +20,7 @@ public class Disker extends Subsystem
 
     private Disker()
     {
-        addComponents(new DiskerMotorComponent(), new DiskerColorSensorComponent());
+        addComponents(new DiskerComponent());
     }
 
     public static Disker getInstance()
@@ -28,22 +28,28 @@ public class Disker extends Subsystem
         return disker;
     }
 
-    public class DiskerMotorComponent extends Component
+
+
+    public class DiskerComponent extends Component
     {
         private TalonSRX mRotatorMotator;
+        private ColorSensor sensor;
         private RotationMode mMode = RotationMode.CONTROL;
 
         private double mRotationSpeed = 0.25; //Fastest allowed = 82%
 
-        public DiskerMotorComponent()
+        public DiskerComponent()
         {
             super(Disker.class);
 
             mRotatorMotator = MotorControllerFactory.makeTalonSRX(Constants.diskerRotatorPort);
             mRotatorMotator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
+            sensor = new ColorSensor();
+
             setDefaultCommand(new RunCommand(this::rotateDisker, "rotate disker", this));
         }
+
 
         public void rotateDisker()
         {
@@ -85,25 +91,7 @@ public class Disker extends Subsystem
         }
     }
 
-    public class DiskerColorSensorComponent extends Component
-    {
-        private ColorSensor mColorSensor;
 
-        public DiskerColorSensorComponent()
-        {
-            super(Disker.class);
-
-            mColorSensor = new ColorSensor();
-
-            setDefaultCommand(new RunCommand(this::checkColor, "disker color checker", this));
-        }
-
-        public void checkColor()
-        {
-            //System.out.println("I2C Port: " + I2C.Port.kOnboard);
-            //System.out.println("Color sensor rgb reading:  (" + sensor.red() + ", " + sensor.green() + ", " + sensor.blue() + ")");
-        }
-    }
 
     public class ColorSensor
     {
@@ -133,9 +121,11 @@ public class Disker extends Subsystem
         }
     }
 
-    public enum RotationMode
-    {
+
+
+    public enum RotationMode {
         CONTROL,
-        THRICE
+        THRICE;
     }
+
 }
