@@ -39,7 +39,6 @@ public class Disker extends Subsystem
 
         private double mRotationSpeed = 0.25; //Fastest allowed = 82%
         private double mColorFinderSpeed = 0.10; //Take it back now yall
-        //no
 
         public DiskerComponent()
         {
@@ -108,8 +107,6 @@ public class Disker extends Subsystem
             }
             else if (mMode == RotationMode.FIND)
             {
-
-
                 boolean finished;
                 if (Robot.isReal())
                     finished = (sensor.isMatched() && sensor.getMatch().equals(target));
@@ -145,8 +142,6 @@ public class Disker extends Subsystem
             mMatch.addColorMatch(mGreen);
             mMatch.addColorMatch(mBlue);
             mMatch.addColorMatch(mYellow);
-
-            //match.matchClosestColor(sensor.getColor()).confidence;
         }
 
 
