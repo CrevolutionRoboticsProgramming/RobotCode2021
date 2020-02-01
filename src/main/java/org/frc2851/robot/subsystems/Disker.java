@@ -34,9 +34,12 @@ public class Disker extends Subsystem
     {
         private TalonSRX mRotatorMotator;
         private ColorSensor sensor;
+        private Color target;
         private RotationMode mMode = RotationMode.CONTROL;
 
         private double mRotationSpeed = 0.25; //Fastest allowed = 82%
+        private double mColorFinderSpeed = 0.10; //Take it back now yall
+        //no
 
         public DiskerComponent()
         {
@@ -46,15 +49,22 @@ public class Disker extends Subsystem
             mRotatorMotator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
             sensor = new ColorSensor();
+            target = sensor.mRed; //Set to look for red by default
 
             setDefaultCommand(new RunCommand(this::rotateDisker, "rotate disker", this));
         }
 
 
+
+        public void setTargetColor(Color color) {
+            this.target = color;
+        }
+
+
+
         public void rotateDisker()
         {
-            if (mMode == RotationMode.CONTROL)
-            {
+            if(mMode == RotationMode.CONTROL) {
                 boolean clockwise = Constants.diskerRotateClockwiseButton.get();
                 boolean counter = Constants.diskerRotateCounterButton.get();
 
@@ -68,19 +78,43 @@ public class Disker extends Subsystem
                 else
                     mRotatorMotator.set(ControlMode.PercentOutput, 0);
 
+                //Switch to thrice or find rotation mode on press of the disker rotate thrice/find button
                 if (Constants.diskerRotateThriceButton.get())
                 {
                     mMode = RotationMode.THRICE;
                     mRotatorMotator.setSelectedSensorPosition(0);
                     mRotatorMotator.set(ControlMode.PercentOutput, mRotationSpeed);
                 }
-            } else
+                else if (Constants.diskerRotateFindButton.get())
+                {
+                    mMode = RotationMode.FIND;
+                    mRotatorMotator.setSelectedSensorPosition(0);
+                    mRotatorMotator.set(ControlMode.PercentOutput, mColorFinderSpeed);
+                }
+            }
+            else if (mMode == RotationMode.THRICE)
             {
                 boolean finished;
                 if (Robot.isReal())
                     finished = mRotatorMotator.getSelectedSensorPosition() >= 65536;
                 else
                     finished = mRotatorMotator.getSelectedSensorPosition() >= 65536 * 3;
+
+                if (finished)
+                {
+                    mRotatorMotator.set(ControlMode.PercentOutput, 0);
+                    mMode = RotationMode.CONTROL;
+                }
+            }
+            else if (mMode == RotationMode.FIND)
+            {
+
+
+                boolean finished;
+                if (Robot.isReal())
+                    finished = (sensor.isMatched() && sensor.getMatch().equals(target));
+                else
+                    finished = true;
 
                 if (finished)
                 {
@@ -98,10 +132,10 @@ public class Disker extends Subsystem
         private I2C.Port mPort;
         private ColorSensorV3 mSensor;
         private ColorMatch mMatch = new ColorMatch();
-        private Color mRed = new Color(255, 0, 0);
-        private Color mGreen = new Color(0, 255, 0);
-        private Color mBlue = new Color(0, 255, 255);
-        private Color mYellow = new Color(255, 255, 0);
+        public final Color mRed = new Color(255, 0, 0);
+        public final Color mGreen = new Color(0, 255, 0);
+        public final Color mBlue = new Color(0, 255, 255);
+        public final Color mYellow = new Color(255, 255, 0);
 
         public ColorSensor()
         {
@@ -115,17 +149,26 @@ public class Disker extends Subsystem
             //match.matchClosestColor(sensor.getColor()).confidence;
         }
 
-        public boolean isMatched(Color color)
+
+
+        public boolean isMatched()
         {
-            return mMatch.matchClosestColor(color).confidence > 0.75;
+            return mMatch.matchClosestColor(mSensor.getColor()).confidence > 0.75;
         }
+
+        public Color getMatch()
+        {
+            return mMatch.matchClosestColor(mSensor.getColor()).color;
+        }
+
     }
 
 
 
     public enum RotationMode {
         CONTROL,
-        THRICE;
+        THRICE,
+        FIND;
     }
 
 }
