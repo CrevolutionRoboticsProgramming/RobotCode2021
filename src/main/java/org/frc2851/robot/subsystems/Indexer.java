@@ -22,14 +22,13 @@ public class Indexer extends Subsystem
 
     public static class Snail extends Component
     {
-        private VictorSPX mMotor1, mMotor2;
+        private VictorSPX mMotor;
 
         public Snail()
         {
             super(Indexer.class);
 
-            mMotor1 = MotorControllerFactory.makeVictorSPX(Constants.indexerSnailMotor1Port);
-            mMotor2 = MotorControllerFactory.makeVictorSPX(Constants.indexerSnailMotor2Port);
+            mMotor = MotorControllerFactory.makeVictorSPX(Constants.indexerSnailMotorPort);
         }
     }
 

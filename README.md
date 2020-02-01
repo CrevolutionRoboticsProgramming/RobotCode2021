@@ -24,7 +24,7 @@ Crevolution's robot code for FIRST's 2020 game Infinite Recharge
 | Gear Shifter | | 1 | |
 | Intake Motor | 1 VictorSPX | | |
 | Intake Extender | | 1 | |
-| Snail | 1 or 2 VictorSPXs | | |
+| Snail | 1 VictorSPX | | |
 | Elevator | 1 VictorSPX | | |
 | Turret | 1 TalonSRX | | 1 Encoder |
 | Angler | 1 TalonSRX | | 1 Encoder |
