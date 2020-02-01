@@ -3,6 +3,7 @@ package org.frc2851.robot;
 import org.frc2851.robot.io.Controller;
 import org.frc2851.robot.io.Axis;
 import org.frc2851.robot.io.Button;
+import org.frc2851.robot.io.Controller;
 import org.frc2851.robot.util.UDPHandler;
 
 public final class Constants
@@ -21,6 +22,9 @@ public final class Constants
     public static final int drivetrainRightMasterPort = 4;
     public static final int drivetrainRightFollowerAPort = 5;
     public static final int drivetrainRightFollowerBPort = 6;
+
+    public static final int diskerRotatorPort = 9;
+    public static final int diskerColorSensorPort = 0;
 
     public static final int drivetrainShifterSolenoidForward = 0;
     public static final int drivetrainShifterSolenoidReverse = 1;
@@ -57,6 +61,12 @@ public final class Constants
     public static final int shooterLauncherPort = 15;
 
     public static final Button shooterLauncherShootButton = new Button(operatorController, Button.ButtonID.RIGHT_TRIGGER, new Button.RawButton());
+    public static final Button drivetrainShiftGearButton = new Button(driverController, Button.ButtonID.LEFT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
+
+    public static final Button diskerRotateCounterButton = new Button(operatorController, Button.ButtonID.A, Button.ButtonBehaviorType.RAW);
+    public static final Button diskerRotateClockwiseButton = new Button(operatorController, Button.ButtonID.B, Button.ButtonBehaviorType.RAW);
+    public static final Button diskerRotateThriceButton = new Button(operatorController, Button.ButtonID.X, Button.ButtonBehaviorType.ON_PRESS);
+}
 
     // Climber
     public static final int climberMaster = 7;
