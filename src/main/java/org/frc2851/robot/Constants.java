@@ -61,12 +61,10 @@ public final class Constants
     public static final int shooterLauncherPort = 15;
 
     public static final Button shooterLauncherShootButton = new Button(operatorController, Button.ButtonID.RIGHT_TRIGGER, new Button.RawButton());
-    public static final Button drivetrainShiftGearButton = new Button(driverController, Button.ButtonID.LEFT_BUMPER, Button.ButtonBehaviorType.TOGGLE);
 
-    public static final Button diskerRotateCounterButton = new Button(operatorController, Button.ButtonID.A, Button.ButtonBehaviorType.RAW);
-    public static final Button diskerRotateClockwiseButton = new Button(operatorController, Button.ButtonID.B, Button.ButtonBehaviorType.RAW);
-    public static final Button diskerRotateThriceButton = new Button(operatorController, Button.ButtonID.X, Button.ButtonBehaviorType.ON_PRESS);
-}
+    public static final Button diskerRotateCounterButton = new Button(operatorController, Button.ButtonID.A, new Button.RawButton());
+    public static final Button diskerRotateClockwiseButton = new Button(operatorController, Button.ButtonID.B, new Button.RawButton());
+    public static final Button diskerRotateThriceButton = new Button(operatorController, Button.ButtonID.X, new Button.OnPressButton());
 
     // Climber
     public static final int climberMaster = 7;
