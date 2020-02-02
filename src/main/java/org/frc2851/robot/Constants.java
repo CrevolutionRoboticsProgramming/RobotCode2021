@@ -55,13 +55,11 @@ public final class Constants
     public static final int shooterTurretPort = 11;
 
     public static final Axis shooterTurretRotateAxis = new Axis(operatorController, Axis.AxisID.RIGHT_X);
-   // public static final Axis shooterTurretRotateCounterClockwiseButton = new Axis(operatorController, Axis.AxisID.LEFT_Y);
 
     //    Angler
     public static final int shooterAnglerPort = 12;
 
-    public static final Button shooterAnglerRaiseButton = new RawButton(operatorController, Button.ButtonID.POV_UP);
-    public static final Button shooterAnglerLowerButton = new RawButton(operatorController, Button.ButtonID.POV_DOWN);
+    public static final Axis shooterAnglerAxis = new Axis(operatorController, Axis.AxisID.RIGHT_X);
 
     //    Launcher
     public static final int shooterLauncherPort = 13;

@@ -54,28 +54,8 @@ public class Shooter extends Subsystem
             super(Shooter.class);
 
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterAnglerPort);
-
-            CommandScheduler.getInstance().addTrigger(Constants.shooterAnglerRaiseButton::get,
-                    new InstantCommand(this::raise, "raise", this));
-            CommandScheduler.getInstance().addTrigger(Constants.shooterAnglerLowerButton::get,
-                    new InstantCommand(this::lower, "lower", this));
-
-            setDefaultCommand(new InstantCommand(this::stop, "stop", this));
-        }
-
-        public void raise()
-        {
-            mMotor.set(ControlMode.PercentOutput, 1.0);
-        }
-
-        public void lower()
-        {
-            mMotor.set(ControlMode.PercentOutput, -1.0);
-        }
-
-        public void stop()
-        {
-            mMotor.set(ControlMode.PercentOutput, 0.0);
+            double rotate = Constants.shooterAnglerAxis.get();
+            mMotor.set(ControlMode.PercentOutput, rotate > 0 ? Math.min(rotate, 1) : Math.max(rotate, -1));
         }
     }
 
