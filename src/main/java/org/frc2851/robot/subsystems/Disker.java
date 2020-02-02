@@ -38,6 +38,8 @@ public class Disker extends Subsystem
         private ColorSensor sensor;
         private Color target;
         private RotationMode mMode = RotationMode.CONTROL;
+        private ColorSensor mColorSensor;
+
 
         private double mRotationSpeed = 0.25; //Fastest allowed = 82%
         private double mColorFinderSpeed = 0.10; //Take it back now yall
@@ -46,6 +48,8 @@ public class Disker extends Subsystem
         {
             super(Disker.class);
 
+            mColorSensor = new ColorSensor();
+
             mRotatorMotator = MotorControllerFactory.makeTalonSRX(Constants.diskerRotatorPort);
             mRotatorMotator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
@@ -53,6 +57,12 @@ public class Disker extends Subsystem
             target = mRed; //Set to look for red by default
 
             setDefaultCommand(new RunCommand(this::rotateDisker, "rotate disker", this));
+            setDefaultCommand(new RunCommand(this::checkColor, "disker color checker", this));
+        }
+        public void checkColor()
+        {
+            //System.out.println("I2C Port: " + I2C.Port.kOnboard);
+            //System.out.println("Color sensor rgb reading:  (" + sensor.red() + ", " + sensor.green() + ", " + sensor.blue() + ")");
         }
 
 

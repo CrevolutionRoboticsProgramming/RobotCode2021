@@ -39,10 +39,8 @@ public class Shooter extends Subsystem
 
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterTurretPort);
 
-            CommandScheduler.getInstance().addTrigger(Constants.shooterTurretRotateClockwiseButton::get,
-                    new InstantCommand(this::rotateClockwise, "rotate clockwise", this));
-            CommandScheduler.getInstance().addTrigger(Constants.shooterTurretRotateCounterClockwiseButton::get,
-                    new InstantCommand(this::rotateCounterClockwise, "rotate counterclockwise", this));
+            mLeftMaster.set(leftOut > 0 ? Math.min(leftOut, 1) : Math.max(leftOut, -1));
+            mRightMaster.set(rightOut > 0 ? Math.min(rightOut, 1) : Math.max(rightOut, -1));
 
             setDefaultCommand(new InstantCommand(this::stop, "stop", this));
         }
