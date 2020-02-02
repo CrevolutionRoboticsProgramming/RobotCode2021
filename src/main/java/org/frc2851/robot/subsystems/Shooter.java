@@ -38,7 +38,9 @@ public class Shooter extends Subsystem
             super(Shooter.class);
 
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterTurretPort);
+
             double rotate = Constants.shooterTurretRotateAxis.get();
+
             mMotor.set(ControlMode.PercentOutput, rotate > 0 ? Math.min(rotate, 1) : Math.max(rotate, -1));
 
 
@@ -54,7 +56,9 @@ public class Shooter extends Subsystem
             super(Shooter.class);
 
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterAnglerPort);
+
             double rotate = Constants.shooterAnglerAxis.get();
+
             mMotor.set(ControlMode.PercentOutput, rotate > 0 ? Math.min(rotate, 1) : Math.max(rotate, -1));
         }
     }
