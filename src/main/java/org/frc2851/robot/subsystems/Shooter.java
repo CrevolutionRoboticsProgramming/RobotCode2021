@@ -38,26 +38,10 @@ public class Shooter extends Subsystem
             super(Shooter.class);
 
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterTurretPort);
+            double rotate = Constants.shooterTurretRotateAxis.get();
+            mMotor.set(ControlMode.PercentOutput, rotate > 0 ? Math.min(rotate, 1) : Math.max(rotate, -1));
 
-            mLeftMaster.set(leftOut > 0 ? Math.min(leftOut, 1) : Math.max(leftOut, -1));
-            mRightMaster.set(rightOut > 0 ? Math.min(rightOut, 1) : Math.max(rightOut, -1));
 
-            setDefaultCommand(new InstantCommand(this::stop, "stop", this));
-        }
-
-        public void rotateClockwise()
-        {
-            mMotor.set(ControlMode.PercentOutput, 1.0);
-        }
-
-        public void rotateCounterClockwise()
-        {
-            mMotor.set(ControlMode.PercentOutput, -1.0);
-        }
-
-        public void stop()
-        {
-            mMotor.set(ControlMode.PercentOutput, 0.0);
         }
     }
 
