@@ -14,7 +14,7 @@ Crevolution's robot code for FIRST's 2020 game Infinite Recharge
 | Shooter | Turret, Angler, Shooter | Ryan B |
 | Climber | ClimberComponent | John |
 | Disker | DiskerComponent | Ryan A |
-| Auton | Autonomous mode | Johnathan |
+| Auton | Autonomous mode | Johnathan, Gavin |
 
 ### Hardware
 
