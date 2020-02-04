@@ -7,6 +7,7 @@ import org.frc2851.robot.framework.Component;
 import org.frc2851.robot.framework.Subsystem;
 import org.frc2851.robot.framework.command.CommandScheduler;
 import org.frc2851.robot.framework.command.InstantCommand;
+import org.frc2851.robot.framework.command.RunCommand;
 import org.frc2851.robot.util.MotorControllerFactory;
 
 public class Shooter extends Subsystem
@@ -39,11 +40,12 @@ public class Shooter extends Subsystem
 
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterTurretPort);
 
+            setDefaultCommand(new InstantCommand(this::rotate, "rotating", this));
+        }
+        public void rotate(){
             double rotate = Constants.shooterTurretRotateAxis.get();
 
             mMotor.set(ControlMode.PercentOutput, rotate > 0 ? Math.min(rotate, 1) : Math.max(rotate, -1));
-
-
         }
     }
 
@@ -57,6 +59,11 @@ public class Shooter extends Subsystem
 
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterAnglerPort);
 
+            setDefaultCommand(new InstantCommand(this::rotate, "rotating", this));
+
+
+        }
+        public void rotate(){
             double rotate = Constants.shooterAnglerAxis.get();
 
             mMotor.set(ControlMode.PercentOutput, rotate > 0 ? Math.min(rotate, 1) : Math.max(rotate, -1));

@@ -11,7 +11,7 @@ import org.frc2851.robot.util.UDPHandler;
 public final class Constants
 {
     public static final Controller driverController = new Controller(0);
-    public static final Controller operatorController = new Controller(1);
+    public static final Controller operatorController = new Controller(2);
 
     public static final UDPHandler udpHandler = new UDPHandler(1184);
     public static String driverStationIP = "";
@@ -49,7 +49,7 @@ public final class Constants
     public static final int indexerSnailMotorPort = 8;
     public static final int indexerElevatorMotorPort = 10;
 
-    // Shooter
+    /* Shooter */
 
     //    Turret
     public static final int shooterTurretPort = 11;
@@ -59,7 +59,7 @@ public final class Constants
     //    Angler
     public static final int shooterAnglerPort = 12;
 
-    public static final Axis shooterAnglerAxis = new Axis(operatorController, Axis.AxisID.RIGHT_X);
+    public static final Axis shooterAnglerAxis = new Axis(operatorController, Axis.AxisID.LEFT_Y);
 
     //    Launcher
     public static final int shooterLauncherPort = 13;
