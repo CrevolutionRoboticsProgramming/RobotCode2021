@@ -35,6 +35,11 @@ public final class Constants
     // Disker
     public static final int diskerRotatorPort = 9;
 
+    public static final RawButton diskerRotateCounterButton = new RawButton(operatorController, Button.ButtonID.A);
+    public static final RawButton diskerRotateClockwiseButton = new RawButton(operatorController, Button.ButtonID.B);
+    public static final OnPressButton diskerRotateThriceButton = new OnPressButton(operatorController, Button.ButtonID.X);
+    public static final OnPressButton diskerRotateFindColorButton = new OnPressButton(operatorController, Button.ButtonID.Y);
+
     // Intake
     public static final int intakeMotorPort = 7;
 
@@ -65,11 +70,6 @@ public final class Constants
     public static final int shooterLauncherPort = 13;
 
     public static final RawButton shooterLauncherShootButton = new RawButton(operatorController, Button.ButtonID.RIGHT_TRIGGER);
-
-    public static final RawButton diskerRotateCounterButton = new RawButton(operatorController, Button.ButtonID.A);
-    public static final RawButton diskerRotateClockwiseButton = new RawButton(operatorController, Button.ButtonID.B);
-    public static final OnPressButton diskerRotateThriceButton = new OnPressButton(operatorController, Button.ButtonID.X);
-    public static final OnPressButton diskerRotateFindButton = new OnPressButton(operatorController, Button.ButtonID.Y);
 
     // Climber
     public static final int climberMaster = 14;

@@ -96,7 +96,7 @@ public class Disker extends Subsystem
                     mRotatorMotator.setSelectedSensorPosition(0);
                     mRotatorMotator.set(ControlMode.PercentOutput, mRotationSpeed);
                 }
-                else if (Constants.diskerRotateFindButton.get())
+                else if (Constants.diskerRotateFindColorButton.get())
                 {
                     mMode = RotationMode.FIND;
                     mRotatorMotator.setSelectedSensorPosition(0);
