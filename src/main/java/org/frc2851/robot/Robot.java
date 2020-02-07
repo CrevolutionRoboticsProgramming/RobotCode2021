@@ -12,11 +12,13 @@ import org.frc2851.robot.util.UDPHandler;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Optional;
 
 public final class Robot extends TimedRobot
 {
@@ -82,7 +84,11 @@ public final class Robot extends TimedRobot
         File badLogRootDir = new File(Paths.get(System.getProperty("user.dir") + File.separator + "logs" + File.separator + "badlog").toString());
         File badLogFile = new File(badLogRootDir.getAbsolutePath() + File.separator + date, time + ".bag");
 
-        badLogFile.mkdirs();
+        if (!badLogFile.mkdirs())
+        {
+            Logger.println(Logger.LogLevel.ERROR, "BadLog", "Could not create log directory " + badLogFile.getAbsolutePath().substring(0, badLogFile.getAbsolutePath().lastIndexOf(File.separator) - 1));
+            return;
+        }
 
         try
         {
@@ -92,7 +98,7 @@ public final class Robot extends TimedRobot
                     .count() >= 20)
             {
                 // Delete the oldest file
-                Files.walk(badLogRootDir.toPath())
+                Optional<Path> stream = Files.walk(badLogRootDir.toPath())
                         .filter(Files::isRegularFile)
                         .min((path1, path2) ->
                         {
@@ -104,7 +110,15 @@ public final class Robot extends TimedRobot
                                 e.printStackTrace();
                             }
                             return 0;
-                        }).get().toFile().delete();
+                        });
+
+                if (stream.isPresent())
+                {
+                    if (!stream.get().toFile().delete())
+                    {
+                        Logger.println(Logger.LogLevel.ERROR, "BadLog", "Could not delete old log " + stream.get().toAbsolutePath().toString());
+                    }
+                }
             }
 
             // Delete any empty folders
@@ -112,8 +126,15 @@ public final class Robot extends TimedRobot
                     .filter(Files::isDirectory)
                     .forEach((path) ->
                     {
-                        if (path.toFile().list().length == 0)
-                            path.toFile().delete();
+                        String[] list = path.toFile().list();
+
+                        if (list != null && list.length == 0)
+                        {
+                            if (!path.toFile().delete())
+                            {
+                                Logger.println(Logger.LogLevel.ERROR, "BadLog", "Could not delete old log folder " + path.toAbsolutePath().toString());
+                            }
+                        }
                     });
         } catch (IOException e)
         {
@@ -122,7 +143,11 @@ public final class Robot extends TimedRobot
 
         try
         {
-            badLogFile.createNewFile();
+            if (!badLogFile.createNewFile())
+            {
+                Logger.println(Logger.LogLevel.ERROR, "BadLog", "Could not create new BadLog " + badLogFile.getAbsolutePath());
+                return;
+            }
         } catch (IOException e)
         {
             e.printStackTrace();
