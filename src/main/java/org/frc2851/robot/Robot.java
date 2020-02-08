@@ -73,7 +73,6 @@ public final class Robot extends TimedRobot
 
     private void initializeBadLog()
     {
-        // TODO: Can the Rio keep an accurate time?
         LocalDateTime localDateTime = new Timestamp(System.currentTimeMillis()).toLocalDateTime();
         String date = localDateTime.toLocalDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
                 .replace("/", "-");
