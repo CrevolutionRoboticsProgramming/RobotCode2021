@@ -58,11 +58,13 @@ public final class Constants
 
     //    Turret
     public static final int shooterTurretPort = 11;
+    public static final int shooterTurretLimitSwitchPort = 0;
 
     public static final Axis shooterTurretRotateAxis = new Axis(operatorController, Axis.AxisID.RIGHT_X);
 
     //    Angler
     public static final int shooterAnglerPort = 12;
+    public static final int shooterAnglerLimitSwitchPort = 1;
 
     public static final Axis shooterAnglerAxis = new Axis(operatorController, Axis.AxisID.LEFT_Y);
 

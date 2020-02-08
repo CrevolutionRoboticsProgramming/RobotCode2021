@@ -2,12 +2,12 @@ package org.frc2851.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.DigitalInput;
 import org.frc2851.robot.Constants;
 import org.frc2851.robot.framework.Component;
 import org.frc2851.robot.framework.Subsystem;
 import org.frc2851.robot.framework.command.CommandScheduler;
 import org.frc2851.robot.framework.command.InstantCommand;
-import org.frc2851.robot.framework.command.RunCommand;
 import org.frc2851.robot.util.MotorControllerFactory;
 
 public class Shooter extends Subsystem
@@ -33,42 +33,40 @@ public class Shooter extends Subsystem
     private static class Turret extends Component
     {
         private TalonSRX mMotor;
+        private DigitalInput mLimitSwitch;
 
         public Turret()
         {
             super(Shooter.class);
 
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterTurretPort);
+            mLimitSwitch = new DigitalInput(Constants.shooterTurretLimitSwitchPort);
 
-            setDefaultCommand(new InstantCommand(this::rotate, "rotating", this));
-        }
-        public void rotate(){
+            CommandScheduler.getInstance().addTrigger(mLimitSwitch::get,
+                    new InstantCommand(() -> mMotor.setSelectedSensorPosition(0), "zero encoder", this));
 
-            double rotate = Constants.shooterTurretRotateAxis.get();
-
-            mMotor.set(ControlMode.PercentOutput, rotate > 0 ? Math.min(rotate, 1) : Math.max(rotate, -1));
+            setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, Constants.shooterTurretRotateAxis.get()),
+                    "rotate", this));
         }
     }
 
     private static class Angler extends Component
     {
         private TalonSRX mMotor;
+        private DigitalInput mLimitSwitch;
 
         public Angler()
         {
             super(Shooter.class);
 
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterAnglerPort);
+            mLimitSwitch = new DigitalInput(Constants.shooterAnglerLimitSwitchPort);
 
-            setDefaultCommand(new InstantCommand(this::rotate, "rotating", this));
+            CommandScheduler.getInstance().addTrigger(mLimitSwitch::get,
+                    new InstantCommand(() -> mMotor.setSelectedSensorPosition(0), "zero encoder", this));
 
-
-        }
-        public void rotate(){
-
-            double rotate = Constants.shooterAnglerAxis.get();
-
-            mMotor.set(ControlMode.PercentOutput, rotate > 0 ? Math.min(rotate, 1) : Math.max(rotate, -1));
+            setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, Constants.shooterAnglerAxis.get()),
+                    "rotate", this));
         }
     }
 
