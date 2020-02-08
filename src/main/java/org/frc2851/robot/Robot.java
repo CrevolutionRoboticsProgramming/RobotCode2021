@@ -81,7 +81,7 @@ public final class Robot extends TimedRobot
                 .replace(":", "-").replace(" AM", "").replace(" PM", "");
 
         // Makes a new log in the "logs" directory in the directory where the application was executed
-        File badLogRootDir = new File(Paths.get(System.getProperty("user.dir") + File.separator + "logs" + File.separator + "badlog").toString());
+        File badLogRootDir = new File(Paths.get((Robot.isReal() ? "/home/lvuser" : System.getProperty("user.dir")) + File.separator + "logs" + File.separator + "badlog").toString());
         File badLogFile = new File(badLogRootDir.getAbsolutePath() + File.separator + date, time + ".bag");
 
         if (!badLogFile.mkdirs())
