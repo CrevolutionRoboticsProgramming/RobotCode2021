@@ -20,7 +20,6 @@ public class RunCommand extends Command
     @Override
     public void execute()
     {
-        super.execute();
         mToRun.run();
     }
 }

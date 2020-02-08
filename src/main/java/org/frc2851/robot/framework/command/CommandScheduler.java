@@ -57,7 +57,10 @@ public final class CommandScheduler
         if (DriverStation.getInstance().isDisabled())
         {
             for (Command command : mScheduledCommands)
+            {
                 command.end();
+                command.setState(Command.State.NOT_STARTED);
+            }
             mScheduledCommands.clear();
             return;
         }
@@ -85,6 +88,7 @@ public final class CommandScheduler
                                 if (scheduledCommand.isInterruptible())
                                 {
                                     scheduledCommand.end();
+                                    scheduledCommand.setState(Command.State.NOT_STARTED);
                                     scheduledCommandsIterator.remove();
                                 } else
                                 {
@@ -133,6 +137,7 @@ public final class CommandScheduler
                 command.initialize();
 
             command.execute();
+            command.setState(Command.State.EXECUTING);;
 
             if (!mOldExecutedCommands.contains(command))
             {
@@ -154,6 +159,7 @@ public final class CommandScheduler
             if (command.isFinished())
             {
                 command.end();
+                command.setState(Command.State.NOT_STARTED);
                 scheduledCommandsIterator.remove();
             }
         }

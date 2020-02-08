@@ -25,12 +25,10 @@ public abstract class Command
     
     public void execute()
     {
-        setState(State.EXECUTING);
     }
 
     public void end()
     {
-        setState(State.NOT_STARTED);
     }
     
     public boolean isFinished()
@@ -53,7 +51,7 @@ public abstract class Command
         return mRequirements;
     }
 
-    private void setState(State state)
+    public void setState(State state)
     {
         mState = state;
     }
