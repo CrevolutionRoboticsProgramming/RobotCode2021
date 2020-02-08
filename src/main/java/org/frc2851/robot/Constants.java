@@ -2,16 +2,13 @@ package org.frc2851.robot;
 
 import org.frc2851.robot.io.Controller;
 import org.frc2851.robot.io.axis.Axis;
-import org.frc2851.robot.io.button.Button;
-import org.frc2851.robot.io.button.OnPressButton;
-import org.frc2851.robot.io.button.RawButton;
-import org.frc2851.robot.io.button.ToggleButton;
+import org.frc2851.robot.io.button.*;
 import org.frc2851.robot.util.UDPHandler;
 
 public final class Constants
 {
     public static final Controller driverController = new Controller(0);
-    public static final Controller operatorController = new Controller(2);
+    public static final Controller operatorController = new Controller(1);
 
     public static final UDPHandler udpHandler = new UDPHandler(1184);
     public static String driverStationIP = "";
@@ -31,14 +28,6 @@ public final class Constants
     public static final Axis drivetrainThrottleAxis = new Axis(driverController, Axis.AxisID.LEFT_Y, (input) -> -input); // Up on the controller is read as negative BrokeBack
     public static final Axis drivetrainTurnAxis = new Axis(driverController, Axis.AxisID.RIGHT_X);
     public static final ToggleButton drivetrainShiftGearButton = new ToggleButton(driverController, Button.ButtonID.LEFT_BUMPER);
-
-    // Disker
-    public static final int diskerRotatorPort = 9;
-
-    public static final RawButton diskerRotateCounterButton = new RawButton(operatorController, Button.ButtonID.A);
-    public static final RawButton diskerRotateClockwiseButton = new RawButton(operatorController, Button.ButtonID.B);
-    public static final OnPressButton diskerRotateThriceButton = new OnPressButton(operatorController, Button.ButtonID.X);
-    public static final OnPressButton diskerRotateFindColorButton = new OnPressButton(operatorController, Button.ButtonID.Y);
 
     // Intake
     public static final int intakeMotorPort = 7;
@@ -70,6 +59,14 @@ public final class Constants
     public static final int shooterLauncherPort = 13;
 
     public static final RawButton shooterLauncherShootButton = new RawButton(operatorController, Button.ButtonID.RIGHT_TRIGGER);
+
+    // Disker
+    public static final int diskerRotatorPort = 9;
+
+    public static final RawButton diskerRotateCounterButton = new RawButton(operatorController, Button.ButtonID.A);
+    public static final RawButton diskerRotateClockwiseButton = new RawButton(operatorController, Button.ButtonID.B);
+    public static final OnPressButton diskerRotateThriceButton = new OnPressButton(operatorController, Button.ButtonID.X);
+    public static final OnPressButton diskerRotateFindButton = new OnPressButton(operatorController, Button.ButtonID.Y);
 
     // Climber
     public static final int climberMaster = 14;
