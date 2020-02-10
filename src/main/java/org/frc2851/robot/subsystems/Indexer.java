@@ -36,12 +36,8 @@ public class Indexer extends Subsystem
 
             CommandScheduler.getInstance().addTrigger(
                     new Trigger(new Trigger.Raw(), () -> Constants.shooterLauncherShootTrigger.get() || Constants.intakeIntakeTrigger.get()),
-                    new InstantCommand(this::run, "run", this));
-        }
-
-        public void run()
-        {
-            mMotor.set(ControlMode.PercentOutput, 1.0);
+                    new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, 1.0), "run", this));
+            setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, 0.0), "stop", this));
         }
     }
 
@@ -57,12 +53,8 @@ public class Indexer extends Subsystem
 
             CommandScheduler.getInstance().addTrigger(
                     new Trigger(new Trigger.Raw(), () -> Constants.shooterLauncherShootTrigger.get() || Constants.intakeIntakeTrigger.get()),
-                    new InstantCommand(this::run, "run", this));
-        }
-
-        public void run()
-        {
-            mMotor.set(ControlMode.PercentOutput, 1.0);
+                    new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, 1.0), "run", this));
+            setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, 0.0), "stop", this));
         }
     }
 }
