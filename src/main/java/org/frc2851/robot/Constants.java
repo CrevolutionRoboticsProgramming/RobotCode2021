@@ -38,7 +38,7 @@ public final class Constants
 
     public static final Trigger intakeIntakeTrigger = new Trigger(new Trigger.Raw(), new Button(driverController, Button.ButtonID.RIGHT_TRIGGER)::get);
     public static final Trigger intakeOuttakeTrigger = new Trigger(new Trigger.Raw(), new Button(driverController, Button.ButtonID.LEFT_TRIGGER)::get);
-    public static final Trigger intakeExtendTrigger = new Trigger(new Trigger.OnPress(), new Button(driverController, Button.ButtonID.RIGHT_BUMPER)::get);
+    public static final Trigger intakeExtendTrigger = new Trigger(new Trigger.Toggle(), new Button(driverController, Button.ButtonID.RIGHT_BUMPER)::get);
 
     // Indexer
     public static final int indexerSnailMotorPort = 8;
