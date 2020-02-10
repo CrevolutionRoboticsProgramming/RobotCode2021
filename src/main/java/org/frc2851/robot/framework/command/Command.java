@@ -11,18 +11,18 @@ public abstract class Command
     private State mState = State.NOT_STARTED;
     private boolean mIsInterruptible;
     private Vector<Component> mRequirements;
-    
+
     public Command(String name, boolean isInterruptible, Component... requirements)
     {
         mName = name;
         mIsInterruptible = isInterruptible;
         mRequirements = new Vector<>(List.of(requirements));
     }
-    
+
     public void initialize()
     {
     }
-    
+
     public void execute()
     {
     }
@@ -30,7 +30,7 @@ public abstract class Command
     public void end()
     {
     }
-    
+
     public boolean isFinished()
     {
         return false;
@@ -45,7 +45,7 @@ public abstract class Command
     {
         return mName;
     }
-    
+
     public final Vector<Component> getRequirements()
     {
         return mRequirements;

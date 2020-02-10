@@ -35,9 +35,11 @@ public class Intake extends Subsystem
 
             mMotor = MotorControllerFactory.makeVictorSPX(Constants.intakeMotorPort);
 
-            CommandScheduler.getInstance().addTrigger(Constants.intakeIntakeButton::get,
+            CommandScheduler.getInstance().addTrigger(
+                    Constants.intakeIntakeTrigger,
                     new InstantCommand(this::intake, "intake", this));
-            CommandScheduler.getInstance().addTrigger(Constants.intakeOuttakeButton::get,
+            CommandScheduler.getInstance().addTrigger(
+                    Constants.intakeOuttakeTrigger,
                     new InstantCommand(this::outtake, "outtake", this));
             setDefaultCommand(new RunCommand(this::stop, "stop", this));
         }
@@ -68,13 +70,17 @@ public class Intake extends Subsystem
 
             mExtenderSolenoid = new DoubleSolenoid(Constants.intakeExtendSolenoidForward, Constants.intakeExtendSolenoidReverse);
 
-            CommandScheduler.getInstance().addTrigger(() -> !Constants.intakeExtendButton.get(),
-                    new InstantCommand(() -> {
+            CommandScheduler.getInstance().addTrigger(
+                    Constants.intakeExtendTrigger.negate(),
+                    new InstantCommand(() ->
+                    {
                         mExtenderSolenoid.set(DoubleSolenoid.Value.kForward);
                         Constants.udpHandler.sendTo("INTAKE-EXTEND", Constants.driverStationIP, Constants.sendPort);
                     }, "extend", this));
-            CommandScheduler.getInstance().addTrigger(() -> Constants.intakeExtendButton.get(),
-                    new InstantCommand(() -> {
+            CommandScheduler.getInstance().addTrigger(
+                    Constants.intakeExtendTrigger,
+                    new InstantCommand(() ->
+                    {
                         mExtenderSolenoid.set(DoubleSolenoid.Value.kReverse);
                         Constants.udpHandler.sendTo("INTAKE-RETRACT", Constants.driverStationIP, Constants.sendPort);
                     }, "retract", this));

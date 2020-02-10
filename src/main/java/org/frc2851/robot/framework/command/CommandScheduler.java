@@ -9,14 +9,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-import java.util.function.BooleanSupplier;
 
 public final class CommandScheduler
 {
     private static CommandScheduler mInstance = new CommandScheduler();
 
     private Vector<Subsystem> mSubsystems;
-    private HashMap<BooleanSupplier, Command> mCommands;
+    private HashMap<Trigger, Command> mCommands;
     private Vector<Command> mScheduledCommands;
 
     private Vector<Command> mOldExecutedCommands;
@@ -41,7 +40,7 @@ public final class CommandScheduler
         mSubsystems.addAll(List.of(subsystems));
     }
 
-    public void addTrigger(BooleanSupplier trigger, Command command)
+    public void addTrigger(Trigger trigger, Command command)
     {
         if (trigger != null && command != null)
             mCommands.put(trigger, command);
@@ -66,9 +65,9 @@ public final class CommandScheduler
         }
 
         // If the trigger was tripped and no other command has the same requirements, schedule the command
-        for (HashMap.Entry<BooleanSupplier, Command> pair : mCommands.entrySet())
+        for (HashMap.Entry<Trigger, Command> pair : mCommands.entrySet())
         {
-            if (pair.getKey().getAsBoolean())
+            if (pair.getKey().get())
             {
                 boolean componentNotBeingUsed = true;
 
@@ -137,7 +136,8 @@ public final class CommandScheduler
                 command.initialize();
 
             command.execute();
-            command.setState(Command.State.EXECUTING);;
+            command.setState(Command.State.EXECUTING);
+            ;
 
             if (!mOldExecutedCommands.contains(command))
             {

@@ -1,8 +1,6 @@
 package org.frc2851.robot.io;
 
 import edu.wpi.first.wpilibj.Joystick;
-import org.frc2851.robot.io.axis.Axis;
-import org.frc2851.robot.io.button.Button;
 
 public class Controller
 {

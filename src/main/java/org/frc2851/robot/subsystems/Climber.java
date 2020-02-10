@@ -34,11 +34,13 @@ public class Climber extends Subsystem
 
             VictorSPX mClimberMaster = MotorControllerFactory.makeVictorSPX(Constants.climberMaster);
 
-            setDefaultCommand(new RunCommand(() -> mClimberMaster.set(ControlMode.PercentOutput, 0), "stop", this));
-            CommandScheduler.getInstance().addTrigger(() -> Constants.climberExtendButton.get(),
+            CommandScheduler.getInstance().addTrigger(
+                    Constants.climberExtendTrigger,
                     new InstantCommand(() -> mClimberMaster.set(ControlMode.PercentOutput, 1.0), "extend", this));
-            CommandScheduler.getInstance().addTrigger(() -> Constants.climberRetractButton.get(),
+            CommandScheduler.getInstance().addTrigger(
+                    Constants.climberRetractTrigger,
                     new InstantCommand(() -> mClimberMaster.set(ControlMode.PercentOutput, -1.0), "retract", this));
+            setDefaultCommand(new RunCommand(() -> mClimberMaster.set(ControlMode.PercentOutput, 0), "stop", this));
         }
     }
 }

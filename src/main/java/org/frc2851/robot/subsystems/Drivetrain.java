@@ -81,13 +81,17 @@ public class Drivetrain extends Subsystem
 
             mShifterSolenoid = new DoubleSolenoid(Constants.drivetrainShifterSolenoidForward, Constants.drivetrainShifterSolenoidReverse);
 
-            CommandScheduler.getInstance().addTrigger(() -> !Constants.drivetrainShiftGearButton.get(),
-                    new InstantCommand(() -> {
+            CommandScheduler.getInstance().addTrigger(
+                    Constants.drivetrainShiftGearTrigger.negate(),
+                    new InstantCommand(() ->
+                    {
                         mShifterSolenoid.set(DoubleSolenoid.Value.kForward);
                         Constants.udpHandler.sendTo("GEAR-HIGH", Constants.driverStationIP, Constants.sendPort);
                     }, "high gear", this));
-            CommandScheduler.getInstance().addTrigger(Constants.drivetrainShiftGearButton::get,
-                    new InstantCommand(() -> {
+            CommandScheduler.getInstance().addTrigger(
+                    Constants.drivetrainShiftGearTrigger,
+                    new InstantCommand(() ->
+                    {
                         mShifterSolenoid.set(DoubleSolenoid.Value.kReverse);
                         Constants.udpHandler.sendTo("GEAR-LOW", Constants.driverStationIP, Constants.sendPort);
                     }, "low gear", this));

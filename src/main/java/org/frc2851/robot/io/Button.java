@@ -1,11 +1,9 @@
-package org.frc2851.robot.io.button;
-
-import org.frc2851.robot.io.Controller;
+package org.frc2851.robot.io;
 
 import java.util.List;
 import java.util.Vector;
 
-public abstract class Button
+public class Button
 {
     private Controller mController;
     private ButtonID mID;

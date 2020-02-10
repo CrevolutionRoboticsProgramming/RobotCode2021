@@ -8,6 +8,7 @@ import org.frc2851.robot.framework.Component;
 import org.frc2851.robot.framework.Subsystem;
 import org.frc2851.robot.framework.command.CommandScheduler;
 import org.frc2851.robot.framework.command.InstantCommand;
+import org.frc2851.robot.framework.command.Trigger;
 import org.frc2851.robot.util.MotorControllerFactory;
 
 public class Shooter extends Subsystem
@@ -42,7 +43,8 @@ public class Shooter extends Subsystem
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterTurretPort);
             mLimitSwitch = new DigitalInput(Constants.shooterTurretLimitSwitchPort);
 
-            CommandScheduler.getInstance().addTrigger(mLimitSwitch::get,
+            CommandScheduler.getInstance().addTrigger(
+                    new Trigger(new Trigger.OnPress(), mLimitSwitch::get),
                     new InstantCommand(() -> mMotor.setSelectedSensorPosition(0), "zero encoder", this));
 
             setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, Constants.shooterTurretRotateAxis.get()),
@@ -62,7 +64,8 @@ public class Shooter extends Subsystem
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterAnglerPort);
             mLimitSwitch = new DigitalInput(Constants.shooterAnglerLimitSwitchPort);
 
-            CommandScheduler.getInstance().addTrigger(mLimitSwitch::get,
+            CommandScheduler.getInstance().addTrigger(
+                    new Trigger(new Trigger.OnPress(), mLimitSwitch::get),
                     new InstantCommand(() -> mMotor.setSelectedSensorPosition(0), "zero encoder", this));
 
             setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, Constants.shooterAnglerAxis.get()),
@@ -80,7 +83,8 @@ public class Shooter extends Subsystem
 
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterLauncherPort);
 
-            CommandScheduler.getInstance().addTrigger(Constants.shooterLauncherShootButton::get,
+            CommandScheduler.getInstance().addTrigger(
+                    Constants.shooterLauncherShootTrigger,
                     new InstantCommand(this::launch, "launch", this));
 
             setDefaultCommand(new InstantCommand(this::stop, "stop", this));

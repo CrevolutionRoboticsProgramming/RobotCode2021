@@ -14,9 +14,9 @@ import org.frc2851.robot.framework.Subsystem;
 import org.frc2851.robot.framework.command.Command;
 import org.frc2851.robot.framework.command.CommandScheduler;
 import org.frc2851.robot.framework.command.RunCommand;
+import org.frc2851.robot.framework.command.Trigger;
 import org.frc2851.robot.util.MotorControllerFactory;
 
-import javax.naming.ldap.Control;
 import java.util.HashMap;
 
 public class Disker extends Subsystem
@@ -32,7 +32,6 @@ public class Disker extends Subsystem
     {
         return disker;
     }
-
 
 
     public class DiskerComponent extends Component
@@ -56,78 +55,104 @@ public class Disker extends Subsystem
             mColorSensor = new ColorSensor();
 
             setDefaultCommand(new RunCommand(this::updateDiskerPeriodic, "rotate disker", this));
-            CommandScheduler.getInstance().addTrigger(() -> Constants.diskerRotateThriceButton.get() && mMode == RotationMode.CONTROL, new Command("disker thrice", false, this) {
-                @Override
-                public void initialize() {
-                    //System.out.println("Starting THRICE Mode");
-                    mMode = RotationMode.THRICE;
-                    mRotatorMotator.setSelectedSensorPosition(0);
-                    mRotatorMotator.set(ControlMode.PercentOutput, mRotationSpeed);
-                }
+            CommandScheduler.getInstance().addTrigger(
+                    new Trigger(new Trigger.Raw(), () -> Constants.diskerRotateThriceTrigger.get() && mMode == RotationMode.CONTROL),
+                    new Command("disker thrice", false, this)
+                    {
+                        @Override
+                        public void initialize()
+                        {
+                            //System.out.println("Starting THRICE Mode");
+                            mMode = RotationMode.THRICE;
+                            mRotatorMotator.setSelectedSensorPosition(0);
+                            mRotatorMotator.set(ControlMode.PercentOutput, mRotationSpeed);
+                        }
 
-                @Override
-                public void execute() { super.execute(); }
+                        @Override
+                        public void execute()
+                        {
+                            super.execute();
+                        }
 
-                @Override
-                public void end() { toControlMode(); }
+                        @Override
+                        public void end()
+                        {
+                            toControlMode();
+                        }
 
-                @Override
-                public boolean isFinished() {
-                    boolean finished;
-                    if (Robot.isReal())
-                        finished = mRotatorMotator.getSelectedSensorPosition() >= 65536;
-                    else
-                        finished = mRotatorMotator.getSelectedSensorPosition() >= 65536 * 400;
+                        @Override
+                        public boolean isFinished()
+                        {
+                            boolean finished;
+                            if (Robot.isReal())
+                                finished = mRotatorMotator.getSelectedSensorPosition() >= 65536;
+                            else
+                                finished = mRotatorMotator.getSelectedSensorPosition() >= 65536 * 400;
 
-                    //System.out.println("Thrice mode encoder @ " + mRotatorMotator.getSelectedSensorPosition());
-                    //if(finished) System.out.println("THRICE mode completed");
-                    return finished;
-                }
-            });
+                            //System.out.println("Thrice mode encoder @ " + mRotatorMotator.getSelectedSensorPosition());
+                            //if(finished) System.out.println("THRICE mode completed");
+                            return finished;
+                        }
+                    });
 
-            CommandScheduler.getInstance().addTrigger(() -> Constants.diskerRotateFindButton.get() && mMode == RotationMode.CONTROL, new Command("disker find", false,this) {
-                @Override
-                public void initialize() {
-                    //System.out.println("Starting FIND Mode");
-                    mMode = RotationMode.FIND;
-                    mRotatorMotator.set(ControlMode.PercentOutput, mColorFinderSpeed);
-                }
+            CommandScheduler.getInstance().addTrigger(
+                    new Trigger(new Trigger.Raw(), () -> Constants.diskerRotateFindTrigger.get() && mMode == RotationMode.CONTROL),
+                    new Command("disker find", false, this)
+                    {
+                        @Override
+                        public void initialize()
+                        {
+                            //System.out.println("Starting FIND Mode");
+                            mMode = RotationMode.FIND;
+                            mRotatorMotator.set(ControlMode.PercentOutput, mColorFinderSpeed);
+                        }
 
-                @Override
-                public void execute() { super.execute(); }
+                        @Override
+                        public void execute()
+                        {
+                            super.execute();
+                        }
 
-                @Override
-                public void end() { toControlMode(); }
+                        @Override
+                        public void end()
+                        {
+                            toControlMode();
+                        }
 
-                @Override
-                public boolean isFinished() {
-                    boolean finished;
-                    if (Robot.isReal())
-                        finished = (mColorSensor.isMatched() && mColorSensor.getMatch().equals(target));
-                    else
-                        finished = true;
+                        @Override
+                        public boolean isFinished()
+                        {
+                            boolean finished;
+                            if (Robot.isReal())
+                                finished = (mColorSensor.isMatched() && mColorSensor.getMatch().equals(target));
+                            else
+                                finished = true;
 
-                    //if(finished) System.out.println("FIND mode completed");
-                    return finished;
-                }
-            });
+                            //if(finished) System.out.println("FIND mode completed");
+                            return finished;
+                        }
+                    });
         }
 
         public void updateDiskerPeriodic()
         {
-            if(mMode != RotationMode.CONTROL) return;
-            if((Constants.diskerRotateCounterButton.get() && Constants.diskerRotateClockwiseButton.get()) || (!Constants.diskerRotateCounterButton.get() && !Constants.diskerRotateClockwiseButton.get())) mRotatorMotator.set(ControlMode.PercentOutput, 0);
-            else if(Constants.diskerRotateCounterButton.get()) mRotatorMotator.set(ControlMode.PercentOutput, -mRotationSpeed);
-            else if(Constants.diskerRotateClockwiseButton.get()) mRotatorMotator.set(ControlMode.PercentOutput, mRotationSpeed);
+            if (mMode != RotationMode.CONTROL) return;
+            if ((Constants.diskerRotateCounterTrigger.get() && Constants.diskerRotateClockwiseTrigger.get()) || (!Constants.diskerRotateCounterTrigger.get() && !Constants.diskerRotateClockwiseTrigger.get()))
+                mRotatorMotator.set(ControlMode.PercentOutput, 0);
+            else if (Constants.diskerRotateCounterTrigger.get())
+                mRotatorMotator.set(ControlMode.PercentOutput, -mRotationSpeed);
+            else if (Constants.diskerRotateClockwiseTrigger.get())
+                mRotatorMotator.set(ControlMode.PercentOutput, mRotationSpeed);
         }
 
 
-
-        public void setTargetColor(Color color) {
+        public void setTargetColor(Color color)
+        {
             this.target = color;
         }
 
-        private void toControlMode() {
+        private void toControlMode()
+        {
             //System.out.println("Switched back to CONTROL mode");
             mRotatorMotator.set(ControlMode.PercentOutput, 0);
             mMode = RotationMode.CONTROL;
@@ -135,13 +160,14 @@ public class Disker extends Subsystem
     }
 
 
-
     public static HashMap<Color, Color> mPerpendicularColor = new HashMap<Color, Color>();
     public static final Color mRed = new Color(255, 0, 0);
     public static final Color mGreen = new Color(0, 255, 0);
     public static final Color mBlue = new Color(0, 255, 255);
     public static final Color mYellow = new Color(255, 255, 0);
-    static{
+
+    static
+    {
         mPerpendicularColor.put(mGreen, mYellow);
         mPerpendicularColor.put(mBlue, mRed);
         mPerpendicularColor.put(mYellow, mGreen);
@@ -165,7 +191,6 @@ public class Disker extends Subsystem
         }
 
 
-
         public boolean isMatched()
         {
             return mMatch.matchClosestColor(mSensor.getColor()).confidence > 0.75;
@@ -179,8 +204,8 @@ public class Disker extends Subsystem
     }
 
 
-
-    public enum RotationMode {
+    public enum RotationMode
+    {
         CONTROL,
         THRICE,
         FIND;

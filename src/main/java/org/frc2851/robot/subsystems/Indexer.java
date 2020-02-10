@@ -7,6 +7,7 @@ import org.frc2851.robot.framework.Component;
 import org.frc2851.robot.framework.Subsystem;
 import org.frc2851.robot.framework.command.CommandScheduler;
 import org.frc2851.robot.framework.command.InstantCommand;
+import org.frc2851.robot.framework.command.Trigger;
 import org.frc2851.robot.util.MotorControllerFactory;
 
 public class Indexer extends Subsystem
@@ -33,7 +34,8 @@ public class Indexer extends Subsystem
 
             mMotor = MotorControllerFactory.makeVictorSPX(Constants.indexerSnailMotorPort);
 
-            CommandScheduler.getInstance().addTrigger(() -> Constants.shooterLauncherShootButton.get() || Constants.intakeIntakeButton.get(),
+            CommandScheduler.getInstance().addTrigger(
+                    new Trigger(new Trigger.Raw(), () -> Constants.shooterLauncherShootTrigger.get() || Constants.intakeIntakeTrigger.get()),
                     new InstantCommand(this::run, "run", this));
         }
 
@@ -53,7 +55,8 @@ public class Indexer extends Subsystem
 
             mMotor = MotorControllerFactory.makeVictorSPX(Constants.indexerElevatorMotorPort);
 
-            CommandScheduler.getInstance().addTrigger(() -> Constants.shooterLauncherShootButton.get() || Constants.intakeIntakeButton.get(),
+            CommandScheduler.getInstance().addTrigger(
+                    new Trigger(new Trigger.Raw(), () -> Constants.shooterLauncherShootTrigger.get() || Constants.intakeIntakeTrigger.get()),
                     new InstantCommand(this::run, "run", this));
         }
 

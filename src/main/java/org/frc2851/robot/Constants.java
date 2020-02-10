@@ -1,8 +1,9 @@
 package org.frc2851.robot;
 
+import org.frc2851.robot.framework.command.Trigger;
+import org.frc2851.robot.io.Axis;
+import org.frc2851.robot.io.Button;
 import org.frc2851.robot.io.Controller;
-import org.frc2851.robot.io.axis.Axis;
-import org.frc2851.robot.io.button.*;
 import org.frc2851.robot.util.UDPHandler;
 
 public final class Constants
@@ -27,7 +28,7 @@ public final class Constants
 
     public static final Axis drivetrainThrottleAxis = new Axis(driverController, Axis.AxisID.LEFT_Y, (input) -> -input); // Up on the controller is read as negative BrokeBack
     public static final Axis drivetrainTurnAxis = new Axis(driverController, Axis.AxisID.RIGHT_X);
-    public static final ToggleButton drivetrainShiftGearButton = new ToggleButton(driverController, Button.ButtonID.LEFT_BUMPER);
+    public static final Trigger drivetrainShiftGearTrigger = new Trigger(new Trigger.Toggle(), new Button(driverController, Button.ButtonID.LEFT_BUMPER)::get);
 
     // Intake
     public static final int intakeMotorPort = 7;
@@ -35,9 +36,9 @@ public final class Constants
     public static final int intakeExtendSolenoidForward = 2;
     public static final int intakeExtendSolenoidReverse = 3;
 
-    public static final RawButton intakeIntakeButton = new RawButton(driverController, Button.ButtonID.RIGHT_TRIGGER);
-    public static final RawButton intakeOuttakeButton = new RawButton(driverController, Button.ButtonID.LEFT_TRIGGER);
-    public static final OnPressButton intakeExtendButton = new OnPressButton(driverController, Button.ButtonID.RIGHT_BUMPER);
+    public static final Trigger intakeIntakeTrigger = new Trigger(new Trigger.Raw(), new Button(driverController, Button.ButtonID.RIGHT_TRIGGER)::get);
+    public static final Trigger intakeOuttakeTrigger = new Trigger(new Trigger.Raw(), new Button(driverController, Button.ButtonID.LEFT_TRIGGER)::get);
+    public static final Trigger intakeExtendTrigger = new Trigger(new Trigger.OnPress(), new Button(driverController, Button.ButtonID.RIGHT_BUMPER)::get);
 
     // Indexer
     public static final int indexerSnailMotorPort = 8;
@@ -60,19 +61,19 @@ public final class Constants
     //    Launcher
     public static final int shooterLauncherPort = 13;
 
-    public static final RawButton shooterLauncherShootButton = new RawButton(operatorController, Button.ButtonID.RIGHT_TRIGGER);
+    public static final Trigger shooterLauncherShootTrigger = new Trigger(new Trigger.Raw(), new Button(operatorController, Button.ButtonID.RIGHT_TRIGGER)::get);
 
     // Disker
     public static final int diskerRotatorPort = 9;
 
-    public static final RawButton diskerRotateCounterButton = new RawButton(operatorController, Button.ButtonID.A);
-    public static final RawButton diskerRotateClockwiseButton = new RawButton(operatorController, Button.ButtonID.B);
-    public static final OnPressButton diskerRotateThriceButton = new OnPressButton(operatorController, Button.ButtonID.X);
-    public static final OnPressButton diskerRotateFindButton = new OnPressButton(operatorController, Button.ButtonID.Y);
+    public static final Trigger diskerRotateCounterTrigger = new Trigger(new Trigger.Raw(), new Button(operatorController, Button.ButtonID.A)::get);
+    public static final Trigger diskerRotateClockwiseTrigger = new Trigger(new Trigger.Raw(), new Button(operatorController, Button.ButtonID.B)::get);
+    public static final Trigger diskerRotateThriceTrigger = new Trigger(new Trigger.OnPress(), new Button(operatorController, Button.ButtonID.X)::get);
+    public static final Trigger diskerRotateFindTrigger = new Trigger(new Trigger.OnPress(), new Button(operatorController, Button.ButtonID.Y)::get);
 
     // Climber
     public static final int climberMaster = 14;
 
-    public static final RawButton climberExtendButton = new RawButton(driverController, Button.ButtonID.X);
-    public static final RawButton climberRetractButton = new RawButton(driverController, Button.ButtonID.Y);
+    public static final Trigger climberExtendTrigger = new Trigger(new Trigger.Raw(), new Button(driverController, Button.ButtonID.X)::get);
+    public static final Trigger climberRetractTrigger = new Trigger(new Trigger.Raw(), new Button(driverController, Button.ButtonID.Y)::get);
 }
