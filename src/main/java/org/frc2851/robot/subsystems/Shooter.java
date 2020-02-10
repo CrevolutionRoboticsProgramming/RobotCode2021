@@ -1,6 +1,7 @@
 package org.frc2851.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import org.frc2851.robot.Constants;
@@ -41,6 +42,8 @@ public class Shooter extends Subsystem
             super(Shooter.class);
 
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterTurretPort);
+            mMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+
             mLimitSwitch = new DigitalInput(Constants.shooterTurretLimitSwitchPort);
 
             CommandScheduler.getInstance().addTrigger(
@@ -62,6 +65,8 @@ public class Shooter extends Subsystem
             super(Shooter.class);
 
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterAnglerPort);
+            mMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+
             mLimitSwitch = new DigitalInput(Constants.shooterAnglerLimitSwitchPort);
 
             CommandScheduler.getInstance().addTrigger(
@@ -82,6 +87,7 @@ public class Shooter extends Subsystem
             super(Shooter.class);
 
             mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterLauncherPort);
+            mMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
             CommandScheduler.getInstance().addTrigger(
                     Constants.shooterLauncherShootTrigger,
