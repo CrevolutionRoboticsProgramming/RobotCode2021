@@ -24,7 +24,7 @@ public final class Constants
     public static final int drivetrainRightFollowerBPort = 6;
 
     public static final int drivetrainShifterSolenoidForward = 0;
-    public static final int drivetrainShifterSolenoidReverse = 1;
+    public static final int drivetrainShifterSolenoidReverse = 7;
 
     public static final Axis drivetrainThrottleAxis = new Axis(driverController, Axis.AxisID.LEFT_Y, (input) -> -input); // Up on the controller is read as negative BrokeBack
     public static final Axis drivetrainTurnAxis = new Axis(driverController, Axis.AxisID.RIGHT_X);
@@ -33,8 +33,8 @@ public final class Constants
     // Intake
     public static final int intakeMotorPort = 7;
 
-    public static final int intakeExtendSolenoidForward = 2;
-    public static final int intakeExtendSolenoidReverse = 3;
+    public static final int intakeExtendSolenoidForward = 1;
+    public static final int intakeExtendSolenoidReverse = 6;
 
     public static final Trigger intakeIntakeTrigger = new Trigger(new Trigger.Raw(), new Button(driverController, Button.ButtonID.RIGHT_TRIGGER)::get);
     public static final Trigger intakeOuttakeTrigger = new Trigger(new Trigger.Raw(), new Button(driverController, Button.ButtonID.LEFT_TRIGGER)::get);
