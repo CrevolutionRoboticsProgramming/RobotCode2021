@@ -72,8 +72,9 @@ public final class Constants
     public static final Trigger diskerRotateFindTrigger = new Trigger(new Trigger.OnPress(), new Button(operatorController, Button.ButtonID.Y)::get);
 
     // Climber
-    public static final int climberMaster = 14;
+    public static final int climberSolenoidForward = 2;
+    public static final int climberSolenoidReverse = 5;
 
-    public static final Trigger climberExtendTrigger = new Trigger(new Trigger.Raw(), new Button(driverController, Button.ButtonID.X)::get);
-    public static final Trigger climberRetractTrigger = new Trigger(new Trigger.Raw(), new Button(driverController, Button.ButtonID.Y)::get);
+    public static final Trigger climberExtendTrigger = new Trigger(new Trigger.OnPress(), new Button(driverController, Button.ButtonID.X)::get);
+    public static final Trigger climberRetractTrigger = new Trigger(new Trigger.OnPress(), new Button(driverController, Button.ButtonID.Y)::get);
 }
