@@ -71,14 +71,14 @@ public class Intake extends Subsystem
             mExtenderSolenoid = new DoubleSolenoid(Constants.intakeExtendSolenoidForward, Constants.intakeExtendSolenoidReverse);
 
             CommandScheduler.getInstance().addTrigger(
-                    Constants.intakeExtendTrigger.negate(),
+                    Constants.intakeExtendTrigger,
                     new InstantCommand(() ->
                     {
                         mExtenderSolenoid.set(DoubleSolenoid.Value.kForward);
                         Constants.udpHandler.sendTo("INTAKE-EXTEND", Constants.driverStationIP, Constants.sendPort);
                     }, "extend", this));
             CommandScheduler.getInstance().addTrigger(
-                    Constants.intakeExtendTrigger,
+                    Constants.intakeExtendTrigger.negate(),
                     new InstantCommand(() ->
                     {
                         mExtenderSolenoid.set(DoubleSolenoid.Value.kReverse);
