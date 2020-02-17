@@ -47,10 +47,11 @@ public final class Constants
     public static final int indexerElevatorMotorPort = 10;
 
     /* Shooter */
+    public static final double shooterDeadband = 0.10;
 
-    //    Turret
     public static final Button shooterEnableVisionTracking = new Button(operatorController, Button.ButtonID.LEFT_TRIGGER);
 
+    //    Turret
     public static final int shooterTurretPort = 11;
     public static final int shooterTurretLimitSwitchPort = 0;
 

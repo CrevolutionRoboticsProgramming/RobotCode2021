@@ -61,8 +61,13 @@ public class Shooter extends Subsystem
                 }
             }));
 
-            setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, Constants.shooterTurretRotateAxis.get()),
+            setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, deadband(Constants.shooterTurretRotateAxis.get())),
                     "rotate", this));
+        }
+
+        private double deadband(double value)
+        {
+            return Math.abs(value) > Constants.shooterDeadband ? value : 0;
         }
     }
 
@@ -95,8 +100,13 @@ public class Shooter extends Subsystem
                         }
                     }));
 
-            setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, Constants.shooterAnglerAxis.get()),
+            setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, deadband(Constants.shooterAnglerAxis.get())),
                     "rotate", this));
+        }
+
+        private double deadband(double value)
+        {
+            return Math.abs(value) > Constants.shooterDeadband ? value : 0;
         }
     }
 
