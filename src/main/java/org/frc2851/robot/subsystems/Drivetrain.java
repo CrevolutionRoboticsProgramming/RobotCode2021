@@ -73,19 +73,7 @@ public class Drivetrain extends Subsystem
 
         private double deadband(double value)
         {
-            double returnValue = value;
-
-            if (value > 0)
-            {
-                if (value < Constants.drivetrainDeadband)
-                    returnValue = 0.0;
-            } else
-            {
-                if (value > -Constants.drivetrainDeadband)
-                    returnValue = 0.0;
-            }
-
-            return returnValue;
+            return Math.abs(value) > Constants.drivetrainDeadband ? value : 0;
         }
     }
 
