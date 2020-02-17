@@ -26,6 +26,8 @@ public final class Constants
     public static final int drivetrainShifterSolenoidForward = 0;
     public static final int drivetrainShifterSolenoidReverse = 7;
 
+    public static final double drivetrainDeadband = 0.10;
+
     public static final Axis drivetrainThrottleAxis = new Axis(driverController, Axis.AxisID.LEFT_Y, (input) -> -input); // Up on the controller is read as negative BrokeBack
     public static final Axis drivetrainTurnAxis = new Axis(driverController, Axis.AxisID.RIGHT_X);
     public static final Trigger drivetrainShiftGearTrigger = new Trigger(new Trigger.Toggle(), new Button(driverController, Button.ButtonID.LEFT_BUMPER)::get);

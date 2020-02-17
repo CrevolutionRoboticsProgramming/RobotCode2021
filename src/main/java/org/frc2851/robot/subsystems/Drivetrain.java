@@ -60,8 +60,8 @@ public class Drivetrain extends Subsystem
 
         public void arcadeDrive()
         {
-            double throttle = Constants.drivetrainThrottleAxis.get();
-            double turn = Constants.drivetrainTurnAxis.get();
+            double throttle = deadband(Constants.drivetrainThrottleAxis.get());
+            double turn = deadband(Constants.drivetrainTurnAxis.get());
 
             double leftOut = throttle + turn;
             double rightOut = throttle - turn;
@@ -69,6 +69,23 @@ public class Drivetrain extends Subsystem
             // The ternary operator expressions keep the output within -1.0 and 1.0 even though the Talons do this for us
             mLeftMaster.set(leftOut > 0 ? Math.min(leftOut, 1) : Math.max(leftOut, -1));
             mRightMaster.set(rightOut > 0 ? Math.min(rightOut, 1) : Math.max(rightOut, -1));
+        }
+
+        private double deadband(double value)
+        {
+            double returnValue = value;
+
+            if (value > 0)
+            {
+                if (value < Constants.drivetrainDeadband)
+                    returnValue = 0.0;
+            } else
+            {
+                if (value > -Constants.drivetrainDeadband)
+                    returnValue = 0.0;
+            }
+
+            return returnValue;
         }
     }
 
