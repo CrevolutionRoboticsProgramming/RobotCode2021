@@ -11,6 +11,7 @@ import org.frc2851.robot.framework.command.CommandScheduler;
 import org.frc2851.robot.framework.command.InstantCommand;
 import org.frc2851.robot.framework.command.Trigger;
 import org.frc2851.robot.util.MotorControllerFactory;
+import org.frc2851.robot.util.UDPHandler;
 
 public class Shooter extends Subsystem
 {
@@ -50,6 +51,16 @@ public class Shooter extends Subsystem
                     new Trigger(new Trigger.OnPress(), mLimitSwitch::get),
                     new InstantCommand(() -> mMotor.setSelectedSensorPosition(0), "zero encoder", this));
 
+            // When we receive the target offset from the RPi, schedule a new command that rotates us to the target with a P controller
+            Constants.udpHandler.addReceiver(new UDPHandler.MessageReceiver("X OFFSET:", (message) ->
+            {
+                if (Constants.shooterEnableVisionTracking.get())
+                {
+                    CommandScheduler.getInstance().schedule(new InstantCommand(() ->
+                            mMotor.set(ControlMode.PercentOutput, Double.parseDouble(message) * Constants.shooterTurretKP), "rotate to vision target", this));
+                }
+            }));
+
             setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, Constants.shooterTurretRotateAxis.get()),
                     "rotate", this));
         }
@@ -72,6 +83,17 @@ public class Shooter extends Subsystem
             CommandScheduler.getInstance().addTrigger(
                     new Trigger(new Trigger.OnPress(), mLimitSwitch::get),
                     new InstantCommand(() -> mMotor.setSelectedSensorPosition(0), "zero encoder", this));
+
+            // When we receive the target offset from the RPi, schedule a new command that angles us to the target with a P controller
+            Constants.udpHandler.addReceiver(
+                    new UDPHandler.MessageReceiver("Y OFFSET:", (message) ->
+                    {
+                        if (Constants.shooterEnableVisionTracking.get())
+                        {
+                            CommandScheduler.getInstance().schedule(new InstantCommand(() ->
+                                    mMotor.set(ControlMode.PercentOutput, Double.parseDouble(message) * Constants.shooterAnglerKP), "angle to vision target", this));
+                        }
+                    }));
 
             setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, Constants.shooterAnglerAxis.get()),
                     "rotate", this));
