@@ -1,5 +1,6 @@
 package org.frc2851.robot.subsystems;
 
+import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -42,9 +43,9 @@ public class Drivetrain extends Subsystem
             mRightFollowerA = MotorControllerFactory.makeSparkMax(Constants.drivetrainRightFollowerAPort);
             mRightFollowerB = MotorControllerFactory.makeSparkMax(Constants.drivetrainRightFollowerBPort);
 
-            mRightMaster.setInverted(true);
-            mRightFollowerA.setInverted(true);
-            mRightFollowerB.setInverted(true);
+            mLeftMaster.setInverted(true);
+            mLeftFollowerA.setInverted(true);
+            mLeftFollowerB.setInverted(true);
 
             mLeftFollowerA.follow(mLeftMaster);
             mLeftFollowerB.follow(mLeftMaster);
