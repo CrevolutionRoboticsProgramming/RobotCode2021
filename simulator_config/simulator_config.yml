@@ -12,14 +12,6 @@ mDigitalIO:
   mName: Angler Limit Switch
   mType: com.snobot.simulator.module_wrapper.wpi.WpiDigitalIoWrapper
 mEncoders:
-- mConnectedSpeedControllerHandle: 101
-  mHandle: 101
-  mName: Left Encoder
-  mType: com.snobot.simulator.simulator_components.smart_sc.SmartScEncoder
-- mConnectedSpeedControllerHandle: 104
-  mHandle: 104
-  mName: Right Encoder
-  mType: com.snobot.simulator.simulator_components.smart_sc.SmartScEncoder
 - mConnectedSpeedControllerHandle: 109
   mHandle: 109
   mName: Disker Encoder
@@ -129,11 +121,17 @@ mSolenoids:
   mName: Gear Shifter Forward
   mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
 - mHandle: 1
-  mName: Gear Shifter Reverse
-  mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
-- mHandle: 2
   mName: Intake Forward
   mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
-- mHandle: 3
+- mHandle: 2
+  mName: Climber Forward
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
+- mHandle: 5
+  mName: Climber Reverse
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
+- mHandle: 6
   mName: Intake Reverse
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
+- mHandle: 7
+  mName: Gear Shifter Reverse
   mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
