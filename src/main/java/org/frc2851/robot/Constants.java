@@ -68,7 +68,8 @@ public final class Constants
     public static final Axis shooterAnglerAxis = new Axis(operatorController, Axis.AxisID.LEFT_Y);
 
     //    Launcher
-    public static final int shooterLauncherPort = 13;
+    public static final int shooterLauncherMasterPort = 13;
+    public static final int shooterLauncherFollowerPort = 14;
 
     public static final Trigger shooterLauncherShootTrigger = new Trigger(new Trigger.Raw(), new Button(operatorController, Button.ButtonID.RIGHT_TRIGGER)::get);
 

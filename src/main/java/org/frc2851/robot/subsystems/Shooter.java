@@ -2,6 +2,8 @@ package org.frc2851.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import org.frc2851.robot.Constants;
@@ -112,14 +114,17 @@ public class Shooter extends Subsystem
 
     private static class Launcher extends Component
     {
-        private TalonSRX mMotor;
+        private TalonFX mMasterMotor, mFollowerMotor;
 
         public Launcher()
         {
             super(Shooter.class);
 
-            mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterLauncherPort);
-            mMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+            mMasterMotor = MotorControllerFactory.makeTalonFX(Constants.shooterLauncherMasterPort);
+            mMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+
+            mFollowerMotor = MotorControllerFactory.makeTalonFX(Constants.shooterLauncherFollowerPort);
+            mFollowerMotor.follow(mMasterMotor);
 
             CommandScheduler.getInstance().addTrigger(
                     Constants.shooterLauncherShootTrigger,
@@ -130,12 +135,12 @@ public class Shooter extends Subsystem
 
         public void launch()
         {
-            mMotor.set(ControlMode.PercentOutput, 1.0);
+            mMasterMotor.set(TalonFXControlMode.PercentOutput, 1.0);
         }
 
         public void stop()
         {
-            mMotor.set(ControlMode.PercentOutput, 0.0);
+            mMasterMotor.set(TalonFXControlMode.PercentOutput, 0.0);
         }
     }
 }
