@@ -22,7 +22,7 @@ import java.util.Optional;
 
 public final class Robot extends TimedRobot
 {
-    private double mLastGameDataSend = DriverStation.getInstance().getMatchTime();
+    private double mLastGameDataSend = 0;
     private boolean mFirstGameDataSend = true;
 
     private BadLog mBadLog;
@@ -44,7 +44,7 @@ public final class Robot extends TimedRobot
         CommandScheduler.getInstance().addSubsystem(Indexer.getInstance());
         CommandScheduler.getInstance().addSubsystem(Shooter.getInstance());
         CommandScheduler.getInstance().addSubsystem(Climber.getInstance());
-        CommandScheduler.getInstance().addSubsystem(Disker.getInstance());
+        //CommandScheduler.getInstance().addSubsystem(Disker.getInstance());
 
         BadLog.createValue("Match Number", String.valueOf(DriverStation.getInstance().getMatchNumber()));
         BadLog.createTopic("Match Time", "s", DriverStation.getInstance()::getMatchTime);
@@ -56,7 +56,7 @@ public final class Robot extends TimedRobot
     {
         String gameData;
         gameData = DriverStation.getInstance().getGameSpecificMessage();
-        if (gameData.length() > 0 && mLastGameDataSend - DriverStation.getInstance().getMatchTime() >= 1)
+        if (gameData.length() > 0 && mLastGameDataSend - System.currentTimeMillis() >= 1000)
         {
             if (mFirstGameDataSend)
             {
@@ -65,7 +65,7 @@ public final class Robot extends TimedRobot
             }
             if (!Constants.driverStationIP.equals(""))
                 Constants.udpHandler.sendTo("COLOR:" + gameData.charAt(0), Constants.driverStationIP, Constants.sendPort);
-            mLastGameDataSend = DriverStation.getInstance().getMatchTime();
+            mLastGameDataSend = System.currentTimeMillis();
         }
 
         CommandScheduler.getInstance().run();
