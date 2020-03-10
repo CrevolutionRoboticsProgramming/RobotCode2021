@@ -56,7 +56,7 @@ public final class Robot extends TimedRobot
     {
         String gameData;
         gameData = DriverStation.getInstance().getGameSpecificMessage();
-        if (gameData.length() > 0 && mLastGameDataSend - System.currentTimeMillis() >= 1000)
+        if (gameData.length() > 0 && System.currentTimeMillis() - mLastGameDataSend >= 1000)
         {
             if (mFirstGameDataSend)
             {
