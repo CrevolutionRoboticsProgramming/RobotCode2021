@@ -14,7 +14,8 @@ import org.frc2851.robot.framework.Subsystem;
 import org.frc2851.robot.framework.command.Command;
 import org.frc2851.robot.framework.command.CommandScheduler;
 import org.frc2851.robot.framework.command.RunCommand;
-import org.frc2851.robot.framework.command.Trigger;
+import org.frc2851.robot.framework.trigger.RawTrigger;
+import org.frc2851.robot.framework.trigger.Trigger;
 import org.frc2851.robot.util.MotorControllerFactory;
 
 import java.util.HashMap;
@@ -56,7 +57,7 @@ public class Disker extends Subsystem
 
             setDefaultCommand(new RunCommand(this::updateDiskerPeriodic, "rotate disker", this));
             CommandScheduler.getInstance().addTrigger(
-                    new Trigger(new Trigger.Raw(), () -> Constants.diskerRotateThriceTrigger.get() && mMode == RotationMode.CONTROL),
+                    new RawTrigger(() -> Constants.diskerRotateThriceTrigger.get() && mMode == RotationMode.CONTROL),
                     new Command("disker thrice", false, this)
                     {
                         @Override
@@ -96,7 +97,7 @@ public class Disker extends Subsystem
                     });
 
             CommandScheduler.getInstance().addTrigger(
-                    new Trigger(new Trigger.Raw(), () -> Constants.diskerRotateFindTrigger.get() && mMode == RotationMode.CONTROL),
+                    new RawTrigger(() -> Constants.diskerRotateFindTrigger.get() && mMode == RotationMode.CONTROL),
                     new Command("disker find", false, this)
                     {
                         @Override

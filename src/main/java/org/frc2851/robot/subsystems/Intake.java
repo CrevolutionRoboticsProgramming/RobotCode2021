@@ -1,11 +1,12 @@
 package org.frc2851.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import org.frc2851.robot.Constants;
 import org.frc2851.robot.framework.Component;
 import org.frc2851.robot.framework.Subsystem;
+import org.frc2851.robot.framework.command.Command;
 import org.frc2851.robot.framework.command.CommandScheduler;
 import org.frc2851.robot.framework.command.InstantCommand;
 import org.frc2851.robot.framework.command.RunCommand;
@@ -27,13 +28,13 @@ public class Intake extends Subsystem
 
     public static class RollBar extends Component
     {
-        private VictorSPX mMotor;
+        private TalonSRX mMotor;
 
         public RollBar()
         {
             super(Intake.class);
 
-            mMotor = MotorControllerFactory.makeVictorSPX(Constants.intakeMotorPort);
+            mMotor = MotorControllerFactory.makeTalonSRX(Constants.intakeMotorPort);
 
             CommandScheduler.getInstance().addTrigger(
                     Constants.intakeIntakeTrigger,
@@ -72,18 +73,52 @@ public class Intake extends Subsystem
 
             CommandScheduler.getInstance().addTrigger(
                     Constants.intakeExtendTrigger,
-                    new InstantCommand(() ->
+                    new Command("extend", true, this)
                     {
-                        mExtenderSolenoid.set(DoubleSolenoid.Value.kForward);
-                        Constants.udpHandler.sendTo("INTAKE-EXTEND", Constants.driverStationIP, Constants.sendPort);
-                    }, "extend", this));
+                        private long mLastMessageSend = 0;
+
+                        @Override
+                        public void initialize()
+                        {
+                            mExtenderSolenoid.set(DoubleSolenoid.Value.kReverse);
+
+                            if (System.currentTimeMillis() - mLastMessageSend >= 1000)
+                            {
+                                Constants.udpHandler.sendTo("INTAKE-EXTEND", Constants.driverStationIP, Constants.sendPort);
+                                mLastMessageSend = System.currentTimeMillis();
+                            }
+                        }
+
+                        @Override
+                        public boolean isFinished()
+                        {
+                            return true;
+                        }
+                    });
             CommandScheduler.getInstance().addTrigger(
                     Constants.intakeExtendTrigger.negate(),
-                    new InstantCommand(() ->
+                    new Command("retract", true, this)
                     {
-                        mExtenderSolenoid.set(DoubleSolenoid.Value.kReverse);
-                        Constants.udpHandler.sendTo("INTAKE-RETRACT", Constants.driverStationIP, Constants.sendPort);
-                    }, "retract", this));
+                        private long mLastMessageSend = 0;
+
+                        @Override
+                        public void initialize()
+                        {
+                            mExtenderSolenoid.set(DoubleSolenoid.Value.kForward);
+
+                            if (System.currentTimeMillis() - mLastMessageSend >= 1000)
+                            {
+                                Constants.udpHandler.sendTo("INTAKE-RETRACT", Constants.driverStationIP, Constants.sendPort);
+                                mLastMessageSend = System.currentTimeMillis();
+                            }
+                        }
+
+                        @Override
+                        public boolean isFinished()
+                        {
+                            return true;
+                        }
+                    });
         }
     }
 }

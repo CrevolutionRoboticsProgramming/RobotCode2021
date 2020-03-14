@@ -19,6 +19,8 @@ public class MotorControllerFactory
     {
         TalonSRX returnTalon = new TalonSRX(port);
         returnTalon.configFactoryDefault();
+        //returnTalon.configPeakOutputForward(0.5);
+        //returnTalon.configPeakOutputReverse(-0.5);
         return returnTalon;
     }
 

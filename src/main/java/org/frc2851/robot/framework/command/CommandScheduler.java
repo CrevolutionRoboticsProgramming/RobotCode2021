@@ -3,6 +3,7 @@ package org.frc2851.robot.framework.command;
 import edu.wpi.first.wpilibj.DriverStation;
 import org.frc2851.robot.framework.Component;
 import org.frc2851.robot.framework.Subsystem;
+import org.frc2851.robot.framework.trigger.Trigger;
 import org.frc2851.robot.util.Logger;
 
 import java.util.HashMap;
