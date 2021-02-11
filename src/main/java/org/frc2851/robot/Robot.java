@@ -27,8 +27,6 @@ public final class Robot extends TimedRobot
         CommandScheduler.getInstance().addSubsystem(Intake.getInstance());
         CommandScheduler.getInstance().addSubsystem(Indexer.getInstance());
         CommandScheduler.getInstance().addSubsystem(Shooter.getInstance());
-        CommandScheduler.getInstance().addSubsystem(Climber.getInstance());
-        //CommandScheduler.getInstance().addSubsystem(Disker.getInstance());
     }
 
     @Override

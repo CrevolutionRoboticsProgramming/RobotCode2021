@@ -1,9 +1,7 @@
 package org.frc2851.robot;
 
-import org.frc2851.robot.framework.trigger.OnPressTrigger;
 import org.frc2851.robot.framework.trigger.RawTrigger;
 import org.frc2851.robot.framework.trigger.ToggleTrigger;
-import org.frc2851.robot.framework.trigger.Trigger;
 import org.frc2851.robot.io.Axis;
 import org.frc2851.robot.io.Button;
 import org.frc2851.robot.io.Controller;
@@ -91,23 +89,4 @@ public final class Constants
 
     // Measured in milliseconds
     public static final double shooterLauncherSpinUpTime = 2000;
-
-    // Disker
-    public static final int diskerRotatorPort = 9;
-
-    public static final RawTrigger diskerRotateCounterTrigger = new RawTrigger(new Button(operatorController, Button.ButtonID.A)::get);
-    public static final RawTrigger diskerRotateClockwiseTrigger = new RawTrigger(new Button(operatorController, Button.ButtonID.B)::get);
-    public static final OnPressTrigger diskerRotateThriceTrigger = new OnPressTrigger(new Button(operatorController, Button.ButtonID.X)::get);
-
-    public static final OnPressTrigger diskerRotateFindTrigger = new OnPressTrigger(new Button(operatorController, Button.ButtonID.Y)::get);
-
-    // Climber
-    public static final int climberSolenoidForward = 2;
-    public static final int climberSolenoidReverse = 5;
-    public static final int climberWinchPort = 15;
-
-    public static final OnPressTrigger climberExtendPneumaticsTrigger = new OnPressTrigger(new Button(driverController, Button.ButtonID.X)::get);
-    public static final OnPressTrigger climberRetractPneumaticsTrigger = new OnPressTrigger(new Button(driverController, Button.ButtonID.Y)::get);
-    public static final RawTrigger climberWindWinchTrigger = new RawTrigger(new Button(driverController, Button.ButtonID.A)::get);
-    public static final RawTrigger climberUnwindWinchTrigger = new RawTrigger(new Button(driverController, Button.ButtonID.B)::get);
 }
