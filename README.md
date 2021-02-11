@@ -1,20 +1,17 @@
-# RobotCode2020
+# RobotCode2021
 
-Crevolution's robot code for FIRST's 2020 game Infinite Recharge
+Crevolution's robot code for FIRST's 2020 game Infinite Recharge, repurposed for the 2021 Infinite Recharge at Home competition
 
 ## Robot
 
 ### Subsystems
 
-| Subsystem | Components | Programmer |
-| --- | --- | --- |
-| Drivetrain | Drivebase, Gear Shifter | JD |
-| Intake | Motor, Extender | Parker |
-| Indexer/Hopper | Snail, Elevator |Sandra |
-| Shooter | Turret, Angler, Shooter | Ryan B |
-| Climber | ClimberComponent | John |
-| Disker | DiskerComponent | Ryan A |
-| Auton | Autonomous mode | Johnathan, Gavin |
+| Subsystem | Components |
+| --- | --- |
+| Drivetrain | Drivebase, Gear Shifter |
+| Intake | Motor, Extender |
+| Indexer/Hopper | Snail, Elevator |
+| Shooter | Turret, Angler, Shooter |
 
 ### Hardware
 
@@ -29,18 +26,3 @@ Crevolution's robot code for FIRST's 2020 game Infinite Recharge
 | Turret | 1 TalonSRX | | 1 Encoder |
 | Angler | 1 TalonSRX | | 1 Encoder |
 | Shooter | 1 TalonSRX | | 1 Encoder |
-| Climber | 1 VictorSPX | | |
-| Disker | 1 TalonSRX | | 1 Encoder, 1 Color Sensor |
-
-## Contributing
-
-Aim to have your code be:
-
-1. Effective
-2. Readable
-3. Intuitive
-4. Minimal
-
-If it works, that's what matters. That's what the simulator's for. Everything else should come after (or, preferably, during)
-
-Only use patterns (mVariableName, dependency injection, singletons) where it helps. Everything will be homogenized eventually.
