@@ -16,77 +16,103 @@ public final class Constants
     public static String driverStationIP = "";
     public static final int sendPort = 1182;
 
-    // Drivetrain
-    public static final int drivetrainLeftMasterPort = 1;
-    public static final int drivetrainLeftFollowerAPort = 2;
-    public static final int drivetrainLeftFollowerBPort = 3;
-    public static final int drivetrainRightMasterPort = 4;
-    public static final int drivetrainRightFollowerAPort = 5;
-    public static final int drivetrainRightFollowerBPort = 6;
+    public static final class Drivebase
+    {
+        public static final int leftLeaderPort = 1;
+        public static final int leftFollowerAPort = 2;
+        public static final int leftFollowerBPort = 3;
+        public static final int rightLeaderPort = 4;
+        public static final int rightFollowerAPort = 5;
+        public static final int rightFollowerBPort = 6;
 
-    public static final int drivetrainShifterSolenoidForward = 0;
-    public static final int drivetrainShifterSolenoidReverse = 7;
+        public static final double deadband = 0.15;
+        public static final double inchesPerRotation = 1.0; // TODO: tune
+        public static final double kP = 0.0; // TODO: tune
+        public static final double kI = 0.0; // TODO: tune
+        public static final double kD = 0.0; // TODO: tune
+        public static final double turnkP = 0.0; // TODO: tune
 
-    public static final double drivetrainDeadband = 0.15;
-    public static final double drivetrainInchesPerRotation = 1.0; // TODO: tune
-    public static final double drivetrainP = 0.0; // TODO: tune
-    public static final double drivetrainI = 0.0; // TODO: tune
-    public static final double drivetrainD = 0.0; // TODO: tune
-    public static final double drivetrainTurnP = 0.0; // TODO: tune
+        public static final Axis throttleAxis = new Axis(driverController, Axis.AxisID.LEFT_Y, (input) -> -input); // Up on the controller is read as negative BrokeBack
+        public static final Axis turnAxis = new Axis(driverController, Axis.AxisID.RIGHT_X);
+    }
 
-    public static final Axis drivetrainThrottleAxis = new Axis(driverController, Axis.AxisID.LEFT_Y, (input) -> -input); // Up on the controller is read as negative BrokeBack
-    public static final Axis drivetrainTurnAxis = new Axis(driverController, Axis.AxisID.RIGHT_X);
-    public static final ToggleTrigger drivetrainShiftGearTrigger = new ToggleTrigger(new Button(driverController, Button.ButtonID.LEFT_BUMPER)::get);
+    public static final class GearShifter
+    {
+        public static final int forwardChannel = 0;
+        public static final int reverseChannel = 7;
 
-    // Intake
-    public static final int intakeMotorPort = 7;
+        public static final ToggleTrigger shiftGearTrigger = new ToggleTrigger(new Button(driverController, Button.ButtonID.LEFT_BUMPER)::get);
+    }
 
-    public static final int intakeExtendSolenoidForward = 1;
-    public static final int intakeExtendSolenoidReverse = 6;
+    public static final class Extender
+    {
+        public static final int forwardChannel = 1;
+        public static final int reverseChannel = 6;
+        public static final ToggleTrigger extendTrigger = new ToggleTrigger(new Button(driverController, Button.ButtonID.RIGHT_BUMPER)::get);
+    }
 
-    public static final RawTrigger intakeIntakeTrigger = new RawTrigger(new Button(driverController, Button.ButtonID.RIGHT_TRIGGER)::get);
-    public static final RawTrigger intakeOuttakeTrigger = new RawTrigger(new Button(driverController, Button.ButtonID.LEFT_TRIGGER)::get);
-    public static final ToggleTrigger intakeExtendTrigger = new ToggleTrigger(new Button(driverController, Button.ButtonID.RIGHT_BUMPER)::get);
+    public static final class RollBar
+    {
+        public static final int motorPort = 7;
+        public static final RawTrigger intakeTrigger = new RawTrigger(new Button(driverController, Button.ButtonID.RIGHT_TRIGGER)::get);
+        public static final RawTrigger outtakeTrigger = new RawTrigger(new Button(driverController, Button.ButtonID.LEFT_TRIGGER)::get);
+    }
 
-    // Indexer
-    public static final int indexerSnailMotorPort = 8;
-    public static final int indexerElevatorMotorPort = 9;
+    public static final class Indexer
+    {
+        public static final RawTrigger feedShooterTrigger = new RawTrigger(new Button(operatorController, Button.ButtonID.RIGHT_BUMPER)::get);
+    }
 
-    public static final RawTrigger indexerFeedShooterTrigger = new RawTrigger(new Button(operatorController, Button.ButtonID.RIGHT_BUMPER)::get);
+    public static final class Snail
+    {
+        public static final int motorPort = 8;
+    }
 
-    /* Shooter */
-    public static final double shooterDeadband = 0.2;
+    public static final class Elevator
+    {
+        public static final int motorPort = 9;
+    }
 
-    public static final Button shooterEnableVisionTracking = new Button(operatorController, Button.ButtonID.LEFT_TRIGGER);
+    public static final class Shooter
+    {
+        public static final double deadband = 0.2;
+        public static final Button enableVisionTrackingTrigger = new Button(operatorController, Button.ButtonID.LEFT_TRIGGER);
+    }
 
-    //    Turret
-    public static final int shooterTurretPort = 11;
-    public static final int shooterTurretAbsoluteEncoderDIOPort = 0;
-    public static final int shooterTurretLimitSwitchPort = 2;
+    public static final class Turret
+    {
+        public static final int motorPort = 11;
+        public static final int absoluteEncoderDIOPort = 0;
+        public static final int limitSwitchPort = 2;
 
-    public static final double shooterTurretKP = 0.0; // TODO: tune
+        public static final double kP = 0.0; // TODO: tune
 
-    public static final Axis shooterTurretRotateAxis = new Axis(operatorController, Axis.AxisID.RIGHT_X);
+        public static final Axis directDriveAxis = new Axis(operatorController, Axis.AxisID.RIGHT_X);
+    }
 
-    //    Angler
-    public static final int shooterAnglerPort = 12;
-    public static final int shooterAnglerAbsoluteEncoderDIOPort = 1;
-    public static final int shooterAnglerLimitSwitchPort = 3;
+    public static final class Angler
+    {
+        public static final int motorPort = 12;
+        public static final int absoluteEncoderDIOPort = 1;
+        public static final int limitSwitchPort = 3;
 
-    public static final double shooterAnglerKP = 0.0; // TODO: tune
+        public static final double kP = 0.0; // TODO: tune
 
-    public static final Axis shooterAnglerAxis = new Axis(operatorController, Axis.AxisID.LEFT_Y);
+        public static final Axis directDriveAxis = new Axis(operatorController, Axis.AxisID.LEFT_Y);
+    }
 
-    //    Launcher
-    public static final int shooterLauncherMasterPort = 13;
-    public static final int shooterLauncherFollowerPort = 14;
+    public static final class Launcher
+    {
+        public static final int leaderMotorPort = 13;
+        public static final int followerMotorPort = 14;
 
-    public static final Axis shooterLauncherDirectDriveShootAxis = new Axis(operatorController, Axis.AxisID.RIGHT_Y);//TRIGGER, (input) -> -input);
-    public static final RawTrigger shooterLauncher25PercentShooterTrigger = new RawTrigger(new Button(operatorController, Button.ButtonID.A)::get);
-    public static final RawTrigger shooterLauncher50PercentShooterTrigger = new RawTrigger(new Button(operatorController, Button.ButtonID.B)::get);
-    public static final RawTrigger shooterLauncher75PercentShooterTrigger = new RawTrigger(new Button(operatorController, Button.ButtonID.X)::get);
-    public static final RawTrigger shooterLauncher100PercentShooterTrigger = new RawTrigger(new Button(operatorController, Button.ButtonID.Y)::get);
+        public static final Axis directDriveAxis = new Axis(operatorController, Axis.AxisID.RIGHT_Y);//TRIGGER, (input) -> -input);
+        public static final RawTrigger shooterLauncher25PercentShooterTrigger = new RawTrigger(new Button(operatorController, Button.ButtonID.A)::get);
+        public static final RawTrigger shooterLauncher50PercentShooterTrigger = new RawTrigger(new Button(operatorController, Button.ButtonID.B)::get);
+        public static final RawTrigger shooterLauncher75PercentShooterTrigger = new RawTrigger(new Button(operatorController, Button.ButtonID.X)::get);
+        public static final RawTrigger shooterLauncher100PercentShooterTrigger = new RawTrigger(new Button(operatorController, Button.ButtonID.Y)::get);
 
-    // Measured in milliseconds
-    public static final double shooterLauncherSpinUpTime = 2000;
+        // Measured in milliseconds
+        public static final double spinUpTime = 2000;
+    }
 }

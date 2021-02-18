@@ -34,13 +34,13 @@ public class Intake extends Subsystem
         {
             super(Intake.class);
 
-            mMotor = MotorControllerFactory.makeTalonSRX(Constants.intakeMotorPort);
+            mMotor = MotorControllerFactory.makeTalonSRX(Constants.RollBar.motorPort);
 
             CommandScheduler.getInstance().addTrigger(
-                    Constants.intakeIntakeTrigger,
+                    Constants.RollBar.intakeTrigger,
                     new InstantCommand(this::intake, "intake", this));
             CommandScheduler.getInstance().addTrigger(
-                    Constants.intakeOuttakeTrigger,
+                    Constants.RollBar.outtakeTrigger,
                     new InstantCommand(this::outtake, "outtake", this));
             setDefaultCommand(new RunCommand(this::stop, "stop", this));
         }
@@ -69,10 +69,10 @@ public class Intake extends Subsystem
         {
             super(Intake.class);
 
-            mExtenderSolenoid = new DoubleSolenoid(Constants.intakeExtendSolenoidForward, Constants.intakeExtendSolenoidReverse);
+            mExtenderSolenoid = new DoubleSolenoid(Constants.Extender.forwardChannel, Constants.Extender.reverseChannel);
 
             CommandScheduler.getInstance().addTrigger(
-                    Constants.intakeExtendTrigger,
+                    Constants.Extender.extendTrigger,
                     new Command("extend", true, this)
                     {
                         private long mLastMessageSend = 0;
@@ -96,7 +96,7 @@ public class Intake extends Subsystem
                         }
                     });
             CommandScheduler.getInstance().addTrigger(
-                    Constants.intakeExtendTrigger.negate(),
+                    Constants.Extender.extendTrigger.negate(),
                     new Command("retract", true, this)
                     {
                         private long mLastMessageSend = 0;

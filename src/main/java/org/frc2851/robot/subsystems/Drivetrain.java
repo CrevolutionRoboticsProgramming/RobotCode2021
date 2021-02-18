@@ -28,8 +28,8 @@ public class Drivetrain extends Subsystem
 
     public static class Drivebase extends Component
     {
-        private CANSparkMax mLeftMaster, mLeftFollowerA, mLeftFollowerB,
-                mRightMaster, mRightFollowerA, mRightFollowerB;
+        private CANSparkMax mLeftLeader, mLeftFollowerA, mLeftFollowerB,
+                mRightLeader, mRightFollowerA, mRightFollowerB;
         private CANEncoder mLeftEncoder, mRightEncoder;
         private CANPIDController mLeftPIDController, mRightPIDController;
         //private PigeonIMU mPigeon;
@@ -38,34 +38,34 @@ public class Drivetrain extends Subsystem
         {
             super(Drivetrain.class);
 
-            mLeftMaster = MotorControllerFactory.makeSparkMax(Constants.drivetrainLeftMasterPort);
-            mLeftFollowerA = MotorControllerFactory.makeSparkMax(Constants.drivetrainLeftFollowerAPort);
-            mLeftFollowerB = MotorControllerFactory.makeSparkMax(Constants.drivetrainLeftFollowerBPort);
-            mRightMaster = MotorControllerFactory.makeSparkMax(Constants.drivetrainRightMasterPort);
-            mRightFollowerA = MotorControllerFactory.makeSparkMax(Constants.drivetrainRightFollowerAPort);
-            mRightFollowerB = MotorControllerFactory.makeSparkMax(Constants.drivetrainRightFollowerBPort);
+            mLeftLeader = MotorControllerFactory.makeSparkMax(Constants.Drivebase.leftLeaderPort);
+            mLeftFollowerA = MotorControllerFactory.makeSparkMax(Constants.Drivebase.leftFollowerAPort);
+            mLeftFollowerB = MotorControllerFactory.makeSparkMax(Constants.Drivebase.leftFollowerBPort);
+            mRightLeader = MotorControllerFactory.makeSparkMax(Constants.Drivebase.rightLeaderPort);
+            mRightFollowerA = MotorControllerFactory.makeSparkMax(Constants.Drivebase.rightFollowerAPort);
+            mRightFollowerB = MotorControllerFactory.makeSparkMax(Constants.Drivebase.rightFollowerBPort);
 
             // TODO: get Talon that the Pigeon will connect to
             //mPigeon = new PigeonIMU()
 
-            mLeftMaster.setInverted(true);
+            mLeftLeader.setInverted(true);
             mLeftFollowerA.setInverted(true);
             mLeftFollowerB.setInverted(true);
 
-            mLeftFollowerA.follow(mLeftMaster);
-            mLeftFollowerB.follow(mLeftMaster);
-            mRightFollowerA.follow(mRightMaster);
-            mRightFollowerB.follow(mRightMaster);
+            mLeftFollowerA.follow(mLeftLeader);
+            mLeftFollowerB.follow(mLeftLeader);
+            mRightFollowerA.follow(mRightLeader);
+            mRightFollowerB.follow(mRightLeader);
 
-            mLeftEncoder = mLeftMaster.getAlternateEncoder(AlternateEncoderType.kQuadrature, 2048);
-            mRightEncoder = mRightMaster.getAlternateEncoder(AlternateEncoderType.kQuadrature, 2048);
+            mLeftEncoder = mLeftLeader.getAlternateEncoder(AlternateEncoderType.kQuadrature, 2048);
+            mRightEncoder = mRightLeader.getAlternateEncoder(AlternateEncoderType.kQuadrature, 2048);
 
             mRightEncoder.setInverted(true);
             mLeftEncoder.setPosition(0);
             mRightEncoder.setPosition(0);
 
-            mLeftPIDController = mLeftMaster.getPIDController();
-            mRightPIDController = mRightMaster.getPIDController();
+            mLeftPIDController = mLeftLeader.getPIDController();
+            mRightPIDController = mRightLeader.getPIDController();
             mLeftPIDController.setFeedbackDevice(mLeftEncoder);
             mRightPIDController.setFeedbackDevice(mRightEncoder);
 
@@ -74,20 +74,20 @@ public class Drivetrain extends Subsystem
 
         public void arcadeDrive()
         {
-            double throttle = deadband(Constants.drivetrainThrottleAxis.get());
-            double turn = deadband(Constants.drivetrainTurnAxis.get());
+            double throttle = deadband(Constants.Drivebase.throttleAxis.get());
+            double turn = deadband(Constants.Drivebase.turnAxis.get());
 
             double leftOut = throttle + turn;
             double rightOut = throttle - turn;
 
             // The ternary operator expressions keep the output within -1.0 and 1.0 even though the Talons do this for us
-            mLeftMaster.set(leftOut > 0 ? Math.min(leftOut, 1) : Math.max(leftOut, -1));
-            mRightMaster.set(rightOut > 0 ? Math.min(rightOut, 1) : Math.max(rightOut, -1));
+            mLeftLeader.set(leftOut > 0 ? Math.min(leftOut, 1) : Math.max(leftOut, -1));
+            mRightLeader.set(rightOut > 0 ? Math.min(rightOut, 1) : Math.max(rightOut, -1));
         }
 
         private double deadband(double value)
         {
-            return Math.abs(value) > Constants.drivetrainDeadband ? value : 0;
+            return Math.abs(value) > Constants.Drivebase.deadband ? value : 0;
         }
 
         private void resetEncoders()
@@ -140,13 +140,13 @@ public class Drivetrain extends Subsystem
                     resetEncoders();
                     //mPigeon.setYaw(Math.toDegrees(leftTrajectory.getPoints().get(0).getHeading()));
 
-                    mLeftPIDController.setP(Constants.drivetrainP);
-                    mLeftPIDController.setI(Constants.drivetrainI);
-                    mLeftPIDController.setD(Constants.drivetrainD);
+                    mLeftPIDController.setP(Constants.Drivebase.kP);
+                    mLeftPIDController.setI(Constants.Drivebase.kI);
+                    mLeftPIDController.setD(Constants.Drivebase.kD);
 
-                    mRightPIDController.setP(Constants.drivetrainP);
-                    mRightPIDController.setI(Constants.drivetrainI);
-                    mRightPIDController.setD(Constants.drivetrainD);
+                    mRightPIDController.setP(Constants.Drivebase.kP);
+                    mRightPIDController.setI(Constants.Drivebase.kI);
+                    mRightPIDController.setD(Constants.Drivebase.kD);
 
                     mThread = new Thread(this::run);
                     mThread.start();
@@ -181,10 +181,10 @@ public class Drivetrain extends Subsystem
 
                         // Multiplying the heading error by an empirically-determined magic number corrects deviations
                         // from the target heading
-                        double velocityDifferential = Constants.drivetrainTurnP * smallestHeadingError;
+                        double velocityDifferential = Constants.Drivebase.turnkP * smallestHeadingError;
 
-                        mLeftPIDController.setReference((leftTrajectory.getPoints().get(time).getVelocity() - velocityDifferential) / Constants.drivetrainInchesPerRotation, ControlType.kVelocity);
-                        mRightPIDController.setReference((rightTrajectory.getPoints().get(time).getVelocity() + velocityDifferential) / Constants.drivetrainInchesPerRotation, ControlType.kVelocity);
+                        mLeftPIDController.setReference((leftTrajectory.getPoints().get(time).getVelocity() - velocityDifferential) / Constants.Drivebase.inchesPerRotation, ControlType.kVelocity);
+                        mRightPIDController.setReference((rightTrajectory.getPoints().get(time).getVelocity() + velocityDifferential) / Constants.Drivebase.inchesPerRotation, ControlType.kVelocity);
                     }
                 }
 
@@ -200,13 +200,13 @@ public class Drivetrain extends Subsystem
                 {
                     super.end();
 
-                    double leftError = (leftTrajectory.getPoints().get(leftTrajectory.getPoints().size() - 1).getPosition() - (mLeftEncoder.getPosition() * Constants.drivetrainInchesPerRotation));
-                    double rightError = (rightTrajectory.getPoints().get(rightTrajectory.getPoints().size() - 1).getPosition() - (mRightEncoder.getPosition() * Constants.drivetrainInchesPerRotation));
+                    double leftError = (leftTrajectory.getPoints().get(leftTrajectory.getPoints().size() - 1).getPosition() - (mLeftEncoder.getPosition() * Constants.Drivebase.inchesPerRotation));
+                    double rightError = (rightTrajectory.getPoints().get(rightTrajectory.getPoints().size() - 1).getPosition() - (mRightEncoder.getPosition() * Constants.Drivebase.inchesPerRotation));
 
                     Logger.println(Logger.LogLevel.DEBUG, "Finished following trajectory with a left error of " + leftError + " inches and a right error of " + rightError + " inches");
 
-                    mLeftMaster.set(0.0);
-                    mRightMaster.set(0.0);
+                    mLeftLeader.set(0.0);
+                    mRightLeader.set(0.0);
 
                     resetEncoders();
                     resetHeading();
@@ -225,10 +225,10 @@ public class Drivetrain extends Subsystem
         {
             super(Drivetrain.class);
 
-            mShifterSolenoid = new DoubleSolenoid(Constants.drivetrainShifterSolenoidForward, Constants.drivetrainShifterSolenoidReverse);
+            mShifterSolenoid = new DoubleSolenoid(Constants.GearShifter.forwardChannel, Constants.GearShifter.reverseChannel);
 
             CommandScheduler.getInstance().addTrigger(
-                    Constants.drivetrainShiftGearTrigger.negate(),
+                    Constants.GearShifter.shiftGearTrigger.negate(),
                     new Command("high gear", false, this)
                     {
                         private long mLastMessageSend = 0;
@@ -252,7 +252,7 @@ public class Drivetrain extends Subsystem
                         }
                     });
             CommandScheduler.getInstance().addTrigger(
-                    Constants.drivetrainShiftGearTrigger,
+                    Constants.GearShifter.shiftGearTrigger,
                     new Command("low gear", false, this)
                     {
                         private long mLastMessageSend = 0;

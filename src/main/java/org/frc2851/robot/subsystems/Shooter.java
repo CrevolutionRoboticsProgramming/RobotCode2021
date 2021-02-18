@@ -14,7 +14,6 @@ import org.frc2851.robot.framework.command.CommandScheduler;
 import org.frc2851.robot.framework.command.InstantCommand;
 import org.frc2851.robot.framework.trigger.OnPressTrigger;
 import org.frc2851.robot.framework.trigger.RawTrigger;
-import org.frc2851.robot.framework.trigger.Trigger;
 import org.frc2851.robot.util.Logger;
 import org.frc2851.robot.util.MotorControllerFactory;
 import org.frc2851.robot.util.UDPHandler;
@@ -49,10 +48,10 @@ public class Shooter extends Subsystem
         {
             super(Shooter.class);
 
-            mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterTurretPort);
+            mMotor = MotorControllerFactory.makeTalonSRX(Constants.Turret.motorPort);
             mMotor.setNeutralMode(NeutralMode.Brake);
 
-            mEncoder = new DutyCycleEncoder(Constants.shooterTurretAbsoluteEncoderDIOPort);
+            mEncoder = new DutyCycleEncoder(Constants.Turret.absoluteEncoderDIOPort);
 
             //mLimitSwitch = new DigitalInput(Constants.shooterTurretLimitSwitchPort);
 /*
@@ -63,23 +62,23 @@ public class Shooter extends Subsystem
             // When we receive the target offset from the RPi, schedule a new command that rotates us to the target with a P controller
             Constants.udpHandler.addReceiver(new UDPHandler.MessageReceiver("X OFFSET:", (message) ->
             {
-                if (Constants.shooterEnableVisionTracking.get())
+                if (Constants.Shooter.enableVisionTrackingTrigger.get())
                 {
                     CommandScheduler.getInstance().schedule(new InstantCommand(() ->
                     {
-                        mMotor.set(ControlMode.PercentOutput, Double.parseDouble(message) * Constants.shooterTurretKP);
+                        mMotor.set(ControlMode.PercentOutput, Double.parseDouble(message) * Constants.Turret.kP);
                         System.out.println(mEncoder.getDistance());
                     }, "rotate to vision target", this));
                 }
             }));
 
-            setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, deadband(Constants.shooterTurretRotateAxis.get())),
+            setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, deadband(Constants.Turret.directDriveAxis.get())),
                     "direct drive", this));
         }
 
         private double deadband(double value)
         {
-            return Math.abs(value) > Constants.shooterDeadband ? value : 0;
+            return Math.abs(value) > Constants.Shooter.deadband ? value : 0;
         }
     }
 
@@ -93,10 +92,10 @@ public class Shooter extends Subsystem
         {
             super(Shooter.class);
 
-            mMotor = MotorControllerFactory.makeTalonSRX(Constants.shooterAnglerPort);
+            mMotor = MotorControllerFactory.makeTalonSRX(Constants.Angler.motorPort);
             mMotor.setNeutralMode(NeutralMode.Brake);
 
-            mEncoder = new DutyCycleEncoder(Constants.shooterAnglerAbsoluteEncoderDIOPort);
+            mEncoder = new DutyCycleEncoder(Constants.Angler.absoluteEncoderDIOPort);
 
             //mLimitSwitch = new DigitalInput(Constants.shooterAnglerLimitSwitchPort);
 /*
@@ -108,26 +107,26 @@ public class Shooter extends Subsystem
             Constants.udpHandler.addReceiver(
                     new UDPHandler.MessageReceiver("Y OFFSET:", (message) ->
                     {
-                        if (Constants.shooterEnableVisionTracking.get())
+                        if (Constants.Shooter.enableVisionTrackingTrigger.get())
                         {
                             CommandScheduler.getInstance().schedule(new InstantCommand(() ->
-                                    mMotor.set(ControlMode.PercentOutput, Double.parseDouble(message) * Constants.shooterAnglerKP), "angle to vision target", this));
+                                    mMotor.set(ControlMode.PercentOutput, Double.parseDouble(message) * Constants.Angler.kP), "angle to vision target", this));
                         }
                     }));
 
-            setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, deadband(Constants.shooterAnglerAxis.get())),
+            setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, deadband(Constants.Angler.directDriveAxis.get())),
                     "direct drive", this));
         }
 
         private double deadband(double value)
         {
-            return Math.abs(value) > Constants.shooterDeadband ? value : 0;
+            return Math.abs(value) > Constants.Shooter.deadband ? value : 0;
         }
     }
 
     private static class Launcher extends Component
     {
-        private TalonFX mMasterMotor, mFollowerMotor;
+        private TalonFX mLeaderMotor, mFollowerMotor;
 
         private long mBeginShootingTime;
 
@@ -135,35 +134,35 @@ public class Shooter extends Subsystem
         {
             super(Shooter.class);
 
-            mMasterMotor = MotorControllerFactory.makeTalonFX(Constants.shooterLauncherMasterPort);
-            mMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+            mLeaderMotor = MotorControllerFactory.makeTalonFX(Constants.Launcher.leaderMotorPort);
+            mLeaderMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
-            mFollowerMotor = MotorControllerFactory.makeTalonFX(Constants.shooterLauncherFollowerPort);
-            mFollowerMotor.follow(mMasterMotor);
+            mFollowerMotor = MotorControllerFactory.makeTalonFX(Constants.Launcher.followerMotorPort);
+            mFollowerMotor.follow(mLeaderMotor);
             mFollowerMotor.setInverted(true);
 
-            CommandScheduler.getInstance().addTrigger(new OnPressTrigger(() -> Constants.shooterLauncherDirectDriveShootAxis.get() != 0.0),
+            CommandScheduler.getInstance().addTrigger(new OnPressTrigger(() -> Constants.Launcher.directDriveAxis.get() != 0.0),
                     new InstantCommand(() -> mBeginShootingTime = System.currentTimeMillis(), "set start shooting time", this));
 
-            mMasterMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+            mLeaderMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
 
-            CommandScheduler.getInstance().addTrigger(new RawTrigger(() -> Constants.shooterLauncherDirectDriveShootAxis.get() != 0.0),
+            CommandScheduler.getInstance().addTrigger(new RawTrigger(() -> Constants.Launcher.directDriveAxis.get() != 0.0),
                     new InstantCommand(() ->
                     {
-                        launch(Constants.shooterLauncherDirectDriveShootAxis.get() * Math.min((System.currentTimeMillis() - mBeginShootingTime) / Constants.shooterLauncherSpinUpTime, 1.0));
-                        Logger.println(Logger.LogLevel.DEBUG, "launcher output", String.valueOf(mMasterMotor.getMotorOutputPercent()));
+                        launch(Constants.Launcher.directDriveAxis.get() * Math.min((System.currentTimeMillis() - mBeginShootingTime) / Constants.Launcher.spinUpTime, 1.0));
+                        Logger.println(Logger.LogLevel.DEBUG, "launcher output", String.valueOf(mLeaderMotor.getMotorOutputPercent()));
                     }, "run", this));
             setDefaultCommand(new InstantCommand(this::stop, "stop", this));
         }
 
         public void launch(double output)
         {
-            mMasterMotor.set(ControlMode.PercentOutput, output);
+            mLeaderMotor.set(ControlMode.PercentOutput, output);
         }
 
         public void stop()
         {
-            mMasterMotor.set(ControlMode.PercentOutput, 0.0);
+            mLeaderMotor.set(ControlMode.PercentOutput, 0.0);
         }
     }
 }

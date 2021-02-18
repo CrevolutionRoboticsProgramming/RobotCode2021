@@ -33,10 +33,10 @@ public class Indexer extends Subsystem
         {
             super(Indexer.class);
 
-            mMotor = MotorControllerFactory.makeTalonSRX(Constants.indexerSnailMotorPort);
+            mMotor = MotorControllerFactory.makeTalonSRX(Constants.Snail.motorPort);
 
             CommandScheduler.getInstance().addTrigger(
-                    new RawTrigger(() -> Constants.indexerFeedShooterTrigger.get() || Constants.intakeIntakeTrigger.get()),
+                    new RawTrigger(() -> Constants.Indexer.feedShooterTrigger.get() || Constants.RollBar.intakeTrigger.get()),
                     new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, 0.5), "run", this));
             setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, 0.0), "stop", this));
         }
@@ -50,10 +50,10 @@ public class Indexer extends Subsystem
         {
             super(Indexer.class);
 
-            mMotor = MotorControllerFactory.makeTalonSRX(Constants.indexerElevatorMotorPort);
+            mMotor = MotorControllerFactory.makeTalonSRX(Constants.Elevator.motorPort);
 
             CommandScheduler.getInstance().addTrigger(
-                    new RawTrigger(Constants.indexerFeedShooterTrigger::get),
+                    new RawTrigger(Constants.Indexer.feedShooterTrigger::get),
                     new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, 1.0), "run", this));
             setDefaultCommand(new InstantCommand(() -> mMotor.set(ControlMode.PercentOutput, 0.0), "stop", this));
         }
